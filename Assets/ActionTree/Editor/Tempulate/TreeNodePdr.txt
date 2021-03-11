@@ -1,0 +1,14 @@
+using ActionTree;
+using UnityEngine;
+namespace #NAMESPACE#
+{
+	[System.Serializable]
+	public sealed class #NAME#:ATree
+	{
+		public override void Do()
+        {
+            
+        }
+	}
+	public class #NAME#Leaf: TreeProvider<#NAME#> { }
+}

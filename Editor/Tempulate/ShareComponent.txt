@@ -1,0 +1,14 @@
+using System.Collections.Generic;
+using UnityEngine;
+using SimpleEntities;
+namespace #NAMESPACE#
+{
+	public interface I#NAME#:IShareComponent
+	{
+		
+	}
+	[ShareBind(typeof(I#NAME#))]
+	class #NAME#:I#NAME#
+	{
+	}
+}

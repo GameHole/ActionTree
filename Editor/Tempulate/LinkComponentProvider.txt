@@ -1,0 +1,10 @@
+using System.Collections.Generic;
+using SimpleEntities;
+namespace #NAMESPACE#
+{
+	[System.Serializable]
+	public struct #NAME#:IComponent
+	{
+	}
+	public class #NAME#Provider: LinkComponentProvider<#NAME#> { }
+}
