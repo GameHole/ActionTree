@@ -1,0 +1,12 @@
+using ActionTree;
+using UnityEngine;
+namespace #NAMESPACE#
+{
+	public sealed class #NAME#:ATree
+	{
+		public override void Do()
+        {
+            
+        }
+	}
+}

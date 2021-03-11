@@ -1,0 +1,10 @@
+using System.Collections.Generic;
+using ActionTree;
+using UnityEngine;
+namespace #NAMESPACE#
+{
+	public sealed class #NAME# : IComponent
+	{
+		
+	}
+}
