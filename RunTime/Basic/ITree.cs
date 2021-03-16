@@ -9,7 +9,7 @@ namespace ActionTree
         Entity Entity { get; set; }
         bool Condition { get; }
         void Do();
-        void PreDo();
+        bool PreDo();
         void Clear();
     }
 }

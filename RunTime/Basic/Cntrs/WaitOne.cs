@@ -11,7 +11,10 @@ namespace ActionTree
             for (int i = 0; i < trees.Length; i++)
             {
                 if (!trees[i].Condition)
+                {
+                    //UnityEngine.Debug.Log($"one do {trees[i]}");
                     trees[i].Do();
+                }
                 if (trees[i].Condition)
                 {
                     Condition = true;

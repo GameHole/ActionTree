@@ -54,12 +54,14 @@ namespace ActionTree
             listtrees = null;
         }
 
-        public virtual void PreDo()
+        public virtual bool PreDo()
         {
+            bool a = false;
             for (int i = 0; i < trees.Length; i++)
             {
-                trees[i].PreDo();
+               a|= trees[i].PreDo();
             }
+            return a;
         }
     }
 }

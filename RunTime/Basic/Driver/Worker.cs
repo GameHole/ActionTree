@@ -68,10 +68,6 @@ namespace ActionTree
             if (added.Count > 0)
             {
                 trees.AddRange(added);
-                for (int i = 0; i < added.Count; i++)
-                {
-                    added[i].PreDo();
-                }
                 added.Clear();
             }
         }
