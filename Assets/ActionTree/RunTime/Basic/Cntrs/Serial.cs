@@ -27,17 +27,21 @@ namespace ActionTree
                     return;
                 }
                 index++;
-                PreDo();
+                if (PreDo())
+                {
+                    return;
+                }
             }
             Condition = true;
         }
-        public override void PreDo()
+        public override bool PreDo()
         {
             if (index < trees.Length)
             {
-                trees[index].PreDo();
-                //UnityEngine.Debug.Log($"predo {trees[index]}");
+                //UnityEngine.Debug.Log($"serial predo idx::{index} v:: {trees[index]}");
+                return trees[index].PreDo();
             }
+            return false;
         }
     }
 }

@@ -27,8 +27,8 @@ namespace ActionTree
                 //Debug.Log("en");
                 ////Debug.Log(entity.isActive);
                 //Debug.Log(entity.tree.Condition);
-                if (entity.tree.Condition)
-                    Destroy(gameObject);
+                //if (entity.tree.Condition)
+                //    Destroy(gameObject);
             }
         }
     }

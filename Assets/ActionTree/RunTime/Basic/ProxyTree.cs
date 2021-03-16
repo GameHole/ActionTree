@@ -19,12 +19,15 @@ namespace ActionTree
         }
         public void Do()
         {
-            //Driver.doQueue.Enqueue(tree);
+            //UnityEngine.Debug.Log($"do {this} dele {tree}");
+            //if (!Condition)
+                PreDo();
         }
 
-        public void PreDo()
+        public bool PreDo()
         {
-           worker.dos.Enqueue(tree);
+            worker.dos.Enqueue(tree);
+            return true;
         }
     }
 }

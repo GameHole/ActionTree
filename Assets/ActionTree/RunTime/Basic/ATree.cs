@@ -33,6 +33,6 @@ namespace ActionTree
             }  
         }
 
-        public virtual void PreDo() { }
+        public virtual bool PreDo() => false;
     }
 }

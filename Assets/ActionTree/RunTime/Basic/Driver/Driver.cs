@@ -45,6 +45,7 @@ namespace ActionTree
         }
         void RunMainDo()
         {
+            //UnityEngine.Debug.Log("run main");
             for (int i = 0; i < workers.Length; i++)
             {
                 var queue = workers[i].dos;
@@ -58,7 +59,7 @@ namespace ActionTree
                 var queue = workers[i].clears;
                 while (queue.Count > 0)
                 {
-                    queue.Dequeue().Do();
+                    queue.Dequeue().Clear();
                 }
             }
         }
@@ -85,6 +86,7 @@ namespace ActionTree
                 var worker = workers[idx++ % workers.Length];
                 RepleaseTree(ref v.tree, worker);
                 //entities.Add(v.tree);
+                v.tree.PreDo();
                 worker.added.Add(v.tree);
             }
         }
