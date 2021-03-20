@@ -24,11 +24,12 @@ namespace ActionTree
         {
             if (entity != null)
             {
-                //Debug.Log("en");
-                ////Debug.Log(entity.isActive);
-                //Debug.Log(entity.tree.Condition);
-                //if (entity.tree.Condition)
-                //    Destroy(gameObject);
+                if (entity.tree != null)
+                    //Debug.Log("en");
+                    ////Debug.Log(entity.isActive);
+                    //Debug.Log(entity.tree.Condition);
+                    if (entity.tree.Condition)
+                        Destroy(gameObject);
             }
         }
     }

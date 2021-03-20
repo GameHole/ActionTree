@@ -6,4 +6,8 @@ namespace ActionTree
     public class MainThreadAttribute : Attribute
     {
     }
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    public class NotPreDoAttribute : Attribute
+    {
+    }
 }

@@ -9,7 +9,7 @@ namespace ActionTree
         public ITree tree;
         public override void Do()
         {
-            //UnityEngine.Debug.Log("clear0");
+            //UnityEngine.Debug.Log($"clear {tree}");
             tree.Clear();
             tree.PreDo();
         }

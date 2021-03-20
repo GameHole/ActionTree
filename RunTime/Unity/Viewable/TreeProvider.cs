@@ -34,6 +34,15 @@ namespace ActionTree
             return value;
         }
     }
+    public abstract class ManualConditionProvider<T> : TreeProvider<T> where T : ATree, new()
+    {
+        public bool MenuCondition;
+        public override ITree GetTree()
+        {
+            value.Condition = MenuCondition;
+            return base.GetTree();
+        }
+    }
     public abstract class TreeCntrProvider<T> : TreeProvider where T : ATreeCntr, new()
     {
         protected T value = new T();

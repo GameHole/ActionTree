@@ -77,6 +77,7 @@ namespace ActionTree
             {
                 trees.Remove(removed[i]);
             }
+            removed.Clear();
         }
         public void Start()
         {

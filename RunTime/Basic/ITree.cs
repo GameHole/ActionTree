@@ -12,4 +12,12 @@ namespace ActionTree
         bool PreDo();
         void Clear();
     }
+    public static class ITreeEx
+    {
+        public static void TryDo(this ITree tree)
+        {
+            if (!tree.Condition)
+                tree.Do();
+        }
+    }
 }

@@ -6,7 +6,7 @@ namespace ActionTree
 {
     public sealed class Entity
     {
-        public bool enabled;
+        public Driver driver;
         public ITree tree;
         Dictionary<Type, object> components;
         public T AddComponent<T>()where T:class,IComponent,new()
@@ -42,6 +42,10 @@ namespace ActionTree
         public void SetTree(ITree tree)
         {
             this.tree = tree;
+        }
+        internal void SetData(Driver driver)
+        {
+            this.driver = driver;
             tree.Entity = this;
         }
     }

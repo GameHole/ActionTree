@@ -24,11 +24,11 @@ namespace ActionTree
         {
             this.entity = entity;
             var m = typeof(IComponent);
-            foreach (var item in GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public))
+            foreach (var item in GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
             {
                 if (item.FieldType.IsClass && m.IsAssignableFrom(item.FieldType))
                 {
-                    item.SetValue(this,entity.Get(item.FieldType));
+                    item.SetValue(this, entity.Get(item.FieldType));
                 }
             }  
         }
