@@ -9,7 +9,7 @@ namespace Default
         public GameObject item;
         public Transform parent;
         [HideInInspector] public List<GameObject> items = new List<GameObject>();
-        [HideInInspector] public List<Click> clicks = new List<Click>();
+        [HideInInspector] public List<PointInImage> clicks = new List<PointInImage>();
     }
 	public class CombinedUICntrPdr: CmpProvider<CombinedUICntr> { }
 }

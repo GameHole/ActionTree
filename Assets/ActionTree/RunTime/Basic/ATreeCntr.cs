@@ -18,13 +18,16 @@ namespace ActionTree
         }
         Entity entity;
         List<ITree>  listtrees = new List<ITree>();
+        public int Count => listtrees.Count;
         public ITree[] trees;
         public virtual void Clear()
         {
+            //UnityEngine.Debug.Log($"cntr clear {this}");
             Condition = false;
             for (int i = 0; i < trees.Length; i++)
             {
                 trees[i].Clear();
+                //UnityEngine.Debug.Log($"child clear {trees[i]}");
             }
         }
         public ATreeCntr Add(ITree tree)
@@ -46,6 +49,7 @@ namespace ActionTree
         public void SetEntity(Entity entity)
         {
             trees = listtrees.ToArray();
+           
             for (int i = 0; i < trees.Length; i++)
             {
                 trees[i].Entity = entity;

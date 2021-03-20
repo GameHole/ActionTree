@@ -12,15 +12,12 @@ namespace Default
         {
            
             var ray = main.ScreenPointToRay(Input.mousePosition);
-           
-            if (Physics.Raycast(ray, out var hit))
+            if (Physics.Raycast(ray, out var hit/*,100,LayerMask.NameToLayer("Please")*/))
             {
-                Debug.Log("cast");
                 Debug.DrawLine(ray.origin, hit.point);
                 if (raycast != null)
                 {
                     raycast.hit = hit;
-                    Debug.Log(hit.point);
                 }
                 Condition = true;
             }
@@ -28,7 +25,7 @@ namespace Default
             {
                 Debug.DrawLine(ray.origin, hit.point,Color.black);
             }
-            //Debug.Log(Condition);
+            //Debug.Log("WaitRaycast");
         }
         public override void Clear()
         {

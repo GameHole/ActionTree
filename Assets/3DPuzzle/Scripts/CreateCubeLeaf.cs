@@ -15,9 +15,10 @@ namespace Default
             for (int i = 0; i < cntr.array.Length; i++)
             {
                 var clone = Object.Instantiate(cprefab.prefabs);
-                clone.transform.position = cntr.devided(i);
+                clone.transform.position = cntr.devided(i) - Vector3.one * (cntr.size / 2 - 0.5f);
                 clone.value = i;
                 cprefab.uis[i] = clone;
+                clone.transform.SetParent(cprefab.parent, true);
             }
             Condition = true;
         }

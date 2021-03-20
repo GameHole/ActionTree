@@ -2,18 +2,19 @@
 using UnityEngine;
 namespace Default
 {
-	//[System.Serializable]
+	[System.Serializable]
     [MainThread]
 	public sealed class SyncP:ATree
 	{
         Position p;
         UnityEntity e;
+        public bool MenuCondition = true;
         //public override bool isInMain => true;
         public override void Do()
         {
             //Debug.Log($"e {e} p {p}");
             e.transform.position = p.value;
-            Condition = true;
+            Condition = MenuCondition;
         }
     }
 	public class SyncPLeaf: TreeProvider<SyncP> { }

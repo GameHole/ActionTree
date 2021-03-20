@@ -13,21 +13,24 @@ namespace ActionTree
         public Entity Entity { get; set; }
         public bool Condition => tree.Condition;
         public Worker worker;
+        public bool usePredo = true;
         public void Clear()
         {
+            //tree.Condition = false;
             worker.clears.Enqueue(tree);
         }
         public void Do()
         {
             //UnityEngine.Debug.Log($"do {this} dele {tree}");
             //if (!Condition)
-                PreDo();
+            worker.dos.Enqueue(tree);
         }
 
         public bool PreDo()
         {
-            worker.dos.Enqueue(tree);
-            return true;
+            if (usePredo)
+                worker.dos.Enqueue(tree);
+            return usePredo;
         }
     }
 }

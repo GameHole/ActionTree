@@ -14,9 +14,18 @@ namespace Default
             {
                 int count = RandomHelper.Range(1, cntr.size + 1);
                 CombinedCube cube = new CombinedCube();
+                Vector3Int c = Vector3Int.zero;
                 for (int i = 0; i < count; i++)
                 {
-                    cube.vertxes.Add(cntr.devided(v));
+                    if (i == 0)
+                    {
+                        c = cntr.devided(v);
+                        cube.vertxes.Add(Vector3Int.zero);
+                    }
+                    else
+                    {
+                        cube.vertxes.Add(cntr.devided(v) - c);
+                    }
                     v++;
                 }
                 combined.blocks.Add(cube);

@@ -21,7 +21,7 @@ namespace Default
                 clone.transform.localScale = Vector3.one;
                 SetUI(block, e.transform);
                 uicntr.items.Add(clone);
-                uicntr.clicks.Add(clone.GetComponentInChildren<Click>());
+                uicntr.clicks.Add(clone.GetComponentInChildren<PointInImage>());
             }
             //uicntr.item.gameObject.SetActive(false);
         }
@@ -29,11 +29,11 @@ namespace Default
         {
             var prefabui = prefab.prefabs.transform.Find("UI");
             Vector3 center = Vector3.zero;
-            for (int i = 0; i < block.vertxes.Count; i++)
-            {
-                center += (Vector3)block.vertxes[i];
-            }
-            center /= block.vertxes.Count;
+            //for (int i = 0; i < block.vertxes.Count; i++)
+            //{
+            //    center += (Vector3)block.vertxes[i];
+            //}
+            //center /= block.vertxes.Count;
             for (int j = 0; j < block.vertxes.Count; j++)
             {
                 var clone = Object.Instantiate(prefabui);
@@ -41,6 +41,9 @@ namespace Default
                 clone.localPosition = (block.vertxes[j] - center) * clone.localScale.x;
                 clone.localScale *= 0.8f;
                 clone.gameObject.layer = LayerMask.NameToLayer("UI");
+                var r = clone.GetComponent<MeshRenderer>();
+                r.receiveShadows = false;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
         }
 	}

@@ -6,7 +6,7 @@ namespace ActionTree
 {
     public sealed class Serial : ATreeCntr
     {
-        int index;
+        internal int index;
         public override void Clear()
         {
             base.Clear();

@@ -11,10 +11,12 @@ namespace Default
         public void OnPointerDown(PointerEventData eventData)
         {
             isDown = true;
+            Debug.Log("dwon");
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            Debug.Log("up");
             isUp = true;
         }
         //private void LateUpdate()

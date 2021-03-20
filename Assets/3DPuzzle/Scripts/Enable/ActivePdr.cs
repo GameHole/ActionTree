@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Default
 {
 	[System.Serializable]
-	public sealed class Target : IComponent
+	public sealed class Active : IComponent
 	{
-        public Transform value;
+        public bool value = true;
 	}
-	public class TargetPdr: CmpProvider<Target> { }
+	public class ActivePdr: CmpProvider<Active> { }
 }
