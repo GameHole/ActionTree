@@ -5,16 +5,20 @@ namespace Default
 {
 	public sealed class Target : IComponent
 	{
-        public Entity value;
+        public ETree value;
+        public bool isNull() => value == null;
+        public T Get<T>() where T : class, IComponent => value == null ? null : value.Get<T>();
 	}
 	public class TargetPdr: CmpProvider<Target>
     {
         public UnityEntity entity;
-        public override object GetValue()
+        public override IComponent GetValue()
         {
             if (entity)
-                value.value = entity.entity;
-            Debug.Log(value.value);
+            {
+                entity.InitOnce();
+                value.value = entity.tree;
+            }
             return base.GetValue();
         }
     }

@@ -9,7 +9,7 @@ namespace Default
         CombinedUICntr cntr;
         public override void Do()
         {
-            if(Entity.driver.TryFindFirstCmp(ref cntr))
+            if(driver.TryFindFirstCmp(ref cntr))
             {
                 for (int i = 0; i < cntr.clicks.Count; i++)
                 {
@@ -25,7 +25,7 @@ namespace Default
         public override void Clear()
         {
             base.Clear();
-            if (Entity.driver.TryFindFirstCmp(ref cntr))
+            if (driver.TryFindFirstCmp(ref cntr))
             {
                 for (int i = 0; i < cntr.clicks.Count; i++)
                 {

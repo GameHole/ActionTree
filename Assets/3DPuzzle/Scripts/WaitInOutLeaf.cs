@@ -6,10 +6,10 @@ namespace Default
     public sealed class WaitInOut:ATree
 	{
         AnimInOut anim;
-        public bool isOut;
-		public override void Do()
+        Boolen isOut;
+        public override void Do()
         {
-            Condition = anim.isIn ^ isOut;
+            Condition = anim.isIn ^ isOut.Value();
         }
 	}
 	public class WaitInOutLeaf: TreeProvider<WaitInOut> { }

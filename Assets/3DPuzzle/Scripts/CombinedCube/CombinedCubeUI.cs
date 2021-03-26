@@ -5,7 +5,7 @@ namespace Default
 {
 	public sealed class CombinedCubeUI : IComponent
 	{
-        public List<Entity> entities = new List<Entity>();
+        public List<ETree> entities = new List<ETree>();
         public CombinedCube data;
         Vector3Int off;
         public Vector3Int Offset
@@ -16,7 +16,7 @@ namespace Default
                 off = value;
                 for (int i = 0; i < entities.Count; i++)
                 {
-                    entities[i].GetComponent<Offset>().value = off;
+                    entities[i].Get<Offset>().value = off;
                 }
             }
         }
@@ -24,7 +24,7 @@ namespace Default
         {
             for (int i = 0; i < entities.Count; i++)
             {
-                entities[i].GetComponent<Enable>().value = e;
+                entities[i].Get<Enable>().value = e;
             }
         }
     }

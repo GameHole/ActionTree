@@ -10,6 +10,7 @@ namespace Default
 		public override void Do()
         {
             entity.transform.rotation = rotation.value;
+           
             Condition = true;
         }
 	}

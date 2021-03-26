@@ -2,17 +2,15 @@
 using UnityEngine;
 namespace Default
 {
-	[System.Serializable]
     [MainThread]
 	public sealed class WaitAnim:ATree
 	{
-        public Animator animator;
-        public bool isOut;
-        public float speed = 1;
-		public override void Do()
+        AnimatorProxy proxy;
+        Boolen isOut;
+        public override void Do()
         {
-            animator.speed = speed;
-            animator.SetInteger("state", isOut ? 1 : 2);
+            proxy.animator.speed = proxy.speed;
+            proxy.animator.SetInteger("state", isOut.value ? 1 : 2);
             Condition = true;
         }
     }

@@ -10,8 +10,11 @@ namespace ActionTree
     class ProxyTree : ITree
     {
         public ITree tree;
-        public Entity Entity { get; set; }
+        //public Entity Entity { get; set; }
         public bool Condition => tree.Condition;
+
+        public ITree Parent { get ; set ; }
+
         public Worker worker;
         public bool usePredo = true;
         public void Clear()
@@ -31,6 +34,11 @@ namespace ActionTree
             if (usePredo)
                 worker.dos.Enqueue(tree);
             return usePredo;
+        }
+
+        public void Apply()
+        {
+            throw new NotImplementedException();
         }
     }
 }

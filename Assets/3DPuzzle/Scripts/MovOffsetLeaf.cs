@@ -6,12 +6,17 @@ namespace Default
 	public sealed class MovOffset:ATree
 	{
         Offset offset;
-        public Vector3Int dir;
+        IntDir dir;
 		public override void Do()
         {
-            offset.value = dir;
+            offset.value += dir.value;
             Condition = true;
         }
-	}
+        public override void Clear()
+        {
+            base.Clear();
+            offset.value = Vector3Int.zero;
+        }
+    }
 	public class MovOffsetLeaf: TreeProvider<MovOffset> { }
 }

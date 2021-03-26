@@ -5,25 +5,26 @@ namespace Default
 	[System.Serializable]
 	public sealed class TransformWithRotate:ATree
 	{
-        public Rotation rotation;
+        Target camera;
         Offset offset;
-        Target target;
-		public override void Do()
+        [Parent]Target target;
+        public override void Do()
         {
-            Vector3 off = rotation.value * offset.value;
-            var ui=target.value.GetComponent<CombinedCubeUI>();
-            ui.Offset += Vector3Int.FloorToInt(off);
-            Debug.Log(Vector3Int.FloorToInt(off));
+            var rot = camera.value.Get<Rotation>();
+            Vector3 off = rot.value * offset.value;
+            //Debug.Log($"r {rotation.value} off （{off.x }，{off.y }，{off.z }） {Vector3Int.RoundToInt(off)}");
+            var ui = target.value.Get<CombinedCubeUI>();
+            ui.Offset += Vector3Int.RoundToInt(off);
             Condition = true;
         }
 	}
 	public class TransformWithRotateLeaf: TreeProvider<TransformWithRotate>
     {
-        public RotationPdr pdr;
-        public override ITree GetTree()
-        {
-            value.rotation = pdr.value;
-            return base.GetTree();
-        }
+        //public RotationPdr pdr;
+        //public override ETree GetTree()
+        //{
+        //    value.targetRot = pdr.value;
+        //    return base.GetTree();
+        //}
     }
 }

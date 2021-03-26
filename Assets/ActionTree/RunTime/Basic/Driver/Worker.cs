@@ -12,8 +12,8 @@ namespace ActionTree
         public List<ITree> trees = new List<ITree>();
         public List<ITree> added = new List<ITree>();
         public List<ITree> removed = new List<ITree>();
-        public Queue<ITree> dos = new Queue<ITree>();
-        public Queue<ITree> clears = new Queue<ITree>();
+        public System.Collections.Generic.Queue<ITree> dos = new System.Collections.Generic.Queue<ITree>();
+        public System.Collections.Generic.Queue<ITree> clears = new System.Collections.Generic.Queue<ITree>();
 #if DEBUG_TIME
         long add = 0;
         long count;

@@ -9,7 +9,7 @@ namespace Default
 	}
 	public class PositionPdr: CmpProvider<Position>
     {
-        public override object GetValue()
+        public override IComponent GetValue()
         {
             value.value = transform.position;
             return base.GetValue();

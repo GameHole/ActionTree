@@ -9,7 +9,7 @@ namespace ActionTree
         public bool isLooped;
         public override void Do()
         {
-            for (int i = 0; i < trees.Length; i++)
+            for (int i = 0; i < Count; i++)
             {
                 trees[i].Do();
             }
@@ -20,7 +20,7 @@ namespace ActionTree
         {
             if (!isLooped)
                 Condition = false;
-            for (int i = 0; i < trees.Length; i++)
+            for (int i = 0; i < Count; i++)
             {
                 trees[i].Clear();
             }

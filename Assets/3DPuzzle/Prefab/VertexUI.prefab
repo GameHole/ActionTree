@@ -630,6 +630,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2291745526272488993}
   - component: {fileID: 2291745526272489022}
+  - component: {fileID: 4494664748642727261}
   m_Layer: 0
   m_Name: WaitEnable
   m_TagString: Untagged
@@ -664,8 +665,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
+--- !u!114 &4494664748642727261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291745526272488992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16747b34baff0e46953f00722328b39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   value:
-    isInverse: 0
+    value: 0
 --- !u!1 &2291745526286884731
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2291745526327005786}
   - component: {fileID: 2291745526327005787}
+  - component: {fileID: 3832062699079762536}
   m_Layer: 0
   m_Name: WaitDisable
   m_TagString: Untagged
@@ -740,8 +754,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
+--- !u!114 &3832062699079762536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2291745526327005789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16747b34baff0e46953f00722328b39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   value:
-    isInverse: 1
+    value: 1
 --- !u!1 &3150905537407663456
 GameObject:
   m_ObjectHideFlags: 0

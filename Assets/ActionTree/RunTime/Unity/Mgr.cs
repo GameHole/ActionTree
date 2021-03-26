@@ -5,12 +5,14 @@ namespace ActionTree
 {
     public class Mgr : MonoBehaviour
     {
-        internal static Queue<TreeProvider> releases = new Queue<TreeProvider>();
+        internal static System.Collections.Generic.Queue<TreeProvider> releases = new System.Collections.Generic.Queue<TreeProvider>();
         internal readonly static Driver driver = new Driver();
+        public bool useMulThread = true;
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             driver.Init();
+            driver.useMulThread = useMulThread;
         }
         void Update()
         {
@@ -26,15 +28,23 @@ namespace ActionTree
                 {
                     break;
                 }
+                //Debug.Log(releases.Count);
                 var s = releases.Dequeue();
                 //Debug.Log(s);
-                if (!s.GetComponent<UnityEntity>())
+                try
                 {
-                    Destroy(s.gameObject);
+                    if (!s.GetComponent<UnityEntity>())
+                    {
+                        Destroy(s.gameObject);
+                    }
+                    else
+                    {
+                        Destroy(s);
+                    }
                 }
-                else
+                catch (System.NullReferenceException e)
                 {
-                    Destroy(s);
+                    throw new System.NullReferenceException("This error may cause by 'Destroy Order' error ,May be you destroy parent gameobject early than child gameobject",e);
                 }
             }
         }

@@ -7,7 +7,7 @@ namespace Default
         Target target;
         public override void Do()
         {
-            target.value = Entity;
+            target.value = (ETree)Parent;
             Condition = true;
         }
 	}

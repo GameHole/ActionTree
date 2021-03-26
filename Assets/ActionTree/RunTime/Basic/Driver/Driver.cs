@@ -10,6 +10,7 @@ namespace ActionTree
         int idx = 0;
         //List<Entity> entities = new List<Entity>();
         Worker[] workers = new Worker[Environment.ProcessorCount - 1];
+        internal bool useMulThread = true;
         public void Init()
         {
             for (int i = 0; i < workers.Length; i++)
@@ -28,9 +29,19 @@ namespace ActionTree
         }
         void Do()
         {
-            for (int i = 0; i < workers.Length; i++)
+            if (useMulThread)
             {
-                workers[i].Start();
+                for (int i = 0; i < workers.Length; i++)
+                {
+                    workers[i].Start();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < workers.Length; i++)
+                {
+                    workers[i].Run();
+                }
             }
         }
         bool isWorking()
@@ -79,19 +90,26 @@ namespace ActionTree
                 }
             }
         }
-        public void AddEntity(Entity v)
+        public void AddEntity(ITree v)
         {
-            //if (!v.isActive) return;
-            if (v.tree != null)
+            int i = idx++;
+            if (v is ETree e)
             {
-                v.SetData(this);
-                var worker = workers[idx++ % workers.Length];
-                RepleaseTree(ref v.tree, worker);
-                //entities.Add(v.tree);
-                v.tree.PreDo();
-                worker.added.Add(v.tree);
-                //entities.Add(v);
+                var tid = e.Get<ThreadId>();
+                if (tid != null)
+                {
+                    i = tid.value;
+                }
             }
+            var worker = workers[i % workers.Length];
+            v.Foreach((ref ITree x) =>
+            {
+                if (x is ATree aTree)
+                    aTree.driver = this;
+            });
+            RepleaseTree(ref v, worker);
+            v.PreDo();
+            worker.added.Add(v);
         }
         internal object FindFirstCmp(Type type)
         {
@@ -99,10 +117,13 @@ namespace ActionTree
             {
                 for (int j = 0; j < workers[i].trees.Count; j++)
                 {
-                    var cmp = workers[i].trees[j].Entity.Get(type);
-                    if (cmp != null)
+                    if (workers[i].trees[j] is ETree eTree)
                     {
-                        return cmp;
+                        var cmp = eTree.Get(type);
+                        if (cmp != null)
+                        {
+                            return cmp;
+                        }
                     }
                 }
             }
@@ -125,7 +146,7 @@ namespace ActionTree
         {
             if (tree is ATreeCntr treeCntr)
             {
-                for (int i = 0; i < treeCntr.trees.Length; i++)
+                for (int i = 0; i < treeCntr.Count; i++)
                 {
                     RepleaseTree(ref treeCntr.trees[i], worker);
                 }

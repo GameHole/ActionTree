@@ -6,12 +6,12 @@ namespace Default
     [System.Serializable]
     public sealed class WaitRaycast : ATree
     {
-        public Camera main;
+        //public Camera main;
         RaycastData raycast;
         public override void Do()
         {
            
-            var ray = main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out var hit/*,100,LayerMask.NameToLayer("Please")*/))
             {
                 Debug.DrawLine(ray.origin, hit.point);

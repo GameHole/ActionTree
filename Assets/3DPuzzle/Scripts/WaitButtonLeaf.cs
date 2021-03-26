@@ -5,21 +5,20 @@ using UnityEngine.UI;
 namespace Default
 {
     [MainThread]
-	[System.Serializable]
 	public sealed class WaitButton:ATree
 	{
-        public Button button;
+        ButtonProxy proxy;
         bool isInited;
 		public override void Do()
         {
             if (isInited) return;
             isInited = true;
-            button.onClick.AddListener(onclick);
+            proxy.button.onClick.AddListener(onclick);
         }
         void onclick()
         {
             Condition = true;
-            button.onClick.RemoveListener(onclick);
+            proxy.button.onClick.RemoveListener(onclick);
         }
         public override void Clear()
         {

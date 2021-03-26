@@ -9,8 +9,8 @@ namespace Default
         RaycastData data;
         public override void Do()
         {
-            var ui = target.value.GetComponent<CombinedCubeUI>();
-            var cntr = Entity.driver.FindFirstCmp<CubeCntr>();
+            var ui = target.value.Get<CombinedCubeUI>();
+            var cntr = driver.FindFirstCmp<CubeCntr>();
             var id = data.hit.collider.GetComponent<Id>();
             ui.Offset = cntr.devided(id.value);
             ui.SetEnable(true);

@@ -5,12 +5,12 @@ namespace ActionTree
 {
     public abstract class CmpProvider : MonoBehaviour
     {
-        public abstract object GetValue();
+        public abstract IComponent GetValue();
     }
     public abstract class CmpProvider<T> : CmpProvider where T : IComponent,new()
     {
         public T value = new T();
-        public override object GetValue()
+        public override IComponent GetValue()
         {
 #if !UNITY_EDITOR
             Destroy(this);

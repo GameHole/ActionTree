@@ -2,14 +2,13 @@
 using UnityEngine;
 namespace Default
 {
-	[System.Serializable]
 	public sealed class WaitEnable:ATree
 	{
-        public bool isInverse;
+        Boolen boolen;
         Enable enable;
 		public override void Do()
         {
-            Condition = isInverse ^ enable.value;
+            Condition = boolen.Value() ^ enable.value;
         }
 	}
 	public class WaitEnableLeaf: TreeProvider<WaitEnable> { }

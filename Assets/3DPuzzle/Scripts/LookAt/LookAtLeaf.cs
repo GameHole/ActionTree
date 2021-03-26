@@ -10,7 +10,7 @@ namespace Default
         Rotation rotation;
 		public override void Do()
         {
-            var p = target.value.GetComponent<Position>();
+            var p = target.value.Get<Position>();
             rotation.value = Quaternion.LookRotation(p.value - position.value);
         }
 	}

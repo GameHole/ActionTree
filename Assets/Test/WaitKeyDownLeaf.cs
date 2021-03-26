@@ -2,14 +2,13 @@
 using UnityEngine;
 namespace Default
 {
-	[System.Serializable]
 	public sealed class WaitKeyDown:ATree
 	{
-        public KeyCode key;
-        public bool isDown;
+        KeyCode key;
+        Boolen isDown;
 		public override void Do()
         {
-            Condition = isDown ? Input.GetKeyDown(key) : Input.GetKeyUp(key);
+            Condition = isDown.Value() ? Input.GetKeyDown(key.code) : Input.GetKeyUp(key.code);
         }
 	}
 	public class WaitKeyDownLeaf: TreeProvider<WaitKeyDown> { }

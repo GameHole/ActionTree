@@ -10,7 +10,7 @@ namespace Default
 	}
 	public class RotationPdr: CmpProvider<Rotation>
     {
-        public override object GetValue()
+        public override IComponent GetValue()
         {
             value.value = transform.rotation;
             return base.GetValue();

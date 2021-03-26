@@ -13,7 +13,7 @@ namespace Default
             //Debug.Log("MoveFree");
             Vector3 p = Input.mousePosition;
             p.z = -Camera.main.transform.position.z;
-            var pv = target.value.GetComponent<Position>();
+            var pv = target.value.Get<Position>();
             pv.value = Camera.main.ScreenToWorldPoint(p);
             Condition = condition;
         }

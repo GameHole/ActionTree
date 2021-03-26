@@ -9,7 +9,7 @@ namespace Default
         public Target tranedUI;
 		public override void Do()
         {
-            var anim = Entity.driver.FindFirstCmp<AnimInOut>();
+            var anim = driver.FindFirstCmp<AnimInOut>();
             anim.isIn = true;
             tranedUI.value = target.value;
             target.value = null;
@@ -19,7 +19,7 @@ namespace Default
 	public class SetUILeaf : TreeProvider<SetUIS>
     {
         public TargetPdr pdr;
-        public override ITree GetTree()
+        public override ETree GetTree()
         {
             value.tranedUI = pdr.value;
             return base.GetTree();

@@ -6,10 +6,10 @@ namespace Default
     [System.Serializable]
 	public sealed class WaitMouseDown:ATree
 	{
-        public int id;
+        Identity id;
 		public override void Do()
         {
-            if (Input.GetMouseButtonDown(id))
+            if (Input.GetMouseButtonDown(id.id))
             {
                 Debug.Log("down");
                 Condition = true;

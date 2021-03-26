@@ -6,10 +6,10 @@ namespace Default
     [System.Serializable]
 	public sealed class WaitMouseUp:ATree
 	{
-        public int id;
+        Identity id;
         public override void Do()
         {
-            if (Input.GetMouseButtonUp(id))
+            if (Input.GetMouseButtonUp(id.id))
             {
                 Debug.Log("up");
                 Condition = true;
