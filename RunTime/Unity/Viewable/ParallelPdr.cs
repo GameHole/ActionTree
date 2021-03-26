@@ -6,7 +6,7 @@ namespace ActionTree
     public class ParallelPdr : TreeCntrProvider<Parallel>
     {
         public bool isLooped;
-        public override ITree GetTree()
+        public override ETree GetTree()
         {
             value.isLooped = isLooped;
             return base.GetTree();

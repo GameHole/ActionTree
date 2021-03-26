@@ -14,7 +14,7 @@ namespace ActionTree
         }
         public override void Do()
         {
-            while (index < trees.Length)
+            while (index < Count)
             {
                 var tree = trees[index];
                 if (!tree.Condition)
@@ -36,7 +36,7 @@ namespace ActionTree
         }
         public override bool PreDo()
         {
-            if (index < trees.Length)
+            if (index < Count)
             {
                 //UnityEngine.Debug.Log($"serial predo idx::{index} v:: {trees[index]}");
                 return trees[index].PreDo();

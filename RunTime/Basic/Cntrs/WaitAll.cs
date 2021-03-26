@@ -9,7 +9,7 @@ namespace ActionTree
         public override void Do()
         {
             bool condition = true;
-            for (int i = 0; i < trees.Length; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (!trees[i].Condition)
                 {

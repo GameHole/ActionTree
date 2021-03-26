@@ -2,37 +2,66 @@
 
 namespace ActionTree
 {
-    public abstract class ATree : ITree
+    public abstract class ATree : ETree
     {
         public static float deltaTime { get; internal set; }
-        public bool Condition { get; set; }
-        public Entity Entity
-        {
-            get => entity;
-            set
-            {
-                SetEntity(value);
-            }
-        }
-        Entity entity;
-        public virtual void Clear()
+        //public bool Condition { get; set; }
+        //public Entity Entity
+        //{
+        //    get => entity;
+        //    set
+        //    {
+        //        SetEntity(value);
+        //    }
+        //}
+
+        //public ITree Parent { get; set; }
+
+        //Entity entity;
+        public override void Clear()
         {
             Condition = false;
         }
-        public abstract void Do();
-        public void SetEntity(Entity entity)
+        //public abstract void Do();
+        //public void SetEntity(Entity entity)
+        //{
+        //    this.entity = entity;
+        //    var m = typeof(IComponent);
+        //    foreach (var item in GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
+        //    {
+        //        if (item.FieldType.IsClass && m.IsAssignableFrom(item.FieldType))
+        //        {
+        //            item.SetValue(this, entity.Get(item.FieldType));
+        //        }
+        //    }  
+        //}
+        public Driver driver;
+        public override void Apply()
         {
-            this.entity = entity;
-            var m = typeof(IComponent);
+            reflect((ETree)Parent);
+        }
+        void reflect(ETree p)
+        {
             foreach (var item in GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
             {
-                if (item.FieldType.IsClass && m.IsAssignableFrom(item.FieldType))
+                var ft = item.FieldType;
+                if (ft.IsAbstract | ft.IsInterface | ft.IsValueType) continue;
+                IComponent cmp = null;
+                if (item.GetCustomAttribute<ParentAttribute>() == null)
+                    cmp = FindType(ft);
+                var parnet = p;
+                while (cmp == null && parnet != null)
                 {
-                    item.SetValue(this, entity.Get(item.FieldType));
+                    //UnityEngine.Debug.Log($"finding {item.FieldType} ::{parnet}");
+                    cmp = parnet.FindType(ft);
+                    parnet = (ETree)parnet.Parent;
                 }
-            }  
+                //if (cmp == null)
+                //    throw new System.NullReferenceException($"this::{this} field::{item.Name},type::{ft} is not found");
+                //UnityEngine.Debug.Log($"{item.Name} ::{cmp}");
+                item.SetValue(this, cmp);
+            }
         }
-
-        public virtual bool PreDo() => false;
+        public override bool PreDo() => false;
     }
 }

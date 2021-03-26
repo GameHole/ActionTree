@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace ActionTree
 {
-    public class UnityEntity : MonoBehaviour,IComponent
+    public class UnityEntity : MonoBehaviour, IComponent
     {
-        public Entity entity;
+        //public Entity entity;
+        public ETree tree;
         bool isInited;
         void Start()
         {
-            Init();
+            InitOnce();
         }
-        public void Init()
+        public void InitOnce()
         {
             if (isInited) return;
             isInited = true;
             var initer = GetComponent<IEntityIniter>();
             initer?.Init(this);
-            if (entity != null)
-                Mgr.driver.AddEntity(entity);
+            if (tree != null)
+                Mgr.driver.AddEntity(tree);
         }
         private void Update()
         {
-            if (entity != null)
+            if (tree != null)
             {
-                if (entity.tree != null)
-                    //Debug.Log("en");
-                    ////Debug.Log(entity.isActive);
-                    //Debug.Log(entity.tree.Condition);
-                    if (entity.tree.Condition)
-                        Destroy(gameObject);
+                if (tree.Condition)
+                {
+                    Debug.Log($"destroy {this}");
+                    Destroy(gameObject);
+                }
             }
         }
     }
