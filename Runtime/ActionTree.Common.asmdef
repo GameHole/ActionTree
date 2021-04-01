@@ -1,0 +1,14 @@
+{
+    "name": "ActionTree.Common",
+    "references": [
+        "GUID:61bd9fa1ed85cc1489b30d40ba4bd982"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
