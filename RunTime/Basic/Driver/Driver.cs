@@ -99,6 +99,7 @@ namespace ActionTree
                 if (tid != null)
                 {
                     i = tid.value;
+                    e.Remove<ThreadId>();
                 }
             }
             var worker = workers[i % workers.Length];
