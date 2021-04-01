@@ -1,7 +1,7 @@
 ﻿using ActionTree;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Default
+namespace ActionTree
 {
     [MainThread]
 	public sealed class DebugDrawCombined:ATree

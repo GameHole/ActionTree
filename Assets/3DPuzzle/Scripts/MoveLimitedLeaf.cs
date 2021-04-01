@@ -1,6 +1,6 @@
 ﻿using ActionTree;
 using UnityEngine;
-namespace Default
+namespace ActionTree
 {
 	[System.Serializable]
 	public sealed class MoveLimited:ATree

@@ -1,6 +1,6 @@
 ﻿using ActionTree;
 using UnityEngine;
-namespace Default
+namespace ActionTree
 {
     public enum BtnAction
     {

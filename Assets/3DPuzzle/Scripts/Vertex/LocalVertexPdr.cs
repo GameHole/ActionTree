@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ActionTree;
 using UnityEngine;
-namespace Default
+namespace ActionTree
 {
 	public sealed class LocalVertex : IComponent
 	{

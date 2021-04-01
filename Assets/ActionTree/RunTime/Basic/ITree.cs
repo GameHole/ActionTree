@@ -32,7 +32,7 @@ namespace ActionTree
                 cmps = new Dictionary<Type, IComponent>();
         }
 
-        internal void Add(IComponent component)
+        public void Add(IComponent component)
         {
             tryInit();
             cmps.Add(component.GetType(), component);

@@ -1,7 +1,7 @@
 ﻿using ActionTree;
 using UnityEngine;
 using System.Collections.Generic;
-namespace Default
+namespace ActionTree
 {
 	[System.Serializable]
 	public sealed class CubeCntr : IComponent

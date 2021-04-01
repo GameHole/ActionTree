@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ActionTree;
-namespace Default
+namespace ActionTree
 {
     public class CombinedCube
     {
