@@ -7,15 +7,18 @@ namespace ActionTree
     {
         internal static Queue<TreeProvider> releases = new Queue<TreeProvider>();
         internal readonly static Driver driver = new Driver();
-        static Stack<int> unused = new Stack<int>();
+        static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
         public static void AddEntity(UnityEntity unity)
         {
             //Debug.Log(unityEntities.Count);
             driver.AddEntity(unity.tree);
-            if (unused.Count > 0)
+            if (removed.Count > 0)
             {
-                unityEntities[unused.Pop()] = unity;
+                int idx = removed.Dequeue();
+                if (unityEntities[idx] != null)
+                    throw new System.ArgumentException("you may set a active object");
+                unityEntities[idx] = unity;
             }
             else
             {
@@ -42,12 +45,16 @@ namespace ActionTree
             {
                 if (unityEntities[i] != null)
                 {
-                    unityEntities[i]._Update();
-                }
-                else
-                {
-                    unused.Push(i);
-                    unityEntities[i] = null;//释放mono引用
+                    if (unityEntities[i].tree.Condition)
+                    {
+#if UNITY_EDITOR && !RELEASE
+                        Debug.Log($"destroy {unityEntities[i]}");
+#endif
+                        Destroy(unityEntities[i].gameObject);
+                        removed.Enqueue(i);
+                        //Debug.Log($"enqueue  {i}");
+                        unityEntities[i] = null;
+                    }
                 }
             }
         }

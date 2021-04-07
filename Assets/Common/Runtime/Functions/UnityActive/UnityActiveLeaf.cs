@@ -12,11 +12,6 @@ namespace Default
             proxy.target.SetActive(active.value);
             Condition = true; 
         }
-        public override void Clear()
-        {
-            base.Clear();
-            proxy.target.SetActive(!active.value);
-        }
     }
 	public class UnityActiveLeaf: TreeProvider<UnityActive> { }
 }
