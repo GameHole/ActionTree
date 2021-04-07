@@ -21,18 +21,18 @@ namespace ActionTree
             if (tree != null)
                 Mgr.AddEntity(this);
         }
-        internal void _Update()
-        {
-            if (tree != null)
-            {
-                if (tree.Condition)
-                {
-#if UNITY_EDITOR||!RELEASE
-                    Debug.Log($"destroy {this}");
-#endif
-                    Destroy(gameObject);
-                }
-            }
-        }
+//        internal void _Update()
+//        {
+//            if (tree != null)
+//            {
+//                if (tree.Condition)
+//                {
+//#if UNITY_EDITOR||!RELEASE
+//                    Debug.Log($"destroy {this}");
+//#endif
+//                    Destroy(gameObject);
+//                }
+//            }
+//        }
     }
 }
