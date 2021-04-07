@@ -11,6 +11,7 @@ namespace ActionTree
         //public override bool isInMain => true;
         public override void Do()
         {
+            //Debug.Log("aa");
             e.transform.position = p.value;
             Condition = menual.Value();
         }
