@@ -5,8 +5,23 @@ namespace ActionTree
 {
     public class Mgr : MonoBehaviour
     {
-        internal static System.Collections.Generic.Queue<TreeProvider> releases = new System.Collections.Generic.Queue<TreeProvider>();
+        internal static Queue<TreeProvider> releases = new Queue<TreeProvider>();
         internal readonly static Driver driver = new Driver();
+        static Stack<int> unused = new Stack<int>();
+        static List<UnityEntity> unityEntities = new List<UnityEntity>();
+        public static void AddEntity(UnityEntity unity)
+        {
+            //Debug.Log(unityEntities.Count);
+            driver.AddEntity(unity.tree);
+            if (unused.Count > 0)
+            {
+                unityEntities[unused.Pop()] = unity;
+            }
+            else
+            {
+                unityEntities.Add(unity);
+            }
+        }
         public bool useMulThread = true;
         private void Awake()
         {
@@ -19,6 +34,22 @@ namespace ActionTree
             //Debug.Log("mgr");
             ATree.deltaTime = Time.deltaTime;
             driver.Run();
+            doEntity();
+        }
+        void doEntity()
+        {
+            for (int i = 0; i < unityEntities.Count; i++)
+            {
+                if (unityEntities[i] != null)
+                {
+                    unityEntities[i]._Update();
+                }
+                else
+                {
+                    unused.Push(i);
+                    unityEntities[i] = null;//释放mono引用
+                }
+            }
         }
         private void LateUpdate()
         {

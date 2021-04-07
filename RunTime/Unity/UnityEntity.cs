@@ -19,15 +19,17 @@ namespace ActionTree
             var initer = GetComponent<IEntityIniter>();
             initer?.Init(this);
             if (tree != null)
-                Mgr.driver.AddEntity(tree);
+                Mgr.AddEntity(this);
         }
-        private void Update()
+        internal void _Update()
         {
             if (tree != null)
             {
                 if (tree.Condition)
                 {
+#if UNITY_EDITOR||!RELEASE
                     Debug.Log($"destroy {this}");
+#endif
                     Destroy(gameObject);
                 }
             }
