@@ -2,7 +2,7 @@
 
 namespace ActionTree
 {
-    public class Queue<T>
+    public class MyQueue<T>
     {
         T[] array = new T[4];
         int head;
@@ -10,10 +10,10 @@ namespace ActionTree
         int _count;
         public int Count => _count;
         public int Length => array.Length;
-        public Queue()
+        public MyQueue()
         {
         }
-        public Queue(int length)
+        public MyQueue(int length)
         {
             array = new T[length];
         }
