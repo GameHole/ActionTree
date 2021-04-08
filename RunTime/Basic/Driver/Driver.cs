@@ -8,8 +8,8 @@ namespace ActionTree
     public class Driver
     {
         int idx = 0;
-        //List<Entity> entities = new List<Entity>();
         Worker[] workers = new Worker[Environment.ProcessorCount - 1];
+        public Queue<Action> postMains = new Queue<Action>();
         internal bool useMulThread = true;
         public void Init()
         {
@@ -23,9 +23,17 @@ namespace ActionTree
             if (!isWorking())
             {
                 RunMainDo();
+                PostMain();
                 Do();
             }
 
+        }
+        void PostMain()
+        {
+            while (postMains.Count > 0)
+            {
+                postMains.Dequeue()?.Invoke();
+            }
         }
         void Do()
         {
