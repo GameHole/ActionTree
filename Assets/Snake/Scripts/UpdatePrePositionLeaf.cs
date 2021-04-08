@@ -19,10 +19,10 @@ namespace ActionTree
             float dx = speed.value * deltaTime;
             if (dx < 1e-3f)
                 dx = 1e-3f;
-            int count = (int)(r.value * 2.5f / dx) + 1;
+            int count = 20;// (int)(r.value * 3 / dx) + 1;
             //Debug.Log($"dx::{dx},count::{count}");
-            if (count > 20)
-                count = 20;
+            if (count > 30)
+                count = 30;
             last.value = count;
             //if (dx > 0.1)
             //Debug.Log($"dx::{dx},count::{count}");

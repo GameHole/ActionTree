@@ -9,6 +9,7 @@ namespace ActionTree
         internal readonly static Driver driver = new Driver();
         static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
+
         public static void AddEntity(UnityEntity unity)
         {
             //Debug.Log(unityEntities.Count);
@@ -39,10 +40,23 @@ namespace ActionTree
             driver.Run();
             doEntity();
         }
+        public static void LoadScene(int id)
+        {
+            for (int i = 0; i < unityEntities.Count; i++)
+            {
+                //Debug.Log(unityEntities[i].isDestroyed);
+                if (unityEntities[i] != null)
+                {
+                    unityEntities[i].tree.Condition = true;
+                }
+            }
+            UnityEngine.SceneManagement.SceneManager.LoadScene(id);
+        }
         void doEntity()
         {
             for (int i = 0; i < unityEntities.Count; i++)
             {
+                //Debug.Log(unityEntities[i].isDestroyed);
                 if (unityEntities[i] != null)
                 {
                     if (unityEntities[i].tree.Condition)
