@@ -163,10 +163,10 @@ namespace ActionTree
             else
             {
                 var t = tree.GetType();
-                var main =t.GetCustomAttribute<MainThreadAttribute>();
+                var main = t.GetCustomAttribute<MainThreadAttribute>();
                 if (main != null)
                 {
-                    var predo=t.GetCustomAttribute<NotPreDoAttribute>();
+                    var predo = t.GetCustomAttribute<NotPreDoAttribute>();
                     var proxy = new ProxyTree() { tree = tree, worker = worker, usePredo = predo == null };
                     tree = proxy;
                 }
