@@ -42,11 +42,16 @@ namespace ActionTree
                 }
                 inited = true;
             }
-            foreach (var item in TreeType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
+            var treeType = TreeType();
+            if (treeType != null)
             {
-                if (cmp2pdr.TryGetValue(item.FieldType, out var type))
+                foreach (var item in treeType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
                 {
-                    gameObject.AddComponent(type);
+                    if (cmp2pdr.TryGetValue(item.FieldType, out var type))
+                    {
+                        if (!gameObject.GetComponent(type))
+                            gameObject.AddComponent(type);
+                    }
                 }
             }
         }
@@ -88,15 +93,7 @@ namespace ActionTree
             return value;
         }
     }
-    //public abstract class ManualConditionProvider<T> : TreeProvider<T> where T : ATree, new()
-    //{
-    //    public bool MenuCondition;
-    //    public override ITree GetTree()
-    //    {
-    //        value.Condition = MenuCondition;
-    //        return base.GetTree();
-    //    }
-    //}
+    
     public abstract class TreeCntrProvider<T> : TreeProvider<T> where T : ATreeCntr, new()
     {
         public override ETree GetTree()

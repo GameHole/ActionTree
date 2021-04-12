@@ -8,7 +8,7 @@ namespace ActionTree
         Enable enable;
 		public override void Do()
         {
-            Condition = boolen.Value() ^ enable.value;
+            Condition = (!boolen.Value()) ^ enable.value;
         }
 	}
 	public class WaitEnableLeaf: TreeProvider<WaitEnable> { }

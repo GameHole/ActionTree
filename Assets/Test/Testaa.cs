@@ -10,6 +10,7 @@ public class Testaa : MonoBehaviour
         MatrixInt a = new MatrixInt(1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         Vector3Int d = new Vector3Int(1, 1, 1);
         Debug.Log(a * new Vector4Int(d, 1));
+       
     }
 
     // Update is called once per frame
