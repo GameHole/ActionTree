@@ -3,10 +3,10 @@ using ActionTree;
 using UnityEngine;
 namespace Default
 {
-	[System.Serializable]
-	public sealed class GameObjectProxy : IComponent
-	{
+    [System.Serializable]
+    public sealed class GameObjectProxy : IComponent
+    {
         public GameObject target;
-	}
+    }
 	public class GameObjectProxyPdr: CmpProvider<GameObjectProxy> { }
 }

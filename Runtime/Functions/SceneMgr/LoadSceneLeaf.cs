@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace ActionTree
 {
-    [MainThread]
+    //[MainThread]
 	public sealed class LoadScene:ATree
 	{
         Identity identity;

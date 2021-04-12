@@ -3,16 +3,16 @@ using UnityEngine;
 namespace ActionTree
 {
     [MainThread]
-	public sealed class WaitAnim:ATree
+	public sealed class UnityAnimatorInOut:ATree
 	{
         AnimatorProxy proxy;
-        Boolen isOut;
+        Boolen isIn;
         public override void Do()
         {
             proxy.animator.speed = proxy.speed;
-            proxy.animator.SetInteger("state", isOut.value ? 1 : 2);
+            proxy.animator.SetInteger("state", isIn.value ? 2 : 1);
             Condition = true;
         }
     }
-	public class WaitAnimLeaf: TreeProvider<WaitAnim> { }
+	public class UnityAnimatorInOutLeaf : TreeProvider<UnityAnimatorInOut> { }
 }
