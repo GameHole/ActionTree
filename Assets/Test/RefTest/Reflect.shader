@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Reflect"
+﻿Shader "MyShader/Reflect"
 {
     Properties
     {

@@ -19,6 +19,10 @@ namespace ActionTree
             isInited = true;
             var initer = GetComponent<IEntityIniter>();
             initer?.Init(this);
+            Join();
+        }
+        protected virtual void Join()
+        {
             if (tree != null)
                 Mgr.AddEntity(this);
         }

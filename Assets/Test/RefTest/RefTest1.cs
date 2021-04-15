@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefTest : MonoBehaviour
+public class RefTest1 : MonoBehaviour
 {
-    public Vector3 axis = Vector3.up;
+    public Vector3 normal = Vector3.up;
     public Vector3 q;
-    public float angle;
     public MeshRenderer rend;
     void Start()
     {
@@ -18,39 +17,25 @@ public class RefTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float cos = Mathf.Cos(angle * Mathf.Deg2Rad);
-        float sin = Mathf.Sin(angle * Mathf.Deg2Rad);
-        Vector3 nAxis = axis.normalized;
-        Matrix4x4 crossPart = new Matrix4x4();
-        crossPart.m01 = nAxis.z;
-        crossPart.m02 = -nAxis.y;
-        crossPart.m10 = -nAxis.z;
-        crossPart.m12 = nAxis.x;
-        crossPart.m20 = nAxis.y;
-        crossPart.m21 = -nAxis.x;
-        Matrix4x4 croPart = new Matrix4x4();
-        croPart.m00 = nAxis.x * nAxis.x;
-        croPart.m01 = nAxis.y * nAxis.x;
-        croPart.m02 = nAxis.z * nAxis.x;
-        croPart.m10 = nAxis.x * nAxis.y;
-        croPart.m11 = nAxis.y * nAxis.y;
-        croPart.m12 = nAxis.z * nAxis.y;
-        croPart.m20 = nAxis.x * nAxis.z;
-        croPart.m21 = nAxis.y * nAxis.z;
-        croPart.m22 = nAxis.z * nAxis.z;
-        var rotMatrix = add(mulvalue(crossPart, sin), add(mulvalue(Matrix4x4.identity, cos), mulvalue(croPart, 1 - cos)));
-        rotMatrix.m30 = 0;
-        rotMatrix.m31 = 0;
-        rotMatrix.m32 = 0;
-        rotMatrix.m32 = 0;
-        Vector3 m = q - mulp(q, rotMatrix);
-        rotMatrix.m30 = m.x;
-        rotMatrix.m31 = m.y;
-        rotMatrix.m32 = m.z;
-        //b.position = mulp(a.position, reflectMatrix);
-        rend.material.SetMatrix("refMtx", rotMatrix);
+        Vector3 n = normal.normalized;
+        Matrix4x4 refPart = new Matrix4x4();
+        refPart.m00 = n.x * n.x;
+        refPart.m01 = n.y * n.x;
+        refPart.m02 = n.z * n.x;
+        refPart.m10 = n.x * n.y;
+        refPart.m11 = n.y * n.y;
+        refPart.m12 = n.z * n.y;
+        refPart.m20 = n.x * n.z;
+        refPart.m21 = n.y * n.z;
+        refPart.m22 = n.z * n.z;
+        var reflectMatrix = sub(Matrix4x4.identity, mulvalue(refPart, 2));
+        Vector3 m = 2 * Vector3.Dot(q, n) * n;
+        reflectMatrix.m30 = m.x;
+        reflectMatrix.m31 = m.y;
+        reflectMatrix.m32 = m.z;
+        rend.material.SetMatrix("refMtx", reflectMatrix);
         rend.material.SetVector("q", new Vector4(q.x, q.y, q.z, 1));
-        rend.material.SetVector("n", nAxis);
+        rend.material.SetVector("n", n);
     }
     public static Vector3 mulp(Vector3 b,Matrix4x4 a)
     {
