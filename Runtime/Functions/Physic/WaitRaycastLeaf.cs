@@ -3,7 +3,6 @@ using UnityEngine;
 namespace ActionTree
 {
     [MainThread]
-    [System.Serializable]
     public sealed class WaitRaycast : ATree
     {
         //public Camera main;
