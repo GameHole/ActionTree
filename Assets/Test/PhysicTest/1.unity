@@ -326,8 +326,8 @@ GameObject:
   - component: {fileID: 125858462}
   - component: {fileID: 125858463}
   - component: {fileID: 125858465}
-  - component: {fileID: 125858467}
   - component: {fileID: 125858464}
+  - component: {fileID: 125858466}
   m_Layer: 0
   m_Name: ConfigTest
   m_TagString: Untagged
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52aa233864863cd419e5682c8cff4c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &125858467
+--- !u!114 &125858466
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -5,14 +5,15 @@ namespace ActionTree
 {
     [FileName("测试文件")]
 	public sealed class CCC : IConfigValue
-	{
-        public int aaa;
+    {
+        public string[] dasdad;
+       
         public string bb;
         public int[] cc;
         public float a;
         public float[] dd;
         public double ff;
-        public string[] dasdad;
+        public int aaa;
         //public double adsasd;
         public void debug()
         {

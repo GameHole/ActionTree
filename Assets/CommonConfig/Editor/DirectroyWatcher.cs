@@ -65,7 +65,7 @@ namespace ActionTree
                     {
                         if (!Directory.Exists(backupPath))
                             Directory.CreateDirectory(backupPath);
-                        string backPath = Path.Combine(backupPath, $"{name}.xlsx");
+                        string backPath = Path.Combine(backupPath, $"{name}_{DateTime.Now.ToString("yyyy-mm-dd")}.xlsx");
                         File.Copy(path, backPath);
                         File.Delete(path);
                         using (ExcelPackage newPack = new ExcelPackage(new FileInfo(path)))
@@ -89,13 +89,12 @@ namespace ActionTree
                 int keyId = indexOf(sor, fieldStrs[i]);
                 if (keyId > 0)
                 {
-                   
-                    for (int r = 1; r < sor.Cells.Rows; r++)
+                    for (int r = 1; r < 30; r++)
                     {
-                        if (sor.Cells[r + 1, keyId] == null)
+                        if (string.IsNullOrEmpty(sor.Cells[r + 1, keyId].ToString()))
                             break;
 
-                        Debug.Log($"r {r + 1},c{i + 1} {dest} , {sor}");
+                        Debug.Log($"c = {sor.Cells.Rows} r {r + 1},c{i + 1} {dest.Cells[r + 1, i + 1].Value} , {sor.Cells[r + 1, keyId].Value}");
                         dest.Cells[r + 1, i + 1].Value = sor.Cells[r + 1, keyId].Value;
                       
                     }
