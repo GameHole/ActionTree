@@ -5,37 +5,12 @@ namespace ActionTree
     public abstract class ATree : ETree
     {
         public static float deltaTime { get; internal set; }
-        //public bool Condition { get; set; }
-        //public Entity Entity
-        //{
-        //    get => entity;
-        //    set
-        //    {
-        //        SetEntity(value);
-        //    }
-        //}
+        public Driver driver;
 
-        //public ITree Parent { get; set; }
-
-        //Entity entity;
         public override void Clear()
         {
             Condition = false;
         }
-        //public abstract void Do();
-        //public void SetEntity(Entity entity)
-        //{
-        //    this.entity = entity;
-        //    var m = typeof(IComponent);
-        //    foreach (var item in GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
-        //    {
-        //        if (item.FieldType.IsClass && m.IsAssignableFrom(item.FieldType))
-        //        {
-        //            item.SetValue(this, entity.Get(item.FieldType));
-        //        }
-        //    }  
-        //}
-        public Driver driver;
         public override void Apply()
         {
             reflect((ETree)Parent);
