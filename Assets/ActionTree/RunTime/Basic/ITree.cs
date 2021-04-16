@@ -31,7 +31,13 @@ namespace ActionTree
             if (cmps == null)
                 cmps = new Dictionary<Type, IComponent>();
         }
-
+        public Dictionary<Type, IComponent> Components
+        {
+            get
+            {
+                return cmps;
+            }
+        }
         public void Add(IComponent component)
         {
             tryInit();
@@ -55,14 +61,14 @@ namespace ActionTree
                 cmps.Remove(type);
             }
         }
-        public T Add<T>() where T : IComponent,new()
+        public T Add<T>() where T : IComponent, new()
         {
             tryInit();
             var r = new T();
             cmps.Add(typeof(T), r);
             return r;
         }
-        public T Get<T>() where T :class,IComponent
+        public T Get<T>() where T : class, IComponent
         {
             return Get(typeof(T)) as T;
         }
@@ -84,7 +90,7 @@ namespace ActionTree
         }
         public static void Foreach(this ITree tree, TreeIter action)
         {
-            if(tree is ATreeCntr cntr)
+            if (tree is ATreeCntr cntr)
             {
                 for (int i = 0; i < cntr.trees.Length; i++)
                 {
@@ -95,6 +101,39 @@ namespace ActionTree
             {
                 action?.Invoke(ref tree);
             }
+        }
+    }
+    public static class ETreeEx
+    {
+        //public static IComponent FindComponent(this ETree tree, Type type)
+        //{
+        //    foreach (var item in tree.Components.Keys)
+        //    {
+        //        if (type.IsAssignableFrom(item))
+        //            return tree.Components[item];
+        //    }
+        //    return null;
+        //}
+        public static List<IComponent> FindComponents(this ETree tree, Type type)
+        {
+            var result = new List<IComponent>();
+            var p = tree;
+            while (p != null)
+            {
+                var cmps = p.Components;
+                if (cmps != null)
+                {
+                    foreach (var item in cmps.Keys)
+                    {
+                        if (type.IsAssignableFrom(item))
+                        {
+                            result.Add(cmps[item]);
+                        }
+                    }
+                }
+                p = (ETree)p.Parent;
+            }
+            return result;
         }
     }
 }
