@@ -1,0 +1,18 @@
+{
+    "name": "ActionTree.Config.Editor",
+    "references": [
+        "GUID:3e303f46687eed1439f07dffa2dd9e88",
+        "GUID:d92e7dc34dd0e614588478dbb5d68d4b",
+        "GUID:c2157044fd49eaa47b1deebb1214074f"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

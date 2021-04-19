@@ -42,13 +42,16 @@ class MyDoCreateScriptAsset : EndNameEditAction
 
     internal static Object CreateScriptAssetFromTemplate(string pathName, string resourceFile)
     {
+        Debug.Log("aaa");
         string fullPath = Path.GetFullPath(pathName);
         //StreamReader streamReader = new StreamReader(resourceFile);
         string text = File.ReadAllText(resourceFile);// streamReader.ReadToEnd();
+        
         //streamReader.Close();
         string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(pathName);
         text = Regex.Replace(text, "#NAME#", fileNameWithoutExtension);
         text = Regex.Replace(text, "#NAMESPACE#", EntitiesEditor.nameSpace);
+        
         bool encoderShouldEmitUTF8Identifier = true;
         bool throwOnInvalidBytes = false;
         UTF8Encoding encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier, throwOnInvalidBytes);
@@ -56,7 +59,9 @@ class MyDoCreateScriptAsset : EndNameEditAction
         StreamWriter streamWriter = new StreamWriter(fullPath, append, encoding);
         streamWriter.Write(text);
         streamWriter.Close();
+        
         AssetDatabase.ImportAsset(pathName);
+        
         return AssetDatabase.LoadAssetAtPath(pathName, typeof(Object));
     }
 }
@@ -73,12 +78,16 @@ class MyDoCreateAdaptorScriptAsset : EndNameEditAction
 
         string fullPath = Path.GetFullPath(pathName);
         fullPath = fullPath.Replace(".cs", "Pdr.cs");
+        string edttorPath = AssetDatabase.GUIDToAssetPath("ace8437cafda4404bafdf89c079ddbd1");
+        string edttorTxt = File.ReadAllText(edttorPath);
         //StreamReader streamReader = new StreamReader(resourceFile);
         string text = File.ReadAllText(resourceFile);// streamReader.ReadToEnd();
         //streamReader.Close();
         string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(pathName);
         text = Regex.Replace(text, "#NAME#", fileNameWithoutExtension);
         text = Regex.Replace(text, "#NAMESPACE#", EntitiesEditor.nameSpace);
+        edttorTxt = Regex.Replace(edttorTxt, "#NAME#", fileNameWithoutExtension);
+        edttorTxt = Regex.Replace(edttorTxt, "#NAMESPACE#", EntitiesEditor.nameSpace);
         pathName = pathName.Replace(".cs", "Pdr.cs");
         bool encoderShouldEmitUTF8Identifier = true;
         bool throwOnInvalidBytes = false;
@@ -87,7 +96,17 @@ class MyDoCreateAdaptorScriptAsset : EndNameEditAction
         StreamWriter streamWriter = new StreamWriter(fullPath, append, encoding);
         streamWriter.Write(text);
         streamWriter.Close();
+        string editorOutPath = "Assets/Editor/ConfigEditorEx";
+        if (!Directory.Exists(editorOutPath))
+        {
+            Directory.CreateDirectory(editorOutPath);
+        }
+        string editorOutFilePath = Path.Combine(editorOutPath, $"{fileNameWithoutExtension}EditorEx.cs");
+        streamWriter = new StreamWriter(editorOutFilePath, append, encoding);
+        streamWriter.Write(edttorTxt);
+        streamWriter.Close();
         AssetDatabase.ImportAsset(pathName);
+        AssetDatabase.ImportAsset(editorOutFilePath);
         return AssetDatabase.LoadAssetAtPath(pathName, typeof(Object));
     }
 }

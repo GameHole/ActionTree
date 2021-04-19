@@ -1,6 +1,6 @@
 {
-  "name": "com.actiontree.common",
-  "displayName": "ActionTree.Common",
+  "name": "com.actiontree.config",
+  "displayName": "ActionTree.Config",
   "description": "",
   "version": "1.0.0",
   "unity": "2018.3",
