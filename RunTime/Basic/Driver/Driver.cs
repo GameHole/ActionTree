@@ -65,6 +65,14 @@ namespace ActionTree
         }
         void RunMainDo()
         {
+            for (int i = 0; i < workers.Length; i++)
+            {
+                var queue = workers[i].clears;
+                while (queue.Count > 0)
+                {
+                    queue.Dequeue().Clear();
+                }
+            }
             //UnityEngine.Debug.Log("run main");
             for (int i = 0; i < workers.Length; i++)
             {
@@ -72,14 +80,6 @@ namespace ActionTree
                 while (queue.Count > 0)
                 {
                     queue.Dequeue().Do();
-                }
-            }
-            for (int i = 0; i < workers.Length; i++)
-            {
-                var queue = workers[i].clears;
-                while (queue.Count > 0)
-                {
-                    queue.Dequeue().Clear();
                 }
             }
         }
@@ -150,6 +150,26 @@ namespace ActionTree
             }
             v = FindFirstCmp(typeof(T)) as T;
             return v != null;
+        }
+        public List<T> Find<T>() where T : class, IComponent
+        {
+            var type = typeof(T);
+            var ret = new List<T>();
+            for (int i = 0; i < workers.Length; i++)
+            {
+                for (int j = 0; j < workers[i].trees.Count; j++)
+                {
+                    if (workers[i].trees[j] is ETree eTree)
+                    {
+                        var cmp = eTree.Get(type);
+                        if (cmp != null)
+                        {
+                            ret.Add((T)cmp);
+                        }
+                    }
+                }
+            }
+            return ret;
         }
         void RepleaseTree(ref ITree tree, Worker worker)
         {
