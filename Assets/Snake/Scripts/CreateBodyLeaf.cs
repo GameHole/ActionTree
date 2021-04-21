@@ -20,9 +20,9 @@ namespace ActionTree
                 e.InitOnce();
                 if (snake.Tail != null)
                 {
-                    e.tree.Get<Target>().value = snake.Tail;
+                    e.entity.Get<Target>().value = snake.Tail;
                 }
-                snake.bodys.Add(e.tree);
+                snake.bodys.Add(e.entity);
             }
             Condition = true;
         }

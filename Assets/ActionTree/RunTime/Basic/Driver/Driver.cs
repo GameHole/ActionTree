@@ -101,7 +101,8 @@ namespace ActionTree
         public void AddEntity(ITree v)
         {
             int i = idx++;
-            if (v is ETree e)
+            var e = v.entity;
+            if (e!=null)
             {
                 var tid = e.Get<ThreadId>();
                 if (tid != null)
@@ -126,9 +127,10 @@ namespace ActionTree
             {
                 for (int j = 0; j < workers[i].trees.Count; j++)
                 {
-                    if (workers[i].trees[j] is ETree eTree)
+                    var e = workers[i].trees[j].entity;
+                    if (e != null)
                     {
-                        var cmp = eTree.Get(type);
+                        var cmp = e.FindComponent(type);
                         if (cmp != null)
                         {
                             return cmp;
@@ -159,9 +161,10 @@ namespace ActionTree
             {
                 for (int j = 0; j < workers[i].trees.Count; j++)
                 {
-                    if (workers[i].trees[j] is ETree eTree)
+                    var e = workers[i].trees[j].entity;
+                    if (e != null)
                     {
-                        var cmp = eTree.Get(type);
+                        var cmp = e.Get(type);
                         if (cmp != null)
                         {
                             ret.Add((T)cmp);

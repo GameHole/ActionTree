@@ -7,7 +7,7 @@ namespace ActionTree
         Target target;
         public override void Do()
         {
-            target.value = (ETree)Parent;
+            target.value = entity;
             Condition = true;
         }
 	}

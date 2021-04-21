@@ -5,8 +5,8 @@ namespace ActionTree
 {
 	public sealed class Snake : IComponent
 	{
-        public List<ETree> bodys = new List<ETree>();
-        public ETree Head
+        public List<Entity> bodys = new List<Entity>();
+        public Entity Head
         {
             get
             {
@@ -17,7 +17,7 @@ namespace ActionTree
                 return null;
             }
         }
-        public ETree Tail
+        public Entity Tail
         {
             get
             {

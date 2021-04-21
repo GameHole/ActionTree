@@ -5,7 +5,7 @@ namespace ActionTree
 {
     public class SelectOnePdr : TreeCntrProvider<SelectOne>
     {
-        public override ETree GetTree()
+        public override ITree GetTree()
         {
             var t = base.GetTree();
             if (value.Count < 2)

@@ -11,7 +11,7 @@ namespace ActionTree
         {
             if (target.isNull())
             {
-                target.value = Camera.main.GetComponent<UnityEntity>().tree;
+                target.value = Camera.main.GetComponent<UnityEntity>().entity;
                 Condition = true;
             }
             //if(driver.TryFindFirstCmp(ref snake))

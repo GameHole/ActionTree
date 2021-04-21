@@ -11,9 +11,10 @@ namespace ActionTree
     {
         public ITree tree;
         //public Entity Entity { get; set; }
-        public bool Condition => tree.Condition;
+        public bool Condition { get => tree.Condition; set => throw new NotImplementedException(); }
 
         public ITree Parent { get ; set ; }
+        public Entity entity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Worker worker;
         public bool usePredo = true;

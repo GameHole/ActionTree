@@ -19,7 +19,7 @@ namespace ActionTree
 	public class SetUILeaf : TreeProvider<SetUIS>
     {
         public TargetPdr pdr;
-        public override ETree GetTree()
+        public override ITree GetTree()
         {
             value.tranedUI = pdr.value;
             return base.GetTree();

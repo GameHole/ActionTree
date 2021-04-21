@@ -5,7 +5,7 @@ namespace ActionTree
 {
 	public sealed class CombinedCubeUI : IComponent
 	{
-        public List<ETree> entities = new List<ETree>();
+        public List<Entity> entities = new List<Entity>();
         public CombinedCube data;
         Vector3Int off;
         public Vector3Int Offset
