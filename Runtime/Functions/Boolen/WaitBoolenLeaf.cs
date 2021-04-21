@@ -9,10 +9,17 @@ namespace ActionTree
         {
             Condition = target.value;
         }
-        public override void Clear()
+    }
+    public abstract class ClearBoolen<T> : ATree where T : Boolen
+    {
+        protected T target;
+        public override void Do()
         {
-            base.Clear();
-            target.value = false;
+            driver.postMains.Enqueue(() =>
+            {
+                target.value = false;
+            });
+            Condition = true;
         }
     }
 }

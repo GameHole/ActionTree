@@ -5,7 +5,7 @@ namespace ActionTree
 {
 	public sealed class Target : IComponent
 	{
-        public ETree value;
+        public Entity value;
         public bool isNull() => value == null;
         public T Get<T>() where T : class, IComponent => value == null ? null : value.Get<T>();
 	}
@@ -17,7 +17,7 @@ namespace ActionTree
             if (entity)
             {
                 entity.InitOnce();
-                value.value = entity.tree;
+                value.value = entity.entity;
             }
             return base.GetValue();
         }
