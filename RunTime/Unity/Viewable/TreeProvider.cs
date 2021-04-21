@@ -33,11 +33,14 @@ namespace ActionTree
             {
                 tempEntity.Add(cmps[i].GetValue());
             }
-            var cmp = GetComponent<IComponent>();
+            var cmp = GetComponent<UnityEntity>();
             if (cmp != null)
             {
                 if (tempEntity != null)
-                    tempEntity.Add(cmp);
+                {
+                    if (tempEntity.Get<UnityEntity>() == null)
+                        tempEntity.Add(cmp);
+                }
             }
         }
 #if UNITY_EDITOR &&!RELEASE
