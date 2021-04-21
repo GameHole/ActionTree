@@ -7,7 +7,7 @@ using System.Text;
 [InitializeOnLoad]
 public class ConfigCmpEditor : MonoBehaviour
 {
-    [MenuItem("Assets/Create/ActionTree/Config Component Provider", false, 100)]
+    [MenuItem("Assets/Create/ActionTree/Config Component Provider", false, 10)]
     public static void CreateCmpProviderScript()
     {
         var path = AssetDatabase.GUIDToAssetPath("78d38334a67237840ac1edb0e9acb6a6");
