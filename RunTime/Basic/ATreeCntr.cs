@@ -4,24 +4,9 @@ using System.Text;
 
 namespace ActionTree
 {
-    public abstract class ATreeCntr : ETree
+    public abstract class ATreeCntr : Tree
     {
-        //public bool Condition { get; set; }
-        //public Entity Entity
-        //{
-        //    get => entity;
-        //    set
-        //    {
-        //        entity = value;
-        //        SetEntity(value);
-        //    }
-        //}
-        //Entity entity;
-        //List<ETree>  listtrees = new List<ETree>();
         public int Count { get; private set; }
-
-        //public ITree Parent { get; set; }
-
         public ITree[] trees;
         public override void Clear()
         {
@@ -35,11 +20,8 @@ namespace ActionTree
         }
         public ATreeCntr Add(ITree tree)
         {
-            //listtrees.Add((ETree)tree);
             makesurecap(Count + 1);
-            trees[Count++] = (ETree)tree;
-            //Count++;
-            tree.Parent = this;
+            trees[Count++] = (Tree)tree;
             return this;
         }
         void makesurecap(int c)
@@ -59,7 +41,7 @@ namespace ActionTree
             }
             //UnityEngine.Debug.Log(trees.Length);
         }
-        int indexof(ETree tree)
+        int indexof(Tree tree)
         {
             for (int i = 0; i < trees.Length; i++)
             {
@@ -70,7 +52,7 @@ namespace ActionTree
         }
         public ATreeCntr Remove(ITree tree)
         {
-            int idx = indexof((ETree)tree);
+            int idx = indexof((Tree)tree);
             if (idx != -1)
             {
                 for (int i = idx; i < trees.Length-1; i++)
@@ -78,7 +60,7 @@ namespace ActionTree
                     trees[i] = trees[i + 1];
                 }
                 Count--;
-                tree.Parent = null;
+                //tree.Parent = null;
             }
             return this;
         }
@@ -89,22 +71,18 @@ namespace ActionTree
             {
                 trees[i + 1] = trees[i];
             }
-            trees[0] = (ETree)tree;
-            tree.Parent = this;
+            trees[0] = (Tree)tree;
+            //tree.Parent = this;
             return this;
         }
         //public abstract void Do();
-        //public void SetEntity(Entity entity)
-        //{
-        //    trees = listtrees.ToArray();
-           
-        //    for (int i = 0; i < trees.Length; i++)
-        //    {
-        //        trees[i].Entity = entity;
-        //    }
-        //    listtrees.Clear();
-        //    listtrees = null;
-        //}
+        public void SetEntity(Entity entity)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                trees[i].entity = entity;
+            }
+        }
 
         public override bool PreDo()
         {
@@ -115,25 +93,6 @@ namespace ActionTree
             }
             return a;
         }
-        //    public override IComponent FindType(Type type)
-        //    {
-        //        var r = base.FindType(type);
-        //        if (r == null)
-        //        {
-        //            for (int i = 0; i < trees.Length; i++)
-        //            {
-        //                if (trees[i] is ETree eTree)
-        //                {
-        //                    var chil = eTree.FindType(type);
-        //                    if (chil != null)
-        //                    {
-        //                        return chil;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        return null;
-        //    }
         public override void Apply()
         {
             for (int i = 0; i < Count; i++)

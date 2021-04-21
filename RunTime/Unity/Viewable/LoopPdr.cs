@@ -6,7 +6,7 @@ namespace ActionTree
     public class LoopPdr :TreeProvider<Loop>
     {
         public TreeProvider treePdr;
-        public override ETree GetTree()
+        public override ITree GetTree()
         {
             value.tree = treePdr.tree;
             return base.GetTree();

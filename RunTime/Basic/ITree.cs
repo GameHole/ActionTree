@@ -6,78 +6,22 @@ namespace ActionTree
 {
     public interface ITree
     {
-        //Entity Entity { get; set; }
-        ITree Parent { get; set; }
+        Entity entity { get; set; }
+        //ITree Parent { get; set; }
         //int LocalIndex { get; set; }
-        bool Condition { get; }
+        bool Condition { get; set; }
         void Do();
         bool PreDo();
         void Clear();
         void Apply();
     }
-    public abstract class ETree : ITree
+    public abstract class Tree : ITree
     {
         public bool Condition { get; set; }
-        public virtual ITree Parent { get; set; }
-        //public abstract int LocalIndex { get; set; }
-
         public abstract void Clear();
         public abstract void Do();
         public abstract bool PreDo();
-
-        Dictionary<Type, IComponent> cmps;
-        void tryInit()
-        {
-            if (cmps == null)
-                cmps = new Dictionary<Type, IComponent>();
-        }
-        public Dictionary<Type, IComponent> Components
-        {
-            get
-            {
-                return cmps;
-            }
-        }
-        public void Add(IComponent component)
-        {
-            tryInit();
-            cmps.Add(component.GetType(), component);
-        }
-
-        internal IComponent Get(Type type)
-        {
-            if (cmps != null)
-            {
-                cmps.TryGetValue(type, out var component);
-                return component;
-            }
-            return null;
-        }
-
-        internal void Remove(Type type)
-        {
-            if (cmps != null)
-            {
-                cmps.Remove(type);
-            }
-        }
-        public T Add<T>() where T : IComponent, new()
-        {
-            tryInit();
-            var r = new T();
-            cmps.Add(typeof(T), r);
-            return r;
-        }
-        public T Get<T>() where T : class, IComponent
-        {
-            return Get(typeof(T)) as T;
-        }
-        public void Remove<T>() where T : IComponent
-        {
-            Remove(typeof(T));
-        }
-        public virtual IComponent FindType(Type type) => Get(type);
-
+        public Entity entity { get; set; }
         public abstract void Apply();
     }
     public delegate void TreeIter(ref ITree tree);
@@ -105,22 +49,13 @@ namespace ActionTree
     }
     public static class ETreeEx
     {
-        //public static IComponent FindComponent(this ETree tree, Type type)
-        //{
-        //    foreach (var item in tree.Components.Keys)
-        //    {
-        //        if (type.IsAssignableFrom(item))
-        //            return tree.Components[item];
-        //    }
-        //    return null;
-        //}
-        public static List<IComponent> FindComponents(this ETree tree, Type type)
+        public static List<IComponent> FindComponents(this Tree tree, Type type)
         {
             var result = new List<IComponent>();
-            var p = tree;
+            var p = tree.entity;
             while (p != null)
             {
-                var cmps = p.Components;
+                var cmps = p.components;
                 if (cmps != null)
                 {
                     foreach (var item in cmps.Keys)
@@ -131,7 +66,7 @@ namespace ActionTree
                         }
                     }
                 }
-                p = (ETree)p.Parent;
+                p = p.parent;
             }
             return result;
         }

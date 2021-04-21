@@ -6,14 +6,40 @@ namespace ActionTree
 { 
     public abstract class TreeProvider : MonoBehaviour
     {
-
 #if UNITY_EDITOR && !RELEASE
         public bool debugCondition;
 #endif
-        //public bool isMainThread;
+        internal Entity tempEntity;
+        public virtual Entity MakeEntity(Entity parent)
+        {
+            var cmps = GetComponents<CmpProvider>();
+            if (cmps.Length > 0)
+            {
+                tempEntity = new Entity();
+                tempEntity.parent = parent;
+                if (parent != null)
+                    parent.childs.Add(tempEntity);
+                return tempEntity;
+            }
+            return tempEntity = parent;
+        }
         public abstract ITree tree { get; }
         internal abstract Type TreeType();
-        public abstract ETree GetTree();
+        public abstract ITree GetTree();
+        public virtual void CollectComponent()
+        {
+            var cmps = GetComponents<CmpProvider>();
+            for (int i = 0; i < cmps.Length; i++)
+            {
+                tempEntity.Add(cmps[i].GetValue());
+            }
+            var cmp = GetComponent<IComponent>();
+            if (cmp != null)
+            {
+                if (tempEntity != null)
+                    tempEntity.Add(cmp);
+            }
+        }
 #if UNITY_EDITOR &&!RELEASE
         private void Update()
         {
@@ -64,41 +90,54 @@ namespace ActionTree
         }
     }
     [ExecuteInEditMode]
-    public abstract class TreeProvider<T> : TreeProvider where T : ETree, new()
+    public abstract class TreeProvider<T> : TreeProvider where T : Tree, new()
     {
         protected T value = new T();
         internal override Type TreeType() => typeof(T);
         public override ITree tree => value;
-        protected void TakeAllCmps()
+        public override ITree GetTree()
         {
-            var cmps = GetComponents<CmpProvider>();
-            for (int i = 0; i < cmps.Length; i++)
-            {
-                value.Add(cmps[i].GetValue());
-            }
-            var cmp = GetComponent<IComponent>();
-            if (cmp != null)
-            {
-                //Debug.Log(cmp);
-                value.Add(cmp);
-            }
-        }
-        public override ETree GetTree()
-        {
-            TakeAllCmps();
-
+            //TakeAllCmps();
+            value.entity = tempEntity;
             DestroySelf();
-
-
             return value;
         }
     }
     
     public abstract class TreeCntrProvider<T> : TreeProvider<T> where T : ATreeCntr, new()
     {
-        public override ETree GetTree()
+        public override Entity MakeEntity(Entity parent)
         {
-            TakeAllCmps();
+            var r = base.MakeEntity(parent);
+            Foreach((item) =>
+            {
+                item.MakeEntity(r);
+                //var e = item.MakeEntity(r);
+                //if (e == null)
+                //{
+                //    item.tempEntity = r;
+                //}
+                //else
+                //{
+                //    e.parent = r;
+                //    if (r != null)
+                //    {
+                //        r.childs.Add(e);
+                //    }
+                //}
+            });
+            return r;
+        }
+        public override void CollectComponent()
+        {
+            base.CollectComponent();
+            Foreach((item) =>
+            {
+                item.CollectComponent();
+            });
+        }
+        void Foreach(Action<TreeProvider> action)
+        {
             for (int i = 0; i < transform.childCount; i++)
             {
                 var child = transform.GetChild(i);
@@ -108,12 +147,24 @@ namespace ActionTree
                     var item = child.GetComponent<TreeProvider>();
                     if (item)
                     {
-                        var m = item.GetTree();
-                        //Debug.Log(m);
-                        value.Add(m);
+                        action?.Invoke(item);
+                        //var m = item.GetTree();
+                        ////Debug.Log(m);
+                        //value.Add(m);
                     }
                 }
             }
+        }
+        public override ITree GetTree()
+        {
+            //TakeAllCmps();
+            value.entity = tempEntity;
+            Foreach((item) =>
+            {
+                var m = item.GetTree();
+                //Debug.Log(m);
+                value.Add(m);
+            });
             DestroySelf();
             return value;
         }
