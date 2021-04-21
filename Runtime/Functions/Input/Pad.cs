@@ -7,16 +7,16 @@ namespace ActionTree
 {
     public class Pad : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
     {
-        public Action<Vector2> onDown;
-        public Action<Vector2> onUp;
+        public Action<PointerEventData> onDown;
+        public Action<PointerEventData> onUp;
         public void OnPointerDown(PointerEventData eventData)
         {
-            onDown?.Invoke(eventData.position);
+            onDown?.Invoke(eventData);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            onUp?.Invoke(eventData.position);
+            onUp?.Invoke(eventData);
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ActionTree
 {
 	[System.Serializable]
-	public sealed class Boolen : IComponent
+	public class Boolen : IComponent
 	{
         public bool value;
 	}

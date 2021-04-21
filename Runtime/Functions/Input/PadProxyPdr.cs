@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using ActionTree;
 using UnityEngine;
+using UnityEngine.EventSystems;
 namespace ActionTree
 {
 	[System.Serializable]
 	public sealed class PadProxy : IComponent
 	{
-        public bool isDown;
+        public bool isDown => data != null;
+        [HideInInspector]public PointerEventData data;
+        //public bool isIn;
         public Pad pad;
 	}
 	public class PadProxyPdr: CmpProvider<PadProxy>
@@ -15,12 +18,20 @@ namespace ActionTree
         {
             value.pad.onDown += (v) =>
             {
-                value.isDown = true;
+                value.data = v;
             };
             value.pad.onUp += (v) =>
             {
-                value.isDown = false;
+                value.data = null;
             };
+            //value.pad.onEnter += (v) =>
+            //{
+            //    value.isIn = true;
+            //};
+            //value.pad.onExit += (v) =>
+            //{
+            //    value.isIn = false;
+            //};
             return base.GetValue();
         }
     }

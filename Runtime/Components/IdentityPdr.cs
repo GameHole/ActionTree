@@ -3,10 +3,10 @@ using ActionTree;
 using UnityEngine;
 namespace ActionTree
 {
-	[System.Serializable]
-	public sealed class Identity : IComponent
-	{
+    [System.Serializable]
+    public sealed class Identity : IComponent
+    {
         public int id;
-	}
-	public class IdentityPdr: CmpProvider<Identity> { }
+    }
+    public class IdentityPdr : CmpProvider<Identity> { }
 }
