@@ -33,6 +33,7 @@ namespace ActionTree
         {
             if (usePredo)
                 worker.dos.Enqueue(tree);
+            //tree.PreDo();
             return usePredo;
         }
 

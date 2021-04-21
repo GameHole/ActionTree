@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace ActionTree
@@ -13,12 +14,14 @@ namespace ActionTree
         {
             InitOnce();
         }
-        public void InitOnce()
+        public void InitOnce(Action beforeApply = null)
         {
             if (isInited) return;
             isInited = true;
             var initer = GetComponent<IEntityIniter>();
             initer?.Init(this);
+            beforeApply?.Invoke();
+            tree?.Apply();
             Join();
         }
         protected virtual void Join()

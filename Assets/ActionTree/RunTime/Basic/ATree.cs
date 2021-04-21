@@ -21,9 +21,15 @@ namespace ActionTree
             {
                 var ft = item.FieldType;
                 if (ft.IsAbstract | ft.IsInterface | ft.IsValueType) continue;
-                IComponent cmp = null;
-                if (item.GetCustomAttribute<ParentAttribute>() == null)
-                    cmp = FindType(ft);
+                IComponent cmp = FindType(ft);
+                //if (item.GetCustomAttribute<ParentAttribute>() == null)
+                //{
+                //    cmp = FindType(ft);
+                //}
+                //else
+                //{
+                //    UnityEngine.Debug.Log("find from parnet");
+                //}
                 var parnet = p;
                 while (cmp == null && parnet != null)
                 {
