@@ -42,7 +42,6 @@ class MyDoCreateScriptAsset : EndNameEditAction
 
     internal static Object CreateScriptAssetFromTemplate(string pathName, string resourceFile)
     {
-        Debug.Log("aaa");
         string fullPath = Path.GetFullPath(pathName);
         //StreamReader streamReader = new StreamReader(resourceFile);
         string text = File.ReadAllText(resourceFile);// streamReader.ReadToEnd();

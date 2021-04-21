@@ -1,0 +1,9 @@
+using System.Collections.Generic;
+using ActionTree;
+using UnityEngine;
+namespace #NAMESPACE#
+{
+	[System.Serializable]
+	public sealed class #NAME# : Boolen { }
+	public class #NAME#Pdr: CmpProvider<#NAME#> { }
+}
