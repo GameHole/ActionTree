@@ -61,5 +61,32 @@ namespace ActionTree
             }
             return components;
         }
+        public IList<T> FindAll<T>()
+        {
+            List<T> components = new List<T>();
+            var parnet = this;
+            while (parnet != null)
+            {
+                //UnityEngine.Debug.Log($"finding {item.FieldType} ::{parnet}");
+                var cmp = parnet.Get(typeof(T));
+                if (cmp != null)
+                    components.Add((T)cmp);
+                parnet = parnet.parent;
+            }
+            for (int i = 0; i < childs.Count; i++)
+            {
+                components.AddRange(childs[i].FindAll<T>());
+            }
+            return components;
+        }
+        public bool ContainAll(Type[] types)
+        {
+            if (components.Count == 0) return false;
+            for (int i = 0; i < types.Length; i++)
+            {
+                if (!components.ContainsKey(types[i])) return false;
+            }
+            return true;
+        }
     }
 }

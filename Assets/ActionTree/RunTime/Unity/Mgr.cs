@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 namespace ActionTree
 {
     public class Mgr : MonoBehaviour
@@ -9,11 +12,14 @@ namespace ActionTree
         internal readonly static Driver driver = new Driver();
         static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
-
+        static bool isInited;
+        static readonly Entity global = new Entity();
         public static void AddEntity(UnityEntity unity)
         {
-            //Debug.Log(unityEntities.Count);
+            //Debug.Log($"add {unity}");
             driver.AddEntity(unity.tree);
+            if (unity.entity != null)
+                unity.entity.parent = global;
             if (removed.Count > 0)
             {
                 int idx = removed.Dequeue();
@@ -29,9 +35,24 @@ namespace ActionTree
         public bool useMulThread = true;
         private void Awake()
         {
+            if (isInited)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            isInited = true;
             DontDestroyOnLoad(gameObject);
             driver.Init();
             driver.useMulThread = useMulThread;
+            LoadGlobal();
+        }
+        void LoadGlobal()
+        {
+            var cmps = GetComponentsInChildren<CmpProvider>();
+            for (int i = 0; i < cmps.Length; i++)
+            {
+                global.Add(cmps[i].GetValue());
+            }
         }
         void Update()
         {
@@ -40,14 +61,15 @@ namespace ActionTree
             driver.Run();
             doEntity();
         }
-        public static void LoadScene(int id)
+        public static void LoadScene(int id,UnityAction<UnityEngine.SceneManagement.Scene, UnityEngine.SceneManagement.LoadSceneMode> onLoad = null)
         {
             for (int i = 0; i < unityEntities.Count; i++)
             {
                 //Debug.Log(unityEntities[i].isDestroyed);
-                if (unityEntities[i] != null)
+                var e = unityEntities[i];
+                if (e != null)
                 {
-                    unityEntities[i].tree.Condition = true;
+                    e.tree.Condition = !e.notDestroyOnLoad;
                 }
             }
             UnityEngine.SceneManagement.SceneManager.LoadScene(id);
@@ -61,9 +83,9 @@ namespace ActionTree
                 {
                     if (unityEntities[i].tree.Condition)
                     {
-#if UNITY_EDITOR && !RELEASE
+//#if UNITY_EDITOR && !RELEASE
                         Debug.Log($"destroy {unityEntities[i]}");
-#endif
+//#endif
                         Destroy(unityEntities[i].gameObject);
                         removed.Enqueue(i);
                         //Debug.Log($"enqueue  {i}");

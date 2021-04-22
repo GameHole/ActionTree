@@ -121,8 +121,8 @@ class MyDoCreateAdaptorScriptAsset : EndNameEditAction
         streamWriter.Close();
         AssetDatabase.ImportAsset(pathName);
         string path = Path.GetDirectoryName(pathName);
-        CreateOther(AssetDatabase.GUIDToAssetPath("0d7d6569c67d16e4d8577d86d78af2a4"), fileNameWithoutExtension, path);
-        CreateOther(AssetDatabase.GUIDToAssetPath("1046749a25b181948b966fce10026735"), fileNameWithoutExtension, path);
+        //CreateOther(AssetDatabase.GUIDToAssetPath("0d7d6569c67d16e4d8577d86d78af2a4"), fileNameWithoutExtension, path);
+        CreateOther(AssetDatabase.GUIDToAssetPath("1046749a25b181948b966fce10026735"), fileNameWithoutExtension, path);//waitleaf
         AssetDatabase.Refresh();
         return AssetDatabase.LoadAssetAtPath(pathName, typeof(Object));
     }

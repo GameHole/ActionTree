@@ -12,7 +12,7 @@ namespace ActionTree
     {
         public static float Speed(this Speed speedCmp)
         {
-            float speed = 1;
+            float speed = 0;
             if (speedCmp != null)
                 speed = speedCmp.value;
             return speed;
