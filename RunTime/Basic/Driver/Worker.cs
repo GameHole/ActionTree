@@ -54,12 +54,12 @@ namespace ActionTree
                 if (!runs[i].Condition)
                 {
                     runs[i].Do();
-                    //UnityEngine.Debug.Log($"run {runs[i].tree}");
+                    //UnityEngine.Debug.Log($"run {runs[i]}");
                 }
                 else
                 {
                     removed.Add(runs[i]);
-                    //UnityEngine.Debug.Log($"removed {runs[i]}");
+                    UnityEngine.Debug.Log($"removed {runs[i]}");
                 }
             }
         }

@@ -100,6 +100,7 @@ namespace ActionTree
         }
         public void AddEntity(ITree v)
         {
+            //UnityEngine.Debug.Log($"dr add {v.entity.Get<UnityEntity>()}");
             int i = idx++;
             var e = v.entity;
             if (e!=null)
@@ -139,6 +140,47 @@ namespace ActionTree
                 }
             }
             return null;
+        }
+        internal Entity FindEntityWith(params Type[] type)
+        {
+            for (int i = 0; i < workers.Length; i++)
+            {
+                for (int j = 0; j < workers[i].trees.Count; j++)
+                {
+                    var e = workers[i].trees[j].entity;
+                    if (e != null)
+                    {
+                        if (e.ContainAll(type))
+                        {
+                            return e;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        public IList<Entity> FindEntitysWith(params Type[] type)
+        {
+            var ret = new List<Entity>();
+            for (int i = 0; i < workers.Length; i++)
+            {
+                for (int j = 0; j < workers[i].trees.Count; j++)
+                {
+                    var e = workers[i].trees[j].entity;
+                    if (e != null)
+                    {
+                        if (e.ContainAll(type))
+                        {
+                            ret.Add(e);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+        public Entity FindEntityWith<T>() where T : class, IComponent
+        {
+            return FindEntityWith(typeof(T));
         }
         public T FindFirstCmp<T>()where T:class,IComponent
         {

@@ -9,14 +9,21 @@ namespace ActionTree
         public Entity entity;
         internal ITree tree;
         bool isInited;
+        public bool notDestroyOnLoad;
         private void Awake()
         {
             var es = GetComponentsInChildren<UnityEntity>();
             for (int i = 0; i < es.Length; i++)
             {
+
                 if (es[i] != this)
+                {
                     es[i].enabled = false;
+                    //Debug.Log($"disable entity child {es[i]}");
+                }
             }
+            //if (notDestroyOnLoad)
+            //    DontDestroyOnLoad(gameObject);
         }
         //internal bool isDestroyed;
         void Start()
@@ -31,6 +38,7 @@ namespace ActionTree
             var pdr = GetComponent<TreeProvider>();
             if (pdr)
             {
+                //Debug.Log($"init pdr {this}");
                 entity = pdr.MakeEntity(parnet);
                 //Debug.Log($"{this} {entity}" );
                 pdr.CollectComponent();
@@ -46,6 +54,7 @@ namespace ActionTree
             }
             else
             {
+                //Debug.Log($"init e {this}");
                 MakeEntity(parnet);
             }
             InitChild();
