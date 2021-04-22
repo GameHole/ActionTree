@@ -13,18 +13,15 @@ namespace ActionTree
         static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
         static bool isInited;
-        static readonly Entity global = new Entity();
-        public static void AddEntity(UnityEntity unity)
+        public static void AddTree(UnityEntity unity)
         {
             //Debug.Log($"add {unity}");
-            driver.AddEntity(unity.tree);
-            if (unity.entity != null)
-                unity.entity.parent = global;
+            driver.AddTree(unity.tree);
             if (removed.Count > 0)
             {
                 int idx = removed.Dequeue();
                 if (unityEntities[idx] != null)
-                    throw new System.ArgumentException("you may set a active object");
+                    throw new ArgumentException("you may set a active object");
                 unityEntities[idx] = unity;
             }
             else
@@ -35,23 +32,18 @@ namespace ActionTree
         public bool useMulThread = true;
         private void Awake()
         {
-            if (isInited)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            isInited = true;
+            //if (isInited)
+            //{
+            //    Destroy(gameObject);
+            //    return;
+            //}
+            //isInited = true;
             DontDestroyOnLoad(gameObject);
             driver.Init();
             driver.useMulThread = useMulThread;
-            LoadGlobal();
-        }
-        void LoadGlobal()
-        {
-            var cmps = GetComponentsInChildren<CmpProvider>();
-            for (int i = 0; i < cmps.Length; i++)
+            foreach (var item in GetComponentsInChildren<UnityEntity>())
             {
-                global.Add(cmps[i].GetValue());
+                item.notDestroyOnLoad = true;
             }
         }
         void Update()
@@ -84,7 +76,7 @@ namespace ActionTree
                     if (unityEntities[i].tree.Condition)
                     {
 //#if UNITY_EDITOR && !RELEASE
-                        Debug.Log($"destroy {unityEntities[i]}");
+//                        Debug.Log($"destroy {unityEntities[i]}");
 //#endif
                         Destroy(unityEntities[i].gameObject);
                         removed.Enqueue(i);
