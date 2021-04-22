@@ -10,6 +10,7 @@ namespace ActionTree
         internal ITree tree;
         bool isInited;
         public bool notDestroyOnLoad;
+        //Action onDestroyAct;
         private void Awake()
         {
             var es = GetComponentsInChildren<UnityEntity>();
@@ -32,8 +33,10 @@ namespace ActionTree
         }
         public void InitOnce(Entity parnet=null)
         {
+            //Debug.Log("add");
             if (isInited) return;
             isInited = true;
+         
             //entity = new Entity();
             var pdr = GetComponent<TreeProvider>();
             if (pdr)
@@ -57,7 +60,12 @@ namespace ActionTree
                 //Debug.Log($"init e {this}");
                 MakeEntity(parnet);
             }
+            if (entity != parnet)
+            {
+                Mgr.driver.AddEntity(entity);
+            }
             InitChild();
+           
         }
         void InitChild()
         {
@@ -71,7 +79,7 @@ namespace ActionTree
         protected virtual void Join()
         {
             if (tree != null)
-                Mgr.AddEntity(this);
+                Mgr.AddTree(this);
         }
 
         public void MakeEntity(Entity e)
@@ -91,7 +99,20 @@ namespace ActionTree
                 entity = e;
             }
         }
+        private void OnDestroy()
+        {
 
+            if (entity != null)
+            {
+                Mgr.driver.RemoveEntity(entity);
+                //string a = "";
+                //foreach (var item in entity.components.Keys)
+                //{
+                //    a += item.ToString() + ",";
+                //}
+                //Debug.Log($"OnDestroy {this} {entity.id} {entity.GetCmpHash()} {a}");
+            }
+        }
 
         //        internal void _Update()
         //        {

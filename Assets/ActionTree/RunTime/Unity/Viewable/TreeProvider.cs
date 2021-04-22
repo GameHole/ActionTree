@@ -10,6 +10,7 @@ namespace ActionTree
         public bool debugCondition;
 #endif
         internal Entity tempEntity;
+        bool isNewE;
         public virtual Entity MakeEntity(Entity parent)
         {
             var cmps = GetComponents<CmpProvider>();
@@ -19,6 +20,7 @@ namespace ActionTree
                 tempEntity.parent = parent;
                 if (parent != null)
                     parent.childs.Add(tempEntity);
+                isNewE = true;
                 return tempEntity;
             }
             return tempEntity = parent;
@@ -28,18 +30,21 @@ namespace ActionTree
         public abstract ITree GetTree();
         public virtual void CollectComponent()
         {
-            var cmps = GetComponents<CmpProvider>();
-            for (int i = 0; i < cmps.Length; i++)
+            if (isNewE)
             {
-                tempEntity.Add(cmps[i].GetValue());
-            }
-            var cmp = GetComponent<UnityEntity>();
-            if (cmp != null)
-            {
-                if (tempEntity != null)
+                var cmps = GetComponents<CmpProvider>();
+                for (int i = 0; i < cmps.Length; i++)
                 {
-                    if (tempEntity.Get<UnityEntity>() == null)
-                        tempEntity.Add(cmp);
+                    tempEntity.Add(cmps[i].GetValue());
+                }
+                var cmp = GetComponent<UnityEntity>();
+                if (cmp != null)
+                {
+                    if (tempEntity != null)
+                    {
+                        if (tempEntity.Get<UnityEntity>() == null)
+                            tempEntity.Add(cmp);
+                    }
                 }
             }
         }

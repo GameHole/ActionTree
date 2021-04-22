@@ -4,8 +4,15 @@ using System.Text;
 
 namespace ActionTree
 {
-    public sealed class Entity
+    public sealed class Entity : IEquatable<Entity>
     {
+        static uint seed;
+        public Entity()
+        {
+            id = ++seed;
+        }
+        public uint id;
+
         public Entity parent;
         public List<Entity> childs = new List<Entity>();
         internal Dictionary<Type, IComponent> components = new Dictionary<Type, IComponent>();
@@ -87,6 +94,31 @@ namespace ActionTree
                 if (!components.ContainsKey(types[i])) return false;
             }
             return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Entity);
+        }
+
+        public bool Equals(Entity other)
+        {
+            return other != null &&
+                   id == other.id;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1877310944 + id.GetHashCode();
+        }
+        public int GetCmpHash()
+        {
+            int hash = 0;
+            foreach (var item in components.Keys)
+            {
+                hash += item.GetHashCode();
+            }
+            return hash;
         }
     }
 }

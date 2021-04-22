@@ -59,7 +59,7 @@ namespace ActionTree
                 else
                 {
                     removed.Add(runs[i]);
-                    UnityEngine.Debug.Log($"removed {runs[i]}");
+                    //UnityEngine.Debug.Log($"removed {runs[i]}");
                 }
             }
         }
@@ -68,6 +68,10 @@ namespace ActionTree
             if (added.Count > 0)
             {
                 trees.AddRange(added);
+                //foreach (var item in added)
+                //{
+                //    UnityEngine.Debug.Log($"add {item}");
+                //}
                 added.Clear();
             }
         }
