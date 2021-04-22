@@ -7,6 +7,10 @@ namespace ActionTree
 	public sealed class Prefabs : IComponent
 	{
         public GameObject[] prefabs;
+        public GameObject this[int index]
+        {
+            get => prefabs[index];
+        }
 	}
 	public class PrefabsPdr: CmpProvider<Prefabs> { }
 }
