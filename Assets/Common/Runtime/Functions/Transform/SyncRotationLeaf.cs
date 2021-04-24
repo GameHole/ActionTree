@@ -6,7 +6,7 @@ namespace ActionTree
 	public sealed class SyncRotation:ATree
 	{
         Rotation rotation;
-        UnityEntity entity;
+        new UnityEntity entity;
 		public override void Do()
         {
             entity.transform.rotation = rotation.value;

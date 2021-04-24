@@ -5,15 +5,15 @@ namespace ActionTree
 	[System.Serializable]
 	public sealed class TransformWithRotate:ATree
 	{
-        Target camera;
+        Target[] camera;
         Offset offset;
-        [Parent]Target target;
+        //Target target;
         public override void Do()
         {
-            var rot = camera.value.Get<Rotation>();
+            var rot = camera[1].value.Get<Rotation>();
             Vector3 off = rot.value * offset.value;
             //Debug.Log($"r {rotation.value} off （{off.x }，{off.y }，{off.z }） {Vector3Int.RoundToInt(off)}");
-            var ui = target.value.Get<CombinedCubeUI>();
+            var ui = camera[0].value.Get<CombinedCubeUI>();
             ui.Offset += Vector3Int.RoundToInt(off);
             Condition = true;
         }

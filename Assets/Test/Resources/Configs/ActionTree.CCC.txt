@@ -1,0 +1,3 @@
+Array<string> dasdad/string bb/Array<int> cc/float a/Array<float> dd/float ff/int aaa
+0,0/k/1,1/88/88,88/55/213
+0,0/k/1,1/88/88,88/55/213

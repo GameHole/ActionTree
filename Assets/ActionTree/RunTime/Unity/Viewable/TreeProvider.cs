@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 namespace ActionTree
 { 
@@ -9,6 +10,11 @@ namespace ActionTree
 #if UNITY_EDITOR && !RELEASE
         public bool debugCondition;
 #endif
+        public abstract ITree tree { get; }
+        internal abstract Type TreeType();
+        public abstract ITree GetTree();
+        internal abstract ITree Clone();
+
         internal Entity tempEntity;
         bool isNewE;
         public virtual Entity MakeEntity(Entity parent)
@@ -25,9 +31,7 @@ namespace ActionTree
             }
             return tempEntity = parent;
         }
-        public abstract ITree tree { get; }
-        internal abstract Type TreeType();
-        public abstract ITree GetTree();
+        
         public virtual void CollectComponent()
         {
             if (isNewE)
@@ -79,8 +83,9 @@ namespace ActionTree
             var treeType = TreeType();
             if (treeType != null)
             {
-                foreach (var item in treeType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
+                foreach (var item in treeType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
                 {
+                    if (item.GetCustomAttribute<Finded>() != null) continue;
                     if (cmp2pdr.TryGetValue(item.FieldType, out var type))
                     {
                         if (!gameObject.GetComponent(type))
@@ -109,6 +114,12 @@ namespace ActionTree
             value.entity = tempEntity;
             DestroySelf();
             return value;
+        }
+        internal override ITree Clone()
+        {
+            var r = new T();
+            r.entity = tempEntity;
+            return r;
         }
     }
     
@@ -175,6 +186,18 @@ namespace ActionTree
             });
             DestroySelf();
             return value;
+        }
+        internal override ITree Clone()
+        {
+            var clone = new T();
+            clone.entity = tempEntity;
+            Foreach((item) =>
+            {
+                var m = item.Clone();
+                //Debug.Log(m);
+                clone.Add(m);
+            });
+            return clone;
         }
     }
 }

@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ActionTree;
 using UnityEngine;
 namespace ActionTree
 {
+    //[AttributeUsage( AttributeTargets.Field,AllowMultiple =false,Inherited =true)]
+    //public class TargetAttribute : Attribute { }
 	public sealed class Target : IComponent
 	{
         public Entity value;

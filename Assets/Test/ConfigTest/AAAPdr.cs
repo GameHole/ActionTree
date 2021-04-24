@@ -7,6 +7,7 @@ namespace ActionTree
 	public sealed class AAA : IConfigValue
 	{
         public string a;
-	}
+        public string aa;
+    }
 	public class AAAPdr: ConfigProxyPdr<AAA> { }
 }

@@ -158,29 +158,14 @@ namespace ActionTree
                 if (x is ATree aTree)
                     aTree.driver = this;
             });
-            RepleaseTree(ref v, worker);
+            RepleaseFindedTree(ref v, null, 0);
+            RepleaseProxyTree(ref v, worker);
             v.PreDo();
             worker.added.Add(v);
             //UnityEngine.Debug.Log("driver add");
         }
         internal IComponent FindFirstCmp(Type type)
         {
-            //for (int i = 0; i < workers.Length; i++)
-            //{
-            //    for (int j = 0; j < workers[i].trees.Count; j++)
-            //    {
-            //        var e = workers[i].trees[j].entity;
-            //        if (e != null)
-            //        {
-            //            var cmp = e.FindComponent(type);
-            //            if (cmp != null)
-            //            {
-            //                return cmp;
-            //            }
-            //        }
-            //    }
-            //}
-            //return null;
             var ls = cntr.Find(type);
             if (ls.Count > 0)
             {
@@ -191,44 +176,22 @@ namespace ActionTree
         }
         internal Entity FindEntityWith(params Type[] type)
         {
-            //for (int i = 0; i < workers.Length; i++)
-            //{
-            //    for (int j = 0; j < workers[i].trees.Count; j++)
-            //    {
-            //        var e = workers[i].trees[j].entity;
-            //        if (e != null)
-            //        {
-            //            if (e.ContainAll(type))
-            //            {
-            //                return e;
-            //            }
-            //        }
-            //    }
-            //}
-            //return null;
             var ls = cntr.Find(type);
             if (ls.Count > 0)
                 return ls[0];
             return null;
         }
+        public bool TryFindEntityWith(ref Entity entity,params Type[] type)
+        {
+            if (entity != null)
+            {
+                return true;
+            }
+            entity = FindEntityWith(type);
+            return entity != null;
+        }
         public IList<Entity> FindEntitysWith(params Type[] type)
         {
-            //var ret = new List<Entity>();
-            //for (int i = 0; i < workers.Length; i++)
-            //{
-            //    for (int j = 0; j < workers[i].trees.Count; j++)
-            //    {
-            //        var e = workers[i].trees[j].entity;
-            //        if (e != null)
-            //        {
-            //            if (e.ContainAll(type))
-            //            {
-            //                ret.Add(e);
-            //            }
-            //        }
-            //    }
-            //}
-            //return ret;
             return cntr.Find(type);
         }
         public Entity FindEntityWith<T>() where T : class, IComponent
@@ -257,30 +220,15 @@ namespace ActionTree
             {
                 ret.Add(es[i].Get<T>());
             }
-            //for (int i = 0; i < workers.Length; i++)
-            //{
-            //    for (int j = 0; j < workers[i].trees.Count; j++)
-            //    {
-            //        var e = workers[i].trees[j].entity;
-            //        if (e != null)
-            //        {
-            //            var cmp = e.Get(type);
-            //            if (cmp != null)
-            //            {
-            //                ret.Add((T)cmp);
-            //            }
-            //        }
-            //    }
-            //}
             return ret;
         }
-        void RepleaseTree(ref ITree tree, Worker worker)
+        void RepleaseProxyTree(ref ITree tree, Worker worker)
         {
             if (tree is ATreeCntr treeCntr)
             {
                 for (int i = 0; i < treeCntr.Count; i++)
                 {
-                    RepleaseTree(ref treeCntr.trees[i], worker);
+                    RepleaseProxyTree(ref treeCntr.trees[i], worker);
                 }
             }
             else
@@ -292,6 +240,28 @@ namespace ActionTree
                     var predo = t.GetCustomAttribute<NotPreDoAttribute>();
                     var proxy = new ProxyTree() { tree = tree, worker = worker, usePredo = predo == null };
                     tree = proxy;
+                }
+            }
+        }
+        void RepleaseFindedTree(ref ITree tree,ATreeCntr cntr,int index)
+        {
+            if (tree is ATreeCntr treeCntr)
+            {
+                for (int i = 0; i < treeCntr.Count; i++)
+                {
+                    RepleaseFindedTree(ref treeCntr.trees[i], treeCntr, i);
+                }
+            }
+            else
+            {
+                var at = tree as ATree;
+                if (cntr != null && at != null && at.needFindInfo != null)
+                {
+                    var findTree = new FindableTree();
+                    findTree.tree = (ATree)tree;
+                    findTree.index = index;
+                    findTree.cntr = cntr;
+                    cntr.trees[index] = findTree;
                 }
             }
         }

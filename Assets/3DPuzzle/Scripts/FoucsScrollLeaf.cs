@@ -6,7 +6,7 @@ namespace ActionTree
 	public sealed class FoucsScroll:ATree
 	{
         FocusedScroll scroll;
-        UnityEntity entity;
+        new UnityEntity entity;
 		public override void Do()
         {
             float w = entity.GetComponent<RectTransform>().rect.width;
