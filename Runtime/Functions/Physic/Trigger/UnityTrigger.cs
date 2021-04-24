@@ -9,6 +9,10 @@ namespace ActionTree
         public event Action<Collider> onTriggerEnter;
         public event Action<Collider> onTriggerExit;
         public event Action<Collider> onTriggerStay;
+        private void Awake()
+        {
+            GetComponent<Collider>().isTrigger = true;
+        }
         private void OnTriggerEnter(Collider other)
         {
             onTriggerEnter?.Invoke(other);
