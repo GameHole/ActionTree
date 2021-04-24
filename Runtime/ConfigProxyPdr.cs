@@ -30,12 +30,21 @@ namespace ActionTree
         T[] values;
         public T this[int index]
         {
-            get => values[index];
-            set => values[index] = value;
+            get
+            {
+                if (values == null)
+                    throw new NullReferenceException($"Config {GetType()} not init");
+                if (index >= Length)
+                    index = Length - 1;
+                else if (index < 0)
+                    index = 0;
+                return values[index];
+            }
+            internal set => values[index] = value;
         }
         public override int Length
         {
-            get => values.Length;
+            get => values == null ? 0 : values.Length;
             internal set => values = new T[value];
         }
 

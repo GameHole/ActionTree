@@ -36,14 +36,14 @@ namespace ActionTree
                 name = type.FullName;
             }
             string path = Path.Combine(DirectroyWatcher.configExcel, $"{name}.xlsx");
-            if (!File.Exists(path))
-                File.Create(path).Dispose();
+            //if (!File.Exists(path))
+            //    File.Create(path).Dispose();
             var currinfo = new FileInfo(path);
             using (ExcelPackage package = new ExcelPackage(currinfo))
             {
                 var fields = type.GetFields();
                 ExcelWorksheet worksheet = package.Workbook.Worksheets["info"];
-                if (worksheet == null || fields.Length > worksheet.Cells.Columns)
+                if (worksheet == null)
                 {
                     WriteTitle(package, type, fields);
                     package.Save();
@@ -112,6 +112,7 @@ namespace ActionTree
             {
                 string typeStr = DataDealer.ToString(fields[i].FieldType);
                 worksheet.Cells[2, i + 1].Value = $"{typeStr} {fields[i].Name}";
+                //Debug.Log(worksheet.Cells[2, i + 1].Value);
             }
         }
         static int GetColumCount(ExcelWorksheet worksheet)
@@ -130,7 +131,9 @@ namespace ActionTree
                 return false;
             for (int i = 0; i < fields.Length; i++)
             {
-                if (fields[i] != worksheet.Cells[2, i+1].Value.ToString())
+                if (worksheet.Cells[2, i + 1].Value == null)
+                    return false;
+                if (fields[i] != worksheet.Cells[2, i + 1].Value.ToString())
                 {
                     return false;
                 }

@@ -17,7 +17,7 @@ namespace ActionTree
     {
         static Dictionary<string, byte[]> buffer = new Dictionary<string, byte[]>();
         internal static string configExcel = "Assets/Editor/Configs";
-        static string configTxtPath = "Assets/Resources/Configs";
+        static string fallbackConfigTxtPath = "Assets/Resources/Configs";
         static DirectroyWatcher()
         {
             if (!Directory.Exists(configExcel))
@@ -133,20 +133,37 @@ namespace ActionTree
                 }
             }
         }
+        static string FindResFloader()
+        {
+            var floader = AssetDatabase.FindAssets("ProjectFloader");
+            if (floader.Length > 0)
+            {
+                string path = $"Assets/{File.ReadAllText(AssetDatabase.GUIDToAssetPath(floader[0]))}/Resources/Configs";
+                if (!string.IsNullOrEmpty(path))
+                    return path;
+            }
+            return fallbackConfigTxtPath;
+        }
         static bool DealTable(DataTable table)
         {
-            if (table.Rows.Count > 3)
+            if (table.Rows.Count > 2)
             {
                 var array = table.Rows[0].ItemArray;
                 if (array.Length > 0)
                 {
                     var className = table.Rows[0].ItemArray[0];
-                    string targetPath = Path.Combine(configTxtPath, $"{className}.txt");
+                    string resousePath = FindResFloader();
+                    string targetPath = Path.Combine(resousePath, $"{className}.txt");
                     StringBuilder builder = new StringBuilder();
                     for (int i = 1; i < table.Rows.Count; i++)
                     {
                         var cols = table.Rows[i].ItemArray;
-                        if (isEmptyLine(cols)) continue;
+                        if (isEmptyLine(cols))
+                        {
+                            if (i < table.Rows.Count - 1)
+                                builder.Remove(builder.Length - 1, 1);
+                            continue;
+                        }
                         for (int j = 0; j < cols.Length; j++)
                         {
                             var item = cols[j].ToString();
@@ -157,8 +174,8 @@ namespace ActionTree
                         if (i < table.Rows.Count - 1)
                             builder.Append('\n');
                     }
-                    if (!Directory.Exists(configTxtPath))
-                        Directory.CreateDirectory(configTxtPath);
+                    if (!Directory.Exists(resousePath))
+                        Directory.CreateDirectory(resousePath);
                     if (!File.Exists(targetPath))
                         File.Create(targetPath).Dispose();
                     File.WriteAllText(targetPath, builder.ToString());
