@@ -36,7 +36,7 @@ namespace ActionTree
         {
             if (tree is ATreeCntr cntr)
             {
-                for (int i = 0; i < cntr.trees.Length; i++)
+                for (int i = 0; i < cntr.Count; i++)
                 {
                     Foreach(cntr.trees[i], action);
                 }

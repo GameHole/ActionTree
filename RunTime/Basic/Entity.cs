@@ -16,6 +16,10 @@ namespace ActionTree
         public Entity parent;
         public List<Entity> childs = new List<Entity>();
         internal Dictionary<Type, IComponent> components = new Dictionary<Type, IComponent>();
+        public IEnumerable<Type> CmpTypes
+        {
+            get => components.Keys;
+        }
         public T Add<T>() where T : class, IComponent, new()
         {
             var t = new T();
@@ -34,7 +38,7 @@ namespace ActionTree
         {
             Remove(typeof(T));
         }
-        internal IComponent Get(Type type)
+        public IComponent Get(Type type)
         {
             components.TryGetValue(type, out var t);
             return t;
@@ -67,6 +71,16 @@ namespace ActionTree
                 parnet = parnet.parent;
             }
             return components;
+        }
+        public T FindChild<T>() where T:class,IComponent
+        {
+            for (int i = 0; i < childs.Count; i++)
+            {
+                var t = childs[i].Get<T>();
+                if (t != null)
+                    return t;
+            }
+            return null;
         }
         public IList<T> FindAll<T>()
         {
