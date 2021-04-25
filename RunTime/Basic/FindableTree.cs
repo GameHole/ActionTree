@@ -19,7 +19,8 @@ namespace ActionTree
     }
     class FindableTree : ITree
     {
-        public ATree tree;
+        public ATree injectedTree;
+        public ITree repleasedTree;
         public ATreeCntr cntr;
         public int index;
         //bool findDo; 
@@ -36,18 +37,19 @@ namespace ActionTree
         public void Do()
         {
             //Init();
-            for (int i = tree.needFindInfo.Count - 1; i >= 0; i--)
+            //UnityEngine.Debug.Log($"find {tree} { tree.needFindInfo.Count}");
+            for (int i = injectedTree.needFindInfo.Count - 1; i >= 0; i--)
             {
-                var find = tree.driver.FindFirstCmp(tree.needFindInfo[i].FieldType);
+                var find = injectedTree.driver.FindFirstCmp(injectedTree.needFindInfo[i].FieldType);
                 if (find != null)
                 {
-                    tree.needFindInfo[i].SetValue(tree, find);
-                    tree.needFindInfo.Remove(tree.needFindInfo[i]);
+                    injectedTree.needFindInfo[i].SetValue(injectedTree, find);
+                    injectedTree.needFindInfo.Remove(injectedTree.needFindInfo[i]);
                 }
             }
-            if (tree.needFindInfo.Count == 0)
+            if (injectedTree.needFindInfo.Count == 0)
             {
-                cntr.trees[index] = tree;
+                cntr.trees[index] = repleasedTree;
                 //if (findDo)
                 //    tree.Do();
             }

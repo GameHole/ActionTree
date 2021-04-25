@@ -9,6 +9,7 @@ namespace ActionTree
         public ITree tree;
         public override void Do()
         {
+            Condition = false;
             //UnityEngine.Debug.Log($"clear {tree}");
             tree.Clear();
             tree.PreDo();

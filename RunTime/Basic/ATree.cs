@@ -59,9 +59,9 @@ namespace ActionTree
             {
                 if (typeof(IComponent).IsAssignableFrom(ft))
                 {
-                    var cmp = entity.FindComponent(ft);
-                    //var tarAttr = item.GetCustomAttribute<TargetAttribute>();
-                    if (cmp == null/*|| tarAttr != null*/)
+                    var tarAttr = item.GetCustomAttribute<NotThis>();
+                    var cmp = entity.FindComponent(ft, tarAttr == null);
+                    if (cmp == null)
                     {
                         cmp = FindFromTarget(ft);
                     }

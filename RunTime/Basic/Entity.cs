@@ -47,9 +47,9 @@ namespace ActionTree
         {
             components.Remove(type);
         }
-        public IComponent FindComponent(Type type)
+        public IComponent FindComponent(Type type, bool containThis = true)
         {
-            IComponent cmp = Get(type);
+            IComponent cmp = containThis ? Get(type) : null;
             var p = parent;
             while (cmp == null && p != null)
             {
