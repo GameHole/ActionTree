@@ -33,7 +33,7 @@ namespace ActionTree
             get
             {
                 if (values == null)
-                    throw new NullReferenceException($"Config {GetType()} not init");
+                    throw new ArgumentException($"Config {GetType()} not init");
                 if (index >= Length)
                     index = Length - 1;
                 else if (index < 0)

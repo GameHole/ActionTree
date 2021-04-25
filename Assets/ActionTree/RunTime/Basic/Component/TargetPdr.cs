@@ -4,9 +4,9 @@ using ActionTree;
 using UnityEngine;
 namespace ActionTree
 {
-    //[AttributeUsage( AttributeTargets.Field,AllowMultiple =false,Inherited =true)]
-    //public class TargetAttribute : Attribute { }
-	public sealed class Target : IComponent
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    public class NotThis : Attribute { }
+    public sealed class Target : IComponent
 	{
         public Entity value;
         public bool isNull() => value == null;

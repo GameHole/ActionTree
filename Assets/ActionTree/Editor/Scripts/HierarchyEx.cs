@@ -43,6 +43,11 @@ namespace ActionTree
         {
             genrateGo<ORProvider>("OR");
         }
+        [MenuItem("GameObject/Tree/And", false, 0)]
+        public static void Gen8()
+        {
+            genrateGo<AndProvider>("And");
+        }
         [MenuItem("GameObject/Tree/Loop", false, 0)]
         public static void Gen6()
         {

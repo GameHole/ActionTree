@@ -108,9 +108,9 @@ namespace ActionTree
                         Destroy(s);
                     }
                 }
-                catch (System.NullReferenceException e)
+                catch (System.NullReferenceException)
                 {
-                    throw new System.NullReferenceException("This error may cause by 'Destroy Order' error ,May be you destroy parent gameobject early than child gameobject",e);
+                   Debug.LogError("This error may cause by 'Destroy Order' error ,May be you destroy parent gameobject early than child gameobject");
                 }
             }
         }

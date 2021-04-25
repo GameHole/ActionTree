@@ -158,8 +158,8 @@ namespace ActionTree
                 if (x is ATree aTree)
                     aTree.driver = this;
             });
-            RepleaseFindedTree(ref v, null, 0);
             RepleaseProxyTree(ref v, worker);
+            RepleaseFindedTree(ref v, null, 0);
             v.PreDo();
             worker.added.Add(v);
             //UnityEngine.Debug.Log("driver add");
@@ -243,7 +243,7 @@ namespace ActionTree
                 }
             }
         }
-        void RepleaseFindedTree(ref ITree tree,ATreeCntr cntr,int index)
+        void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr, int index)
         {
             if (tree is ATreeCntr treeCntr)
             {
@@ -254,14 +254,27 @@ namespace ActionTree
             }
             else
             {
-                var at = tree as ATree;
-                if (cntr != null && at != null && at.needFindInfo != null)
+                var opTree = tree;
+                if(tree is ProxyTree proxyTree)
                 {
-                    var findTree = new FindableTree();
-                    findTree.tree = (ATree)tree;
-                    findTree.index = index;
-                    findTree.cntr = cntr;
-                    cntr.trees[index] = findTree;
+                    opTree = proxyTree.tree;
+                }
+                var at = opTree as ATree;
+                if ( at != null && at.needFindInfo != null)
+                {
+                    if (cntr != null)
+                    {
+                        var findTree = new FindableTree();
+                        findTree.injectedTree = at;
+                        findTree.repleasedTree = tree;
+                        findTree.index = index;
+                        findTree.cntr = cntr;
+                        cntr.trees[index] = findTree;
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Findedable type {tree.GetType()} must be a child node,you need to add a 'ATreeCntr' node to parent");
+                    }
                 }
             }
         }
