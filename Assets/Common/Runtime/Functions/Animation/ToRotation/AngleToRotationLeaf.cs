@@ -5,7 +5,7 @@ namespace ActionTree
 	public sealed class AngleToRotation:ATree
 	{
         FloatValue angle;
-        Axis axis;
+        Axis3 axis;
         Rotation rotation;
 		public override void Do()
         {

@@ -159,7 +159,7 @@ namespace ActionTree
                     aTree.driver = this;
             });
             RepleaseProxyTree(ref v, worker);
-            RepleaseFindedTree(ref v, null, 0);
+            RepleaseFindedTree(ref v, null,worker, 0);
             v.PreDo();
             worker.added.Add(v);
             //UnityEngine.Debug.Log("driver add");
@@ -243,13 +243,13 @@ namespace ActionTree
                 }
             }
         }
-        void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr, int index)
+        void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr,Worker worker, int index)
         {
             if (tree is ATreeCntr treeCntr)
             {
                 for (int i = 0; i < treeCntr.Count; i++)
                 {
-                    RepleaseFindedTree(ref treeCntr.trees[i], treeCntr, i);
+                    RepleaseFindedTree(ref treeCntr.trees[i], treeCntr, worker, i);
                 }
             }
             else
@@ -269,7 +269,8 @@ namespace ActionTree
                         findTree.repleasedTree = tree;
                         findTree.index = index;
                         findTree.cntr = cntr;
-                        cntr.trees[index] = findTree;
+                        cntr.trees[index] = new NoneAction();
+                        worker.added.Add(findTree);
                     }
                     else
                     {
