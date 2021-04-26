@@ -6,6 +6,7 @@ namespace ActionTree
     public abstract class CmpProvider : MonoBehaviour
     {
         public abstract IComponent GetValue();
+        //public abstract IComponent Value { get; }
 #if UNITY_EDITOR
         [ContextMenu("MoveToParent")]
         public void MoveToParent()
@@ -28,6 +29,7 @@ namespace ActionTree
     public abstract class CmpProvider<T> : CmpProvider where T : IComponent,new()
     {
         public T value = new T();
+        //public override IComponent Value => value;
         public override IComponent GetValue()
         {
 #if !UNITY_EDITOR

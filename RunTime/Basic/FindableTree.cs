@@ -25,7 +25,7 @@ namespace ActionTree
         public int index;
         //bool findDo; 
         public Entity entity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Condition { get => false; set => throw new NotImplementedException(); }
+        public bool Condition { get; set; }
 
         public void Apply()
         {
@@ -37,22 +37,27 @@ namespace ActionTree
         public void Do()
         {
             //Init();
-            //UnityEngine.Debug.Log($"find {tree} { tree.needFindInfo.Count}");
-            for (int i = injectedTree.needFindInfo.Count - 1; i >= 0; i--)
+            //UnityEngine.Debug.Log($"find {injectedTree} { injectedTree.needFindInfo.Count}");
+            Condition = false;
+            var fields = injectedTree.needFindInfo;
+            for (int i = fields.Count - 1; i >= 0; i--)
             {
-                var find = injectedTree.driver.FindFirstCmp(injectedTree.needFindInfo[i].FieldType);
+                var field = fields[i];
+                var find = injectedTree.driver.FindFirstCmp(field.FieldType);
                 if (find != null)
                 {
-                    injectedTree.needFindInfo[i].SetValue(injectedTree, find);
-                    injectedTree.needFindInfo.Remove(injectedTree.needFindInfo[i]);
+                    field.SetValue(injectedTree, find);
+                    injectedTree.needFindInfo.Remove(field);
                 }
             }
-            if (injectedTree.needFindInfo.Count == 0)
+            if (fields.Count == 0)
             {
                 cntr.trees[index] = repleasedTree;
                 //if (findDo)
                 //    tree.Do();
+                Condition = true;
             }
+         
         }
         //bool inited;
         //public void Init()
