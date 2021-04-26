@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ActionTree
 {
 	[System.Serializable]
-	public sealed class FloatValue : IComponent
+	public class FloatValue : IComponent
 	{
         public float value;
 	}

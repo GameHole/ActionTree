@@ -4,9 +4,9 @@ using UnityEngine;
 namespace ActionTree
 {
 	[System.Serializable]
-	public sealed class Axis : IComponent
+	public sealed class Axis3 : IComponent
 	{
         public Vector3 value = Vector3.up;
 	}
-	public class AxisPdr: CmpProvider<Axis> { }
+	public class Axis3Pdr: CmpProvider<Axis3> { }
 }
