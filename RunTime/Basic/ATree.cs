@@ -29,6 +29,10 @@ namespace ActionTree
                     if (needFindInfo == null)
                         needFindInfo = new List<FieldInfo>();
                     needFindInfo.Add(item);
+                    if (find.types != null)
+                    {
+                        find.types.Add(item.FieldType);
+                    }
                 }
                 else
                 {

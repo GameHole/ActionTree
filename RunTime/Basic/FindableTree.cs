@@ -10,11 +10,12 @@ namespace ActionTree
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class Finded : Attribute
     {
-        public bool doWhenFind = true;
+        internal List<Type> types;
         public Finded() { }
-        public Finded(bool doWhenFind)
+        public Finded(params Type[] types)
         {
-            this.doWhenFind = doWhenFind;
+            this.types = new List<Type>();
+            this.types.AddRange(types);
         }
     }
     class FindableTree : ITree
@@ -43,7 +44,20 @@ namespace ActionTree
             for (int i = fields.Count - 1; i >= 0; i--)
             {
                 var field = fields[i];
-                var find = injectedTree.driver.FindFirstCmp(field.FieldType);
+                var extra = field.GetCustomAttribute<Finded>();
+                object find = null;
+                if (extra.types == null)
+                {
+                    find = injectedTree.driver.FindFirstCmp(field.FieldType);
+                }
+                else
+                {
+                    var e = injectedTree.driver.FindEntityWith(extra.types.ToArray());
+                    if (e != null)
+                    {
+                        find = e.Get(field.FieldType);
+                    }
+                }
                 if (find != null)
                 {
                     field.SetValue(injectedTree, find);
