@@ -2,31 +2,31 @@
 using UnityEngine;
 namespace ActionTree
 {
-	public sealed class WaitExitTrigger:ATree
+	public sealed class WaitExitCollision : ATree
 	{
         UnityTriggerProxy proxy;
-        TriggerColiders coliders;
+        Collisions coliders;
         bool isInited;
         public override void Do()
         {
             if (isInited) return;
             isInited = true;
-            proxy.trigger.onTriggerExit += OnTriggerExit;
+            proxy.trigger.onCollisionExit += OnTriggerExit;
         }
 
-        private void OnTriggerExit(Collider obj)
+        private void OnTriggerExit(Collision obj)
         {
             Condition = true;
-            //proxy.trigger.onTriggerExit -= OnTriggerExit;
-            coliders.colliders.Add(obj);
+            //proxy.trigger.onCollisionExit -= OnTriggerExit;
+            coliders.collisions.Add(obj);
         }
 
         public override void Clear()
         {
             base.Clear();
             //isInited = false;
-            coliders.colliders.Clear();
+            coliders.collisions.Clear();
         }
     }
-	public class WaitExitTriggerLeaf: TreeProvider<WaitExitTrigger> { }
+	public class WaitExitCollisionLeaf : TreeProvider<WaitExitCollision> { }
 }
