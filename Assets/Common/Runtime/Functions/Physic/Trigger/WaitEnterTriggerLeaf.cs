@@ -16,15 +16,17 @@ namespace ActionTree
 
         private void OnTriggerEnter(Collider obj)
         {
+            //Debug.Log(" trigger enter ");
             Condition = true;
-            proxy.trigger.onTriggerEnter -= OnTriggerEnter;
+            //proxy.trigger.onTriggerEnter -= OnTriggerEnter;
             coliders.colliders.Add(obj);
         }
 
         public override void Clear()
         {
+            //Debug.Log(" trigger clear ");
             base.Clear();
-            isInited = false;
+            //isInited = false;
             coliders.colliders.Clear();
         }
     }

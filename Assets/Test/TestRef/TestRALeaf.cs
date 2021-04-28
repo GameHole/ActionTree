@@ -10,6 +10,7 @@ namespace ActionTree
         {
             if (aaa.Length > 0)
             {
+                //Collision
                 Debug.Log($"AA{value.value++} {aaa.Length}");
                 Debug.Log($"AA{value.value++} {aaa[0].aaa}");
                 Condition = true;

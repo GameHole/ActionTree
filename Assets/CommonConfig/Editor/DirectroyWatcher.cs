@@ -41,6 +41,7 @@ namespace ActionTree
         //static System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         static void onUpdate()
         {
+            if (EditorApplication.isPlaying) return;
             count++;
             if (count >= 30)
             {
@@ -109,7 +110,7 @@ namespace ActionTree
                 if(isMapping(item) && isFileChange(item,out var md5))
                 {
                     buffer[item] = md5;
-                    //Debug.Log("change");
+                    Debug.Log("change");
                     RepleaseConfig(item);
                 }
             }

@@ -4,14 +4,17 @@ namespace ActionTree
 {
 	public sealed class LogTest:ATree
 	{
-        TriggerColiders coliders;
+        Collisions coliders;
 		public override void Do()
         {
-            //for (int i = 0; i < coliders.Count; i++)
-            //{
-            //    //Debug.Log(coliders[i]);
-            //}
-           
+            for (int i = 0; i < coliders.collisions.Count; i++)
+            {
+                foreach (var item in coliders.collisions[i].contacts)
+                {
+                    Debug.Log(item.normal);
+                }
+            }
+
             Condition = true;
         }
 	}

@@ -9,9 +9,17 @@ namespace ActionTree
         public event Action<Collider> onTriggerEnter;
         public event Action<Collider> onTriggerExit;
         public event Action<Collider> onTriggerStay;
+        public event Action<Collision> onCollisionEnter;
+        public event Action<Collision> onCollisionExit;
+        public event Action<Collision> onCollisionStay;
+        public bool isTrigger = true;
         private void Awake()
         {
-            GetComponent<Collider>().isTrigger = true;
+            var c = GetComponent<Collider>();
+            if (c)
+            {
+                c.isTrigger = isTrigger;
+            }
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -24,6 +32,18 @@ namespace ActionTree
         private void OnTriggerStay(Collider other)
         {
             onTriggerStay?.Invoke(other);
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            onCollisionEnter?.Invoke(collision);
+        }
+        private void OnCollisionStay(Collision collision)
+        {
+            onCollisionExit?.Invoke(collision);
+        }
+        private void OnCollisionExit(Collision collision)
+        {
+            onCollisionStay?.Invoke(collision);
         }
     }
 }

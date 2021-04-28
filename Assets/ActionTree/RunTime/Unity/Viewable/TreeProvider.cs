@@ -93,8 +93,11 @@ namespace ActionTree
                     }
                 }
             }
+            if (isRename)
+                gameObject.name = treeType.Name;
         }
 #endif
+        protected virtual bool isRename { get => true; }
         public void DestroySelf()
         {
 #if !UNITY_EDITOR || RELEASE
@@ -125,6 +128,7 @@ namespace ActionTree
     
     public abstract class TreeCntrProvider<T> : TreeProvider<T> where T : ATreeCntr, new()
     {
+        protected override bool isRename => false;
         public override Entity MakeEntity(Entity parent)
         {
             var r = base.MakeEntity(parent);
