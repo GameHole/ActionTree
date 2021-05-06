@@ -161,13 +161,17 @@ namespace ActionTree
                         var cols = table.Rows[i].ItemArray;
                         if (isEmptyLine(cols))
                         {
-                            if (i < table.Rows.Count - 1)
-                                builder.Remove(builder.Length - 1, 1);
+                            if (i == table.Rows.Count - 1)
+                            {
+                                builder[builder.Length - 1] = char.MinValue;
+                                //Debug.Log(builder[builder.Length - 1]);
+                            }
                             continue;
                         }
                         for (int j = 0; j < cols.Length; j++)
                         {
-                            var item = cols[j].ToString();
+                            var item = cols[j];
+                            //Debug.Log($" tp {targetPath} r {i} c {j} v {item}");
                             builder.Append(item);
                             if (j < cols.Length - 1)
                                 builder.Append('/');
@@ -175,6 +179,7 @@ namespace ActionTree
                         if (i < table.Rows.Count - 1)
                             builder.Append('\n');
                     }
+                    //Debug.Log(builder.ToString(0,builder.Length));
                     if (!Directory.Exists(resousePath))
                         Directory.CreateDirectory(resousePath);
                     if (!File.Exists(targetPath))
