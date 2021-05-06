@@ -15,6 +15,8 @@ namespace ActionTree
 
         public ITree Parent { get ; set ; }
         public Entity entity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get =>$"{tree.Name}.Proxy"; set => throw new NotImplementedException(); }
+        public ITree parent { get => tree.parent; set => throw new NotImplementedException(); }
 
         public Worker worker;
         public bool usePredo = true;

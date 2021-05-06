@@ -21,7 +21,8 @@ namespace ActionTree
         public ATreeCntr Add(ITree tree)
         {
             makesurecap(Count + 1);
-            trees[Count++] = (Tree)tree;
+            trees[Count++] = tree;
+            tree.parent = this;
             return this;
         }
         void makesurecap(int c)
@@ -60,7 +61,7 @@ namespace ActionTree
                     trees[i] = trees[i + 1];
                 }
                 Count--;
-                //tree.Parent = null;
+                tree.parent = null;
             }
             return this;
         }
@@ -71,8 +72,8 @@ namespace ActionTree
             {
                 trees[i + 1] = trees[i];
             }
-            trees[0] = (Tree)tree;
-            //tree.Parent = this;
+            trees[0] = tree;
+            tree.parent = this;
             return this;
         }
         //public abstract void Do();

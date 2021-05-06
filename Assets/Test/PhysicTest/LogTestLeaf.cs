@@ -11,10 +11,10 @@ namespace ActionTree
             {
                 foreach (var item in coliders.collisions[i].contacts)
                 {
-                    Debug.Log(item.normal);
+                    Debug.Log(this.debug(item.normal));
                 }
             }
-
+            throw new System.NullReferenceException();
             Condition = true;
         }
 	}

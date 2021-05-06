@@ -111,7 +111,15 @@ namespace ActionTree
                 var queue = workers[i].dos;
                 while (queue.Count > 0)
                 {
-                    queue.Dequeue().Do();
+                    var t = queue.Dequeue();
+                    try
+                    {
+                       t.Do();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception(t.stack(), e);
+                    }
                 }
             }
         }

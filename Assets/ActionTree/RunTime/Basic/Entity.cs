@@ -82,6 +82,18 @@ namespace ActionTree
             }
             return null;
         }
+        public List<Entity> FindChild(params Type[] types)
+        {
+            List<Entity> es = new List<Entity>();
+            for (int i = 0; i < childs.Count; i++)
+            {
+                if (childs[i].ContainAll(types))
+                {
+                    es.Add(childs[i]);
+                }
+            }
+            return es;
+        }
         public IList<T> FindAll<T>()
         {
             List<T> components = new List<T>();
