@@ -99,13 +99,16 @@ namespace ActionTree
                 //Debug.Log(s);
                 try
                 {
-                    if (!s.GetComponent<UnityEntity>())
+                    if (s)
                     {
-                        Destroy(s.gameObject);
-                    }
-                    else
-                    {
-                        Destroy(s);
+                        if (!s.GetComponent<UnityEntity>())
+                        {
+                            Destroy(s.gameObject);
+                        }
+                        else
+                        {
+                            Destroy(s);
+                        }
                     }
                 }
                 catch (System.NullReferenceException)

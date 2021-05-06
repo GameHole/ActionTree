@@ -53,7 +53,14 @@ namespace ActionTree
             {
                 if (!runs[i].Condition)
                 {
-                    runs[i].Do();
+                    try
+                    {
+                        runs[i].Do();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception(runs[i].Name, e);
+                    }
                     //UnityEngine.Debug.Log($"run {runs[i]}");
                 }
                 else

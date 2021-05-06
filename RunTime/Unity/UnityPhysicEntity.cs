@@ -26,7 +26,15 @@ namespace ActionTree
                 }
                 else
                 {
-                    tree.Do();
+                    try
+                    {
+                        tree.Do();
+                    }
+                    catch (System.Exception e)
+                    {
+                        throw new System.Exception(tree.stack(), e);
+                    }
+                    
                 }
             }
         }

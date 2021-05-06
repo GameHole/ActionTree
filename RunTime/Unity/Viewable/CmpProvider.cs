@@ -11,16 +11,11 @@ namespace ActionTree
         [ContextMenu("MoveToParent")]
         public void MoveToParent()
         {
-            UnityEditor.Undo.IncrementCurrentGroup();
             var parnet = transform.parent;
-            UnityEditor.Undo.RecordObject(parnet, "add cmp" + parnet);
             if (parnet != null)
             {
-                var type = GetType();
-                var cmp = parnet.GetComponent(type);
-                if (cmp == null)
-                    UnityEditor.Undo.AddComponent(parnet.gameObject, type);
-               
+                UnityEditorInternal.ComponentUtility.CopyComponent(this);
+                UnityEditorInternal.ComponentUtility.PasteComponentAsNew(parnet.gameObject);
                 UnityEditor.Undo.DestroyObjectImmediate(this);
             }
         }

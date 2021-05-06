@@ -74,7 +74,8 @@ namespace ActionTree
                         if (typeof(CmpProvider).IsAssignableFrom(item.BaseType))
                         {
                             var key = item.BaseType.GetGenericArguments()[0];
-                            cmp2pdr.Add(key, item);
+                            if (!cmp2pdr.ContainsKey(key))
+                                cmp2pdr.Add(key, item);
                         }
                     }
                 }
@@ -92,9 +93,9 @@ namespace ActionTree
                             gameObject.AddComponent(type);
                     }
                 }
+                if (isRename)
+                    gameObject.name = treeType.Name;
             }
-            if (isRename)
-                gameObject.name = treeType.Name;
         }
 #endif
         protected virtual bool isRename { get => true; }
@@ -115,12 +116,14 @@ namespace ActionTree
         {
             //TakeAllCmps();
             value.entity = tempEntity;
+            value.Name = gameObject.name;
             DestroySelf();
             return value;
         }
         internal override ITree Clone()
         {
             var r = new T();
+            r.Name = gameObject.name;
             r.entity = tempEntity;
             return r;
         }
@@ -135,19 +138,6 @@ namespace ActionTree
             Foreach((item) =>
             {
                 item.MakeEntity(r);
-                //var e = item.MakeEntity(r);
-                //if (e == null)
-                //{
-                //    item.tempEntity = r;
-                //}
-                //else
-                //{
-                //    e.parent = r;
-                //    if (r != null)
-                //    {
-                //        r.childs.Add(e);
-                //    }
-                //}
             });
             return r;
         }
@@ -182,6 +172,7 @@ namespace ActionTree
         {
             //TakeAllCmps();
             value.entity = tempEntity;
+            value.Name = gameObject.name;
             Foreach((item) =>
             {
                 var m = item.GetTree();
@@ -194,6 +185,7 @@ namespace ActionTree
         internal override ITree Clone()
         {
             var clone = new T();
+            clone.Name = gameObject.name;
             clone.entity = tempEntity;
             Foreach((item) =>
             {

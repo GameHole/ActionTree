@@ -27,6 +27,8 @@ namespace ActionTree
         //bool findDo; 
         public Entity entity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Condition { get; set; }
+        public string Name { get=>$"Finding<{injectedTree.Name }>"; set => throw new NotImplementedException(); }
+        public ITree parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Apply()
         {

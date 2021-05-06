@@ -6,9 +6,11 @@ namespace ActionTree
 {
     public interface ITree
     {
+        string Name { get; set; }
+        ITree parent { get; set; }
+        
+
         Entity entity { get; set; }
-        //ITree Parent { get; set; }
-        //int LocalIndex { get; set; }
         bool Condition { get; set; }
         void Do();
         bool PreDo();
@@ -22,7 +24,11 @@ namespace ActionTree
         public abstract void Do();
         public abstract bool PreDo();
         public Entity entity { get; set; }
+        public virtual string Name { get; set; }
+        public ITree parent { get; set; }
+
         public abstract void Apply();
+
     }
     public delegate void TreeIter(ref ITree tree);
     public static class ITreeEx
@@ -45,6 +51,34 @@ namespace ActionTree
             {
                 action?.Invoke(ref tree);
             }
+        }
+        public static string debug(this ITree tree ,object v)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(v);
+            builder.Append("\nRoute:");
+            var p = tree;
+            while (p != null)
+            {
+                builder.Append(p.Name);
+                if (p.parent != null)
+                    builder.Append("->");
+                p = p.parent;
+            }
+            return builder.ToString();
+        }
+        public static string stack(this ITree tree)
+        {
+            StringBuilder builder = new StringBuilder();
+            var p = tree;
+            while (p != null)
+            {
+                builder.Append(p.Name);
+                if (p.parent != null)
+                    builder.Append("->");
+                p = p.parent;
+            }
+            return builder.ToString();
         }
     }
     public static class ETreeEx
