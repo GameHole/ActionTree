@@ -39,11 +39,11 @@ namespace ActionTree
         }
         private void OnCollisionStay(Collision collision)
         {
-            onCollisionExit?.Invoke(collision);
+            onCollisionStay?.Invoke(collision);
         }
         private void OnCollisionExit(Collision collision)
         {
-            onCollisionStay?.Invoke(collision);
+            onCollisionExit?.Invoke(collision);
         }
     }
 }
