@@ -27,7 +27,7 @@ namespace ActionTree
         //public override IComponent Value => value;
         public override IComponent GetValue()
         {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR|| RELEASE
             Destroy(this);
 #endif
             return value;
