@@ -5,14 +5,17 @@ using System.Text;
 using System.Reflection;
 namespace ActionTree
 {
+    public delegate void TreeAdded(ref ITree tree,int queueId);
     public class Driver
     {
         int idx = 0;
         Worker[] workers = new Worker[Environment.ProcessorCount - 1];
+        public Worker[] Workers => workers;
         EntityCntr cntr = new EntityCntr();
-        //Dictionary<ITree, Entity> es = new Dictionary<ITree, Entity>();
-        public Queue<Action> postMains = new Queue<Action>();
-        //Queue<ITree> removed = new Queue<ITree>();
+        public event Action onBeforeRun;
+        public event Action<Entity> onAddEntity;
+        public event Action<Entity> onRemoveEntity;
+        public List<TreeAdded> onTreeAdded = new List<TreeAdded>();
         internal bool useMulThread = true;
         public void Init()
         {
@@ -21,29 +24,17 @@ namespace ActionTree
             {
                 workers[i] = new Worker();
             }
+            onTreeAdded.Add((ref ITree t, int i) =>
+            {
+                RepleaseFindedTree(ref t, null, i, 0);
+            });
         }
-        //internal void onRemove(ITree tree)
-        //{
-        //    lock (removed)
-        //    {
-        //        removed.Enqueue(tree);
-        //    }
-        //}
         public void Run()
         {
             if (!isWorking())
             {
-                RunMainDo();
-                PostMain();
+                onBeforeRun?.Invoke();
                 Do();
-            }
-
-        }
-        void PostMain()
-        {
-            while (postMains.Count > 0)
-            {
-                postMains.Dequeue()?.Invoke();
             }
         }
         void Do()
@@ -74,77 +65,15 @@ namespace ActionTree
             }
             return false;
         }
-        //void RemoveEntity(ITree tree)
-        //{
-        //    if(es.TryGetValue(tree,out var m))
-        //    {
-        //        UnityEngine.Debug.Log($"remove e{m.id}");
-        //        cntr.Remove(m);
-        //    }
-        //}
-        void RunMainDo()
-        {
-            for (int i = 0; i < workers.Length; i++)
-            {
-                var queue = workers[i].clears;
-                while (queue.Count > 0)
-                {
-                    queue.Dequeue().Clear();
-                }
-            }
-            //while (removed.Count > 0)
-            //{
-            //    var e = removed.Dequeue().entity;
-            //    if (e != null)
-            //    {
-            //        var p = e;
-            //        while (p != null)
-            //        {
-            //            cntr.Remove(p);
-            //            p = p.parent;
-            //        }
-            //    }
-            //}
-            //UnityEngine.Debug.Log("run main");
-            for (int i = 0; i < workers.Length; i++)
-            {
-                var queue = workers[i].dos;
-                while (queue.Count > 0)
-                {
-                    var t = queue.Dequeue();
-                    try
-                    {
-                       t.Do();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception(t.stack(), e);
-                    }
-                }
-            }
-        }
-        void Do(List<ITree> runs, List<ITree> removed, int start, int end)
-        {
-            removed.Clear();
-            for (int i = start; i < end; i++)
-            {
-                if (!runs[i].Condition)
-                {
-                    runs[i].Do();
-                }
-                else
-                {
-                    removed.Add(runs[i]);
-                }
-            }
-        }
         public void AddEntity(Entity entity)
         {
             cntr.Add(entity);
+            onAddEntity?.Invoke(entity);
         }
         public void RemoveEntity(Entity entity)
         {
             cntr.Remove(entity);
+            onRemoveEntity?.Invoke(entity);
         }
         public void AddTree(ITree v)
         {
@@ -166,8 +95,11 @@ namespace ActionTree
                 if (x is ATree aTree)
                     aTree.driver = this;
             });
-            RepleaseProxyTree(ref v, worker);
-            RepleaseFindedTree(ref v, null,worker, 0);
+            for (int c = 0; c < onTreeAdded.Count; c++)
+            {
+                onTreeAdded[c]?.Invoke(ref v, i);
+            }
+            //RepleaseProxyTree(ref v, worker);
             v.PreDo();
             worker.added.Add(v);
             //UnityEngine.Debug.Log("driver add");
@@ -230,34 +162,14 @@ namespace ActionTree
             }
             return ret;
         }
-        void RepleaseProxyTree(ref ITree tree, Worker worker)
+        
+        void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr,int workerId, int index)
         {
             if (tree is ATreeCntr treeCntr)
             {
                 for (int i = 0; i < treeCntr.Count; i++)
                 {
-                    RepleaseProxyTree(ref treeCntr.trees[i], worker);
-                }
-            }
-            else
-            {
-                var t = tree.GetType();
-                var main = t.GetCustomAttribute<MainThreadAttribute>();
-                if (main != null)
-                {
-                    var predo = t.GetCustomAttribute<NotPreDoAttribute>();
-                    var proxy = new ProxyTree() { tree = tree, worker = worker, usePredo = predo == null };
-                    tree = proxy;
-                }
-            }
-        }
-        void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr,Worker worker, int index)
-        {
-            if (tree is ATreeCntr treeCntr)
-            {
-                for (int i = 0; i < treeCntr.Count; i++)
-                {
-                    RepleaseFindedTree(ref treeCntr.trees[i], treeCntr, worker, i);
+                    RepleaseFindedTree(ref treeCntr.trees[i], treeCntr, workerId, i);
                 }
             }
             else
@@ -278,7 +190,7 @@ namespace ActionTree
                         findTree.index = index;
                         findTree.cntr = cntr;
                         cntr.trees[index] = new NoneAction();
-                        worker.added.Add(findTree);
+                        workers[workerId].added.Add(findTree);
                     }
                     else
                     {
@@ -294,8 +206,6 @@ namespace ActionTree
                 workers[i].Stop();
             }
             cntr.Clear();
-            //es.Clear();
-            //removed.Clear();
         }
     }
 }

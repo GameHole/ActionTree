@@ -12,7 +12,7 @@ namespace ActionTree
         {
             if (isRuned) return;
             isRuned = true;
-            driver.postMains.Enqueue(() =>
+            Mgr.postMains.Enqueue(() =>
             {
                 SceneManager.sceneLoaded += onLoaded;
                 Mgr.LoadScene(identity.id);

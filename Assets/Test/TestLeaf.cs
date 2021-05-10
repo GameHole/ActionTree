@@ -2,7 +2,7 @@
 using UnityEngine;
 namespace ActionTree
 {
-    //[MainThread]
+    [MainThread]
     public sealed class Test:ATree
 	{
 		public override void Do()

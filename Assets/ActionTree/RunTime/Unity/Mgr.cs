@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace ActionTree
 {
+    public class UnityWorker
+    {
+        public Queue<ITree> dos = new Queue<ITree>();
+        public Queue<ITree> clears = new Queue<ITree>();
+    }
     public class Mgr : MonoBehaviour
     {
         internal static Queue<TreeProvider> releases = new Queue<TreeProvider>();
         internal readonly static Driver driver = new Driver();
+        internal static UnityWorker[] workers;
+        public static Queue<Action> postMains = new Queue<Action>();
         static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
-        static bool isInited;
         public static void AddTree(UnityEntity unity)
         {
             //Debug.Log($"add {unity}");
@@ -32,18 +39,45 @@ namespace ActionTree
         public bool useMulThread = true;
         private void Awake()
         {
-            //if (isInited)
-            //{
-            //    Destroy(gameObject);
-            //    return;
-            //}
-            //isInited = true;
             DontDestroyOnLoad(gameObject);
             driver.Init();
+            driver.onBeforeRun += RunMainDo;
+            driver.onBeforeRun += PostMain;
+            InitWorkers();
+            driver.onTreeAdded.Insert(0, RepleaseProxyTree);
             driver.useMulThread = useMulThread;
             foreach (var item in GetComponentsInChildren<UnityEntity>())
             {
                 item.notDestroyOnLoad = true;
+            }
+        }
+        void InitWorkers()
+        {
+            workers = new UnityWorker[driver.Workers.Length];
+            for (int i = 0; i < workers.Length; i++)
+            {
+                workers[i] = new UnityWorker();
+            }
+        }
+        void RepleaseProxyTree(ref ITree tree,int id)
+        {
+            if (tree is ATreeCntr treeCntr)
+            {
+                for (int i = 0; i < treeCntr.Count; i++)
+                {
+                    RepleaseProxyTree(ref treeCntr.trees[i], id);
+                }
+            }
+            else
+            {
+                var t = tree.GetType();
+                var main = t.GetCustomAttribute<MainThreadAttribute>();
+                if (main != null)
+                {
+                    var predo = t.GetCustomAttribute<NotPreDoAttribute>();
+                    var proxy = new ProxyTree() { tree = tree, worker = workers[id], usePredo = predo == null };
+                    tree = proxy;
+                }
             }
         }
         void Update()
@@ -52,6 +86,41 @@ namespace ActionTree
             ATree.deltaTime = Time.deltaTime;
             driver.Run();
             doEntity();
+        }
+        static void PostMain()
+        {
+            while (postMains.Count > 0)
+            {
+                postMains.Dequeue()?.Invoke();
+            }
+        }
+        static void RunMainDo()
+        {
+            for (int i = 0; i < workers.Length; i++)
+            {
+                var queue = workers[i].clears;
+                while (queue.Count > 0)
+                {
+                    queue.Dequeue().Clear();
+                }
+            }
+            //UnityEngine.Debug.Log("run main");
+            for (int i = 0; i < workers.Length; i++)
+            {
+                var queue = workers[i].dos;
+                while (queue.Count > 0)
+                {
+                    var t = queue.Dequeue();
+                    try
+                    {
+                        t.Do();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception(t.stack(), e);
+                    }
+                }
+            }
         }
         public static void LoadScene(int id,UnityAction<UnityEngine.SceneManagement.Scene, UnityEngine.SceneManagement.LoadSceneMode> onLoad = null)
         {

@@ -18,7 +18,7 @@ namespace ActionTree
         public string Name { get =>$"{tree.Name}.Proxy"; set => throw new NotImplementedException(); }
         public ITree parent { get => tree.parent; set => throw new NotImplementedException(); }
 
-        public Worker worker;
+        public UnityWorker worker;
         public bool usePredo = true;
         public void Clear()
         {
