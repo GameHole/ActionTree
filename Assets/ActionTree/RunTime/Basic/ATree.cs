@@ -13,6 +13,7 @@ namespace ActionTree
         {
             Condition = false;
         }
+
         public override void Apply()
         {
             reflect();
@@ -33,6 +34,7 @@ namespace ActionTree
                     {
                         find.types.Add(item.FieldType);
                     }
+                    //this.Log($"t {item} c {needFindInfo.Count}");
                 }
                 else
                 {

@@ -32,7 +32,7 @@ namespace ActionTree
         public Entity entity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Condition { get; set; }
         public string Name { get=>$"Finding<{injectedTree.Name }>"; set => throw new NotImplementedException(); }
-        public ITree parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ITree parent { get => cntr; set => throw new NotImplementedException(); }
 
         public void Apply()
         {
@@ -44,12 +44,22 @@ namespace ActionTree
         public void Do()
         {
             //Init();
-            //UnityEngine.Debug.Log($"find {injectedTree} { injectedTree.needFindInfo.Count}");
+            //this.Log($"find {injectedTree} { injectedTree.needFindInfo.Count}");
             Condition = false;
             var fields = injectedTree.needFindInfo;
             for (int i = fields.Count - 1; i >= 0; i--)
             {
-                var field = fields[i];
+                //this.Log($"find {injectedTree} i { i } count {fields.Count}");
+                FieldInfo field;
+                try
+                {
+                    field= fields[i]; 
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    this.Error("This error may cause by a UnityEntity`s child has an UnityEntity comppoent(Find same leaf in different thread)");
+                    throw;
+                }
                 var extra = field.GetCustomAttribute<Finded>();
                 object find = null;
                 if (extra.types == null)

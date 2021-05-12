@@ -31,7 +31,7 @@ namespace ActionTree
 
     }
     public delegate void TreeIter(ref ITree tree);
-    public static class ITreeEx
+    public static partial class ITreeEx
     {
         public static void TryDo(this ITree tree)
         {

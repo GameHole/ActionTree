@@ -164,7 +164,7 @@ namespace ActionTree
             return ret;
         }
         
-        void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr,int workerId, int index)
+        internal void RepleaseFindedTree(ref ITree tree, ATreeCntr cntr,int workerId, int index)
         {
             if (tree is ATreeCntr treeCntr)
             {

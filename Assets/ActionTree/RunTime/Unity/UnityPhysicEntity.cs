@@ -14,6 +14,7 @@ namespace ActionTree
                     if (v is ATree tree)
                         tree.driver = Mgr.driver;
                 });
+                Mgr.driver.RepleaseFindedTree(ref tree, null, Random.Range(0, Mgr.driver.Workers.Length), 0);
             }
         }
         private void FixedUpdate()

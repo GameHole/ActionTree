@@ -15,6 +15,11 @@ namespace ActionTree
         public bool isTrigger = true;
         private void Awake()
         {
+            Init(isTrigger);
+        }
+        public void Init(bool isTrigger)
+        {
+            this.isTrigger = isTrigger;
             var c = GetComponent<Collider>();
             if (c)
             {
