@@ -89,7 +89,8 @@ namespace ActionTree
                     e.Remove<ThreadId>();
                 }
             }
-            var worker = workers[i % workers.Length];
+            int id = i % workers.Length;
+            var worker = workers[id];
             v.Foreach((ref ITree x) =>
             {
                 if (x is ATree aTree)
@@ -97,7 +98,7 @@ namespace ActionTree
             });
             for (int c = 0; c < onTreeAdded.Count; c++)
             {
-                onTreeAdded[c]?.Invoke(ref v, i);
+                onTreeAdded[c]?.Invoke(ref v, id);
             }
             //RepleaseProxyTree(ref v, worker);
             v.PreDo();

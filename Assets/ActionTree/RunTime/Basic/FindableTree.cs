@@ -18,6 +18,10 @@ namespace ActionTree
             this.types.AddRange(types);
         }
     }
+    public interface IFindAfterInitialization
+    {
+        bool isInitialized();
+    }
     class FindableTree : ITree
     {
         public ATree injectedTree;
@@ -62,6 +66,10 @@ namespace ActionTree
                 }
                 if (find != null)
                 {
+                    if(find is IFindAfterInitialization afterInitialization)
+                    {
+                        if (!afterInitialization.isInitialized()) continue;
+                    }
                     field.SetValue(injectedTree, find);
                     injectedTree.needFindInfo.Remove(field);
                 }

@@ -14,11 +14,14 @@ namespace ActionTree
             this.name = name;
         }
     }
-	public abstract class AConfig : IComponent
+	public abstract class AConfig : IComponent,IFindAfterInitialization
     {
         internal string configTxt;
         internal Type classType;
         internal abstract void Set(int idx, IConfigValue value);
+
+        public bool isInitialized() => Length > 0;
+
         public abstract int Length
         {
             get;
