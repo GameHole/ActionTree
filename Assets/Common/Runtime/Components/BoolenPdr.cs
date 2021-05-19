@@ -9,11 +9,11 @@ namespace ActionTree
 	}
     public static class BoolenEx
     {
-        public static bool Value(this Boolen boolen)
+        public static bool Value(this Boolen boolen, bool defaultValue = true)
         {
             if (boolen == null)
             {
-                return true;
+                return defaultValue;
             }
             return boolen.value;
         }

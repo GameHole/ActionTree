@@ -11,6 +11,7 @@ namespace ActionTree
         {
             var dif = data.isFast ? data.dif : data.end - data.start;
             position.value = data.start + dif * curve.output;
+            //this.Log($"s {data.start} d {dif} c {curve.output}");
         }
 	}
 	public class MoveToLeaf: TreeProvider<MoveTo> { }

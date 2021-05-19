@@ -146,5 +146,17 @@ namespace ActionTree
             }
             return hash;
         }
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(id);
+            builder.Append('\n');
+            foreach (var item in components.Keys)
+            {
+                builder.Append(item);
+                builder.Append('\n');
+            }
+            return builder.ToString();
+        }
     }
 }

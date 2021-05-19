@@ -8,7 +8,7 @@ namespace ActionTree
         Speed speed;
 		public override void Do()
         {
-            Condition = speed.Speed() > 0 ? curve.increase >= curve.increaseRange.y : curve.increase <= curve.increaseRange.x;
+            Condition = speed.Speed() >= 0 ? curve.increase >= curve.increaseRange.y : curve.increase <= curve.increaseRange.x;
         }
 	}
 	public class WaitCurveLeaf: TreeProvider<WaitCurve> { }

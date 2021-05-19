@@ -6,9 +6,12 @@ namespace ActionTree
 	{
         UnityTriggerProxy proxy;
         TriggerColiders coliders;
+        //[AllowNull] Boolen stopOnFirstEnter;
         bool isInited;
 		public override void Do()
         {
+            Condition = coliders.Count > 0;
+            //this.Log($" trigger enter count {coliders.Count}");
             if (isInited) return;
             isInited = true;
             proxy.trigger.onTriggerEnter += OnTriggerEnter;
@@ -16,9 +19,10 @@ namespace ActionTree
 
         private void OnTriggerEnter(Collider obj)
         {
-            //Debug.Log(" trigger enter ");
-            Condition = true;
-            //proxy.trigger.onTriggerEnter -= OnTriggerEnter;
+            //this.Log($" trigger enter {obj}");
+            //Condition = true;
+            //if (stopOnFirstEnter.Value(false))
+            //    proxy.trigger.onTriggerEnter -= OnTriggerEnter;
             coliders.colliders.Add(obj);
         }
 
@@ -26,7 +30,8 @@ namespace ActionTree
         {
             //Debug.Log(" trigger clear ");
             base.Clear();
-            //isInited = false;
+            //if (stopOnFirstEnter.Value(false))
+            //    isInited = false;
             coliders.colliders.Clear();
         }
     }

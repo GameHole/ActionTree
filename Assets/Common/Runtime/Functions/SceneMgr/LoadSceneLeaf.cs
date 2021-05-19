@@ -15,7 +15,8 @@ namespace ActionTree
             Mgr.postMains.Enqueue(() =>
             {
                 SceneManager.sceneLoaded += onLoaded;
-                Mgr.LoadScene(identity.id);
+                Mgr.RemoveEntities();
+                SceneManager.LoadScene(identity.id);
             });
         }
         private void onLoaded(Scene arg0, LoadSceneMode arg1)

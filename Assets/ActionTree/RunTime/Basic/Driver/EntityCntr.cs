@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace ActionTree
 {
-    public class EntityCntr
+    class EntityCntr
     {
         class ES
         {

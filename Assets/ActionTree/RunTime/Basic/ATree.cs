@@ -4,6 +4,8 @@ using System.Reflection;
 
 namespace ActionTree
 {
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    public class AllowNull : Attribute { }
     public abstract class ATree : Tree
     {
         public static float deltaTime { get; internal set; }
@@ -70,6 +72,11 @@ namespace ActionTree
                     if (cmp == null)
                     {
                         cmp = FindFromTarget(ft);
+                    }
+                    if (cmp == null)
+                    {
+                        if (item.GetCustomAttribute<AllowNull>() == null)
+                            throw new NullReferenceException($"Inject component <{ft}:{item.Name}> not found anywhere,please add <{ft}> compoennt to leaf or add [AllowNull] attribute to field \nRoute:{this.stack()} ");
                     }
                     item.SetValue(this, cmp);
                 }

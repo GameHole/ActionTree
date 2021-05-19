@@ -9,9 +9,9 @@ namespace ActionTree
         RaycastData raycast;
         public override void Do()
         {
-           
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit/*,100,LayerMask.NameToLayer("Please")*/))
+            var ray = raycast.ray;
+            //this.Log(ray);
+            if (Physics.Raycast(ray, out var hit, raycast.maxDistance, raycast.layerMask))
             {
                 Debug.DrawLine(ray.origin, hit.point);
                 if (raycast != null)

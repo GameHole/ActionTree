@@ -6,7 +6,11 @@ namespace ActionTree
 	{
         private void Awake()
         {
-            GetComponentInParent<UnityEntity>().notDestroyOnLoad = true;
+            var ue = GetComponentInParent<UnityEntity>();
+            if (ue)
+                ue.notDestroyOnLoad = true;
+            else
+                DontDestroyOnLoad(gameObject);
         }
     }
 }

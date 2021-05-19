@@ -17,11 +17,8 @@ namespace ActionTree
             while (index < Count)
             {
                 var tree = trees[index];
-                if (!tree.Condition)
-                {
-                    //UnityEngine.Debug.Log($"do {trees[index]}");
-                    tree.Do();
-                }
+                tree.TryDo();
+                //this.Log($"do {tree.Name} {tree.Condition} ");
                 if (!tree.Condition)
                 {
                     return;
@@ -38,6 +35,7 @@ namespace ActionTree
         {
             if (index < Count)
             {
+                //this.Log($"pre do {trees[index].Name} {trees[index].Condition} ");
                 //UnityEngine.Debug.Log($"serial predo idx::{index} v:: {trees[index]}");
                 return trees[index].PreDo();
             }

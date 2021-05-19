@@ -52,6 +52,21 @@ namespace ActionTree
                 action?.Invoke(ref tree);
             }
         }
+        //public static void Log(this ITree tree, object v)
+        //{
+        //    _Log(tree, v);
+        //}
+        //public static void Error(this ITree tree, object v)
+        //{
+        //    _Error(tree, v);
+        //}
+        //public static void Warning(this ITree tree, object v)
+        //{
+        //    _Warning(tree, v);
+        //}
+        //static partial void _Log(this ITree tree, object v);
+        //static partial void _Error(this ITree tree, object v);
+        //static partial void _Warning(this ITree tree, object v);
         public static string debug(this ITree tree ,object v)
         {
             StringBuilder builder = new StringBuilder();

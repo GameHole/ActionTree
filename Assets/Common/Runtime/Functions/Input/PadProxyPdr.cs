@@ -7,8 +7,8 @@ namespace ActionTree
 	[System.Serializable]
 	public sealed class PadProxy : IComponent
 	{
-        public bool isDown => data != null;
-        [HideInInspector]public PointerEventData data;
+        public bool isDown;
+        //[HideInInspector]public PointerEventData data;
         //public bool isIn;
         public Pad pad;
 	}
@@ -18,11 +18,11 @@ namespace ActionTree
         {
             value.pad.onDown += (v) =>
             {
-                value.data = v;
+                value.isDown = true;
             };
             value.pad.onUp += (v) =>
             {
-                value.data = null;
+                value.isDown = false;
             };
             //value.pad.onEnter += (v) =>
             //{

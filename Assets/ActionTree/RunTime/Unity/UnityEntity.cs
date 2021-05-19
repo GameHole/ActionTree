@@ -13,6 +13,11 @@ namespace ActionTree
         //Action onDestroyAct;
         private void Awake()
         {
+            if (notDestroyOnLoad)
+            {
+                if (transform.parent == null)
+                    DontDestroyOnLoad(gameObject);
+            }
             var es = GetComponentsInChildren<UnityEntity>();
             for (int i = 0; i < es.Length; i++)
             {
@@ -20,6 +25,7 @@ namespace ActionTree
                 if (es[i] != this)
                 {
                     es[i].enabled = false;
+                    es[i].notDestroyOnLoad = notDestroyOnLoad;
                     //Debug.Log($"disable entity child {es[i]}");
                 }
             }

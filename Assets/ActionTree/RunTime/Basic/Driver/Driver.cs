@@ -17,6 +17,14 @@ namespace ActionTree
         public event Action<Entity> onRemoveEntity;
         public List<TreeAdded> onTreeAdded = new List<TreeAdded>();
         internal bool useMulThread = true;
+        List<Entity> addingEs = new List<Entity>();
+        List<Entity> removingEs = new List<Entity>();
+        struct AddTreeInfo
+        {
+            public int threadId;
+            public ITree tree;
+        }
+        List<AddTreeInfo> addTrees = new List<AddTreeInfo>();
         public void Init()
         {
             //UnityEngine.Debug.Log("Init");
@@ -33,9 +41,39 @@ namespace ActionTree
         {
             if (!isWorking())
             {
+                OnEntityAddRemove();
+                OnTreeAdd();
                 onBeforeRun?.Invoke();
+                //UnityEngine.Debug.Log("work do");
                 Do();
             }
+        }
+        void OnTreeAdd()
+        {
+            for (int i = 0; i < addTrees.Count; i++)
+            {
+                var v = addTrees[i];
+                v.tree.PreDo();
+                workers[v.threadId].added.Add(v.tree);
+            }
+            addTrees.Clear();
+        }
+        void OnEntityAddRemove()
+        {
+            for (int i = 0; i < addingEs.Count; i++)
+            {
+                var e = addingEs[i];
+                cntr.Add(e);
+                onAddEntity?.Invoke(e);
+            }
+            for (int i = 0; i < removingEs.Count; i++)
+            {
+                var e = removingEs[i];
+                cntr.Remove(e);
+                onRemoveEntity?.Invoke(e);
+            }
+            addingEs.Clear();
+            removingEs.Clear();
         }
         void Do()
         {
@@ -67,13 +105,15 @@ namespace ActionTree
         }
         public void AddEntity(Entity entity)
         {
-            cntr.Add(entity);
-            onAddEntity?.Invoke(entity);
+            addingEs.Add(entity);
+            //cntr.Add(entity);
+            //onAddEntity?.Invoke(entity);
         }
         public void RemoveEntity(Entity entity)
         {
-            cntr.Remove(entity);
-            onRemoveEntity?.Invoke(entity);
+            removingEs.Add(entity);
+            //cntr.Remove(entity);
+            //onRemoveEntity?.Invoke(entity);
         }
         public void AddTree(ITree v)
         {
@@ -90,7 +130,7 @@ namespace ActionTree
                 }
             }
             int id = i % workers.Length;
-            var worker = workers[id];
+            //var worker = workers[id];
             v.Foreach((ref ITree x) =>
             {
                 if (x is ATree aTree)
@@ -100,9 +140,10 @@ namespace ActionTree
             {
                 onTreeAdded[c]?.Invoke(ref v, id);
             }
+            addTrees.Add(new AddTreeInfo { tree = v, threadId = id });
             //RepleaseProxyTree(ref v, worker);
-            v.PreDo();
-            worker.added.Add(v);
+            //v.PreDo();
+            //worker.added.Add(v);
             //UnityEngine.Debug.Log("driver add");
         }
         internal IComponent FindFirstCmp(Type type)

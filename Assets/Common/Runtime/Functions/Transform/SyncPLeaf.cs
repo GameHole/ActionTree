@@ -7,7 +7,7 @@ namespace ActionTree
 	{
         Position p;
         UnityEntity e;
-        Boolen menual;
+        [AllowNull]Boolen menual;
         //public override bool isInMain => true;
         public override void Do()
         {

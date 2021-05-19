@@ -5,7 +5,7 @@ namespace ActionTree
 	public sealed class CurveDriver:ATree
 	{
         AnimCurve curve;
-        Speed speed;
+        [AllowNull]Speed speed;
         public override void Do()
         {
             curve.increase += deltaTime * speed.Speed();

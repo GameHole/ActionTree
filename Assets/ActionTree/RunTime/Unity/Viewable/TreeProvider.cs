@@ -198,25 +198,29 @@ namespace ActionTree
     }
 #if UNITY_EDITOR
     [UnityEditor.CustomEditor(typeof(TreeProvider), true)]
-    class RotateDirctionLeafEditor : UnityEditor.Editor
+    class TreeProviderEditor : UnityEditor.Editor
     {
         List<FieldInfo> fields = new List<FieldInfo>();
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             var tar = target as TreeProvider;
-            if (fields.Count == 0)
+            var type = tar.TreeType();
+            if (type != null)
             {
-                foreach (var item in tar.TreeType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
+                if (fields.Count == 0)
                 {
-                    if (typeof(IComponent).IsAssignableFrom(item.FieldType))
-                        fields.Add(item);
+                    foreach (var item in tar.TreeType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
+                    {
+                        if (typeof(IComponent).IsAssignableFrom(item.FieldType))
+                            fields.Add(item);
+                    }
                 }
-            }
-            for (int i = 0; i < fields.Count; i++)
-            {
-                var f = fields[i];
-                UnityEditor.EditorGUILayout.LabelField($"{f.Name}:{f.FieldType}");
+                for (int i = 0; i < fields.Count; i++)
+                {
+                    var f = fields[i];
+                    UnityEditor.EditorGUILayout.LabelField($"{f.Name}:{f.FieldType}");
+                }
             }
         }
     }

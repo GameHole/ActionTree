@@ -2,7 +2,7 @@
 using UnityEngine;
 namespace ActionTree
 {
-	public sealed class WaitPadDown:ATree
+	public sealed class WaitPadPress:ATree
 	{
         PadProxy proxy;
 		public override void Do()
@@ -10,5 +10,5 @@ namespace ActionTree
             Condition = proxy.isDown;
         }
 	}
-	public class WaitPadDownLeaf: TreeProvider<WaitPadDown> { }
+	public class WaitPadPressLeaf : TreeProvider<WaitPadPress> { }
 }

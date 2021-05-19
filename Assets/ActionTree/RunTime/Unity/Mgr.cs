@@ -14,6 +14,7 @@ namespace ActionTree
     }
     public class Mgr : MonoBehaviour
     {
+        public static Mgr singleInstance;
         internal static Queue<TreeProvider> releases = new Queue<TreeProvider>();
         internal readonly static Driver driver = new Driver();
         internal static UnityWorker[] workers;
@@ -39,6 +40,7 @@ namespace ActionTree
         public bool useMulThread = true;
         private void Awake()
         {
+            singleInstance = this;
             DontDestroyOnLoad(gameObject);
             driver.Init();
             driver.onBeforeRun += RunMainDo;
@@ -96,6 +98,7 @@ namespace ActionTree
         }
         static void RunMainDo()
         {
+            //Debug.Log("runmain");
             for (int i = 0; i < workers.Length; i++)
             {
                 var queue = workers[i].clears;
@@ -122,7 +125,12 @@ namespace ActionTree
                 }
             }
         }
-        public static void LoadScene(int id,UnityAction<UnityEngine.SceneManagement.Scene, UnityEngine.SceneManagement.LoadSceneMode> onLoad = null)
+        //public static void LoadScene(int id)
+        //{
+        //    RemoveAllEntity();
+        //    UnityEngine.SceneManagement.SceneManager.LoadScene(id);
+        //}
+        public static void RemoveEntities()
         {
             for (int i = 0; i < unityEntities.Count; i++)
             {
@@ -133,7 +141,6 @@ namespace ActionTree
                     e.tree.Condition = !e.notDestroyOnLoad;
                 }
             }
-            UnityEngine.SceneManagement.SceneManager.LoadScene(id);
         }
         void doEntity()
         {
