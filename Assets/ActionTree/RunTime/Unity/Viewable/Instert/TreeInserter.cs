@@ -36,16 +36,28 @@ namespace ActionTree
         string[] names;
         int select;
         int preSelect;
+        Logic logic;
         private void OnEnable()
         {
             var inster = target as TreeInserter;
-            var logic = inster.GetComponentInParent<LogicPrevider>().prefab;
+            logic = GetComponentInParent<LogicPrevider>(inster.transform).prefab;
             if (logic)
             {
                 preSelect = select = logic.GetIndex(inster.classRefId);
             }
-            
         }
+        T GetComponentInParent<T>(Transform transform)where T:Component
+        {
+            var p = transform.parent;
+            while (p)
+            {
+                var t = p.GetComponent<T>();
+                if (t) return t;
+                p = p.parent;
+            }
+            return null;
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -60,7 +72,6 @@ namespace ActionTree
             }
             if (preSelect != select)
             {
-                var logic = inster.GetComponentInParent<LogicPrevider>().prefab;
                 if (logic)
                     inster.classRefId = logic.ids[select].id;
                 UnityEditor.EditorUtility.SetDirty(inster);
@@ -70,7 +81,6 @@ namespace ActionTree
         }
         void LoadNames(TreeInserter inster)
         {
-            var logic = inster.GetComponentInParent<LogicPrevider>().prefab;
             if (logic)
             {
                 names = new string[logic.ids.Count];

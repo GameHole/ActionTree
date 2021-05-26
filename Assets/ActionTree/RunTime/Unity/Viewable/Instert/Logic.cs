@@ -44,6 +44,7 @@ namespace ActionTree
                 if (!id)
                 {
                     id = UnityEditor.Undo.AddComponent<LogicId>(child.gameObject);
+                    id.hideFlags = HideFlags.HideInInspector;
                     id.id = seed++;
                     UnityEditor.EditorUtility.SetDirty(id);
                 }

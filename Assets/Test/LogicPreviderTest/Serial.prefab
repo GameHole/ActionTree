@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 229749190433914832}
   - component: {fileID: 428905721490416383}
-  - component: {fileID: 3566334431497376261}
+  - component: {fileID: 3075934498877691456}
   m_Layer: 0
   m_Name: LogicTestC (1)
   m_TagString: Untagged
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
---- !u!114 &3566334431497376261
+--- !u!114 &3075934498877691456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66af9d963a64d164b9d4e4ade51cfbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5
+  id: 10
 --- !u!1 &2650603179514666175
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,7 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7748092868113769795}
   - component: {fileID: 8119539531782162273}
-  - component: {fileID: 454310451394328517}
+  - component: {fileID: 7694963568536659847}
   m_Layer: 0
   m_Name: LogicTestC
   m_TagString: Untagged
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
---- !u!114 &454310451394328517
+--- !u!114 &7694963568536659847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66af9d963a64d164b9d4e4ade51cfbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 4
+  id: 11
 --- !u!1 &4981049153967914542
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4981049153967914541}
   - component: {fileID: 4981049153967914540}
-  - component: {fileID: 6914509232464048209}
+  - component: {fileID: 2904509892715265905}
   m_Layer: 0
   m_Name: LogicTestC
   m_TagString: Untagged
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
---- !u!114 &6914509232464048209
+--- !u!114 &2904509892715265905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66af9d963a64d164b9d4e4ade51cfbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 3
+  id: 9
 --- !u!1 &4981049154420213970
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4981049154420213969}
   - component: {fileID: 4981049154420213968}
-  - component: {fileID: 13254460004490352}
+  - component: {fileID: 1328386409423728428}
   m_Layer: 0
   m_Name: Serial
   m_TagString: Untagged
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugCondition: 0
   index: 0
---- !u!114 &13254460004490352
+--- !u!114 &1328386409423728428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66af9d963a64d164b9d4e4ade51cfbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
+  id: 7
 --- !u!1 &4981049154634172030
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4981049154634172029}
   - component: {fileID: 4981049154634172028}
-  - component: {fileID: 7182813410942159997}
+  - component: {fileID: 7182855828177308874}
   m_Layer: 0
   m_Name: LogicTestA
   m_TagString: Untagged
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
---- !u!114 &7182813410942159997
+--- !u!114 &7182855828177308874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66af9d963a64d164b9d4e4ade51cfbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 6
 --- !u!1 &4981049154907726789
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,13 +357,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pdr: {fileID: 4981049154907726788}
   ids:
-  - {fileID: 7182813410942159997}
-  - {fileID: 454310451394328517}
-  - {fileID: 13254460004490352}
-  - {fileID: 7253675947249122907}
-  - {fileID: 6914509232464048209}
-  - {fileID: 3566334431497376261}
-  seed: 6
+  - {fileID: 7182855828177308874}
+  - {fileID: 1328386409423728428}
+  - {fileID: 3214150740696875092}
+  - {fileID: 2904509892715265905}
+  - {fileID: 3075934498877691456}
+  - {fileID: 7694963568536659847}
+  seed: 12
 --- !u!1 &4981049155567374623
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4981049155567374622}
   - component: {fileID: 4981049155567374621}
-  - component: {fileID: 7253675947249122907}
+  - component: {fileID: 3214150740696875092}
   m_Layer: 0
   m_Name: LogicTestB
   m_TagString: Untagged
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCondition: 0
---- !u!114 &7253675947249122907
+--- !u!114 &3214150740696875092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,4 +421,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66af9d963a64d164b9d4e4ade51cfbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
+  id: 8

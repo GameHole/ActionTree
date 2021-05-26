@@ -58,6 +58,32 @@ namespace ActionTree
             }
             return cmp;
         }
+        IComponent _FindImplementCmp(Type baseicType)
+        {
+            foreach (var item in components.Keys)
+            {
+                if (baseicType.IsAssignableFrom(item))
+                {
+                    return components[item];
+                }
+            }
+            return null;
+        }
+        public IComponent FindImplement(Type type, bool containThis = true)
+        {
+            IComponent cmp = containThis ? _FindImplementCmp(type) : null;
+            var p = parent;
+            while (cmp == null && p != null)
+            {
+                cmp = p._FindImplementCmp(type);
+                p = p.parent;
+            }
+            return cmp;
+        }
+        public T FindImplement<T>(bool containThis = true)
+        {
+            return (T)FindImplement(typeof(T), containThis);
+        }
         public IList<IComponent> FindAll(Type type)
         {
             List<IComponent> components = new List<IComponent>();
