@@ -54,7 +54,7 @@ namespace ActionTree
             for (int i = 0; i < values.Length; i++)
             {
                 string[] info = values[i].Split(' ');
-                if (!DataDealer.isMatch(info[0], fields[i].FieldType,out var dealer) || fields[i].Name != info[1])
+                if (!DataDealer.isMatch(info[0], fields[i].FieldType,out var dealer) || fields[i].Name != info[1].Trim())
                 {
                     return false;
                 }
