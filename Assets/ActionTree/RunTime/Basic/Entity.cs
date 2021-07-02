@@ -12,8 +12,19 @@ namespace ActionTree
             id = ++seed;
         }
         public uint id;
-
-        public Entity parent;
+        Entity _parent;
+        public Entity parent
+        {
+            get => _parent;
+            set
+            {
+                _parent = value;
+                if (value!=null)
+                {
+                    value.childs.Add(this);
+                }
+            }
+        }
         public List<Entity> childs = new List<Entity>();
         internal Dictionary<Type, IComponent> components = new Dictionary<Type, IComponent>();
         public IEnumerable<Type> CmpTypes
@@ -29,6 +40,10 @@ namespace ActionTree
         public void Add(IComponent v)
         {
             components.Add(v.GetType(), v);
+        }
+        internal void AddImpl<T>(IComponent v)
+        {
+            components.Add(typeof(T), v);
         }
         public T Get<T>() where T : class, IComponent
         {
@@ -120,7 +135,7 @@ namespace ActionTree
             }
             return es;
         }
-        public IList<T> FindAll<T>()
+        public IList<T> FindAll<T>()where T:class,IComponent
         {
             List<T> components = new List<T>();
             var parnet = this;
@@ -134,7 +149,9 @@ namespace ActionTree
             }
             for (int i = 0; i < childs.Count; i++)
             {
-                components.AddRange(childs[i].FindAll<T>());
+                var cmp = childs[i].Get<T>();
+                if (cmp != null)
+                    components.Add(cmp);
             }
             return components;
         }

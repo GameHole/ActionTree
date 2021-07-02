@@ -40,10 +40,14 @@ namespace ActionTree
         private void OnEnable()
         {
             var inster = target as TreeInserter;
-            logic = GetComponentInParent<LogicPrevider>(inster.transform).prefab;
-            if (logic)
+            var pdr = GetComponentInParent<LogicPrevider>(inster.transform);
+            if (pdr)
             {
-                preSelect = select = logic.GetIndex(inster.classRefId);
+                logic = pdr.prefab;
+                if (logic)
+                {
+                    preSelect = select = logic.GetIndex(inster.classRefId);
+                }
             }
         }
         T GetComponentInParent<T>(Transform transform)where T:Component

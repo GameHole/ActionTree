@@ -7,17 +7,14 @@ namespace ActionTree
 	[Serializable]
 	public sealed class Format : IComponent
 	{
+        static readonly object[] empty = new object[0];
         public string value;
-        [HideInInspector] public object[] param;
+        [HideInInspector] public object[] param = empty;
         public object this[int index]
         {
             set
             {
-                if(param == null)
-                {
-                    param = new object[1];
-                }
-                else if (index >= param.Length)
+                if (index >= param.Length)
                 {
                     var newArr = new object[index + 1];
                     Array.Copy(param, newArr, param.Length);

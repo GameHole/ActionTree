@@ -9,7 +9,7 @@ namespace ActionTree
         Identity id;
 		public override void Do()
         {
-            if (Input.GetMouseButtonDown(id.id))
+            if (Input.GetMouseButtonDown(id.value))
             {
                 Debug.Log("down");
                 Condition = true;

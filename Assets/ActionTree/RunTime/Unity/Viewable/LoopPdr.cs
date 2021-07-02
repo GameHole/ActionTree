@@ -8,6 +8,8 @@ namespace ActionTree
         public TreeProvider treePdr;
         public override ITree GetTree()
         {
+            if (!treePdr)
+                throw new System.NullReferenceException(_Stack());
             value.tree = treePdr.tree;
             return base.GetTree();
         }

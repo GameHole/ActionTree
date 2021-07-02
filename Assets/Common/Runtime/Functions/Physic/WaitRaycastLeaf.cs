@@ -10,20 +10,22 @@ namespace ActionTree
         public override void Do()
         {
             var ray = raycast.ray;
-            //this.Log(ray);
-            if (Physics.Raycast(ray, out var hit, raycast.maxDistance, raycast.layerMask))
+           
+            bool isCast = Physics.Raycast(ray, out var hit, raycast.maxDistance, raycast.layerMask);
+            if (isCast)
             {
                 Debug.DrawLine(ray.origin, hit.point);
                 if (raycast != null)
                 {
                     raycast.hit = hit;
                 }
-                Condition = true;
             }
             else
             {
                 Debug.DrawLine(ray.origin, hit.point,Color.black);
             }
+            Condition = isCast;
+            //this.Log(Condition);
             //Debug.Log("WaitRaycast");
         }
         public override void Clear()

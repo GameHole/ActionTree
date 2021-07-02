@@ -5,6 +5,7 @@ namespace ActionTree
 {
     public class UnityPhysicEntity : UnityEntity
     {
+        public override bool alwaysRun => true;
         protected override void Join()
         {
             if (tree != null)

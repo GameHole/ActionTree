@@ -12,6 +12,7 @@ namespace ActionTree
         {
             var p = target.value.Get<Position>();
             rotation.value = Quaternion.LookRotation(p.value - position.value);
+            Condition = true;
         }
 	}
 	public class LookAtLeaf: TreeProvider<LookAt> { }

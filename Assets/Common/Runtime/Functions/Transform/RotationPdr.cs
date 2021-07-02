@@ -10,9 +10,13 @@ namespace ActionTree
 	}
 	public class RotationPdr: CmpProvider<Rotation>
     {
+        public bool useCurrent;
         public override IComponent GetValue()
         {
-            value.value = transform.rotation;
+            if (useCurrent)
+                value.value = transform.rotation;
+            else
+                value.value = Quaternion.identity;
             return base.GetValue();
         }
     }

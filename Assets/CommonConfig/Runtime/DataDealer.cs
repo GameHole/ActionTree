@@ -150,7 +150,7 @@ namespace ActionTree
 
         public override object GetValue(string str, Type fieldType)
         {
-            return str;
+            return str.Trim();
         }
 
         public override bool isContain(Type fieldType)

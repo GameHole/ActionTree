@@ -6,7 +6,7 @@ namespace #NAMESPACE#
 	{
 		public override void Do()
         {
-            
+            Condition = true;
         }
 	}
 	public class #NAME#Leaf: TreeProvider<#NAME#> { }

@@ -6,12 +6,31 @@ namespace ActionTree
 {
     public class UnityTrigger : MonoBehaviour
     {
+        public enum State
+        {
+            Enter,Exit,Stay
+        }
         public event Action<Collider> onTriggerEnter;
         public event Action<Collider> onTriggerExit;
         public event Action<Collider> onTriggerStay;
         public event Action<Collision> onCollisionEnter;
         public event Action<Collision> onCollisionExit;
         public event Action<Collision> onCollisionStay;
+        //public void NotifyTrigger(State state, Collider collider)
+        //{
+        //    switch (state)
+        //    {
+        //        case State.Enter:
+        //            onTriggerEnter?.Invoke(collider);
+        //            break;
+        //        case State.Exit:
+        //            onTriggerExit?.Invoke(collider);
+        //            break;
+        //        case State.Stay:
+        //            onTriggerStay?.Invoke(collider);
+        //            break;
+        //    }
+        //}
         public bool isTrigger = true;
         private void Awake()
         {
@@ -26,15 +45,15 @@ namespace ActionTree
                 c.isTrigger = isTrigger;
             }
         }
-        private void OnTriggerEnter(Collider other)
+        public void OnTriggerEnter(Collider other)
         {
             onTriggerEnter?.Invoke(other);
         }
-        private void OnTriggerExit(Collider other)
+        public void OnTriggerExit(Collider other)
         {
             onTriggerExit?.Invoke(other);
         }
-        private void OnTriggerStay(Collider other)
+        public void OnTriggerStay(Collider other)
         {
             onTriggerStay?.Invoke(other);
         }

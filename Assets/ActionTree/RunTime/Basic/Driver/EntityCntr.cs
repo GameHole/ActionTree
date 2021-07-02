@@ -15,6 +15,7 @@ namespace ActionTree
         public void Add(Entity entity)
         {
             int cmpHash = entity.GetCmpHash();
+            
             if (!entities.TryGetValue(cmpHash, out var es))
             {
                 es = new ES();
@@ -25,13 +26,15 @@ namespace ActionTree
                 entities.Add(cmpHash, es);
             }
             es.values.Add(entity.id, entity);
+
+            //Debug.Log($"e {entity},hash:{cmpHash} c::{ es.values.Count}");
             //string a = "";
             //foreach (var item in entity.components.Keys)
             //{
             //    a += item.ToString() + ",";
             //}
             //Debug.Log($"Add e {cmpHash} {entity.id} {a}");
-          
+
         }
         public void Remove(Entity entity)
         {
@@ -45,11 +48,13 @@ namespace ActionTree
         public IList<Entity> Find(params Type[] types)
         {
             List<Entity> re = new List<Entity>();
-            foreach (var item in entities.Values)
+            foreach (var item in entities)
             {
-                if (Contain(item.eTypes, types))
+                if (Contain(item.Value.eTypes, types))
                 {
-                    re.AddRange(item.values.Values);
+                  
+                    re.AddRange(item.Value.values.Values);
+                    //Debug.Log($"finded hash::{item.Key} cou:: {item.Value.values.Count}");
                 }
             }
             return re;

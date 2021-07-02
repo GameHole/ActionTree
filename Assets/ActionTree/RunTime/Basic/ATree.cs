@@ -11,6 +11,8 @@ namespace ActionTree
         public static float deltaTime { get; internal set; }
         public Driver driver;
         internal List<FieldInfo> needFindInfo;
+        internal Func<string,Type, Type> onCmpFinding;
+        //public Func<FieldInfo,Entity, IComponent> onNotFoundComponent; 
         public override void Clear()
         {
             Condition = false;
@@ -54,6 +56,8 @@ namespace ActionTree
                 var type = ft.GetElementType();
                 if (typeof(IComponent).IsAssignableFrom(type))
                 {
+                    if (onCmpFinding != null)
+                        type = onCmpFinding(item.Name,type);
                     var list = entity.FindAll(type);
                     var array = Array.CreateInstance(type, list.Count);
                     for (int i = 0; i < list.Count; i++)
@@ -68,6 +72,10 @@ namespace ActionTree
                 if (typeof(IComponent).IsAssignableFrom(ft))
                 {
                     var tarAttr = item.GetCustomAttribute<NotThis>();
+                    if (onCmpFinding != null)
+                    {
+                        ft = onCmpFinding(item.Name, ft);
+                    }
                     var cmp = entity.FindComponent(ft, tarAttr == null);
                     if (cmp == null)
                     {

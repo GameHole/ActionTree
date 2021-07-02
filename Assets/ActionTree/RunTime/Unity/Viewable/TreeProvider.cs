@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 namespace ActionTree
-{ 
+{
     public abstract class TreeProvider : MonoBehaviour
     {
 #if UNITY_EDITOR && !RELEASE
@@ -24,14 +24,13 @@ namespace ActionTree
             {
                 tempEntity = new Entity();
                 tempEntity.parent = parent;
-                if (parent != null)
-                    parent.childs.Add(tempEntity);
+                //if (parent != null)
+                //    parent.childs.Add(tempEntity);
                 isNewE = true;
                 return tempEntity;
             }
             return tempEntity = parent;
         }
-        
         public virtual void CollectComponent()
         {
             if (isNewE)
@@ -42,15 +41,30 @@ namespace ActionTree
                     tempEntity.Add(cmps[i].GetValue());
                 }
                 var cmp = GetComponent<UnityEntity>();
+                //Debug.Log($"this::{this} cmp::{cmp} e::{tempEntity} parent::{tempEntity.parent} ");
                 if (cmp != null)
                 {
                     if (tempEntity != null)
                     {
                         if (tempEntity.Get<UnityEntity>() == null)
-                            tempEntity.Add(cmp);
+                            tempEntity.AddImpl<UnityEntity>(cmp);
                     }
                 }
             }
+        }
+        protected string _Stack()
+        {
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
+            var p = transform;
+            while (p)
+            {
+                builder.Append(p.name);
+                
+                p = p.parent;
+                if (p)
+                    builder.Append("<-");
+            }
+            return builder.ToString();
         }
 #if UNITY_EDITOR &&!RELEASE
         private void Update()
@@ -60,7 +74,8 @@ namespace ActionTree
         }
 #endif
 #if UNITY_EDITOR
-        protected readonly static Dictionary<Type, Type> cmp2pdr = new Dictionary<Type, Type>();
+        internal readonly static Dictionary<Type, Type> cmp2pdr = new Dictionary<Type, Type>();
+        
         static bool inited;
         public void AddCmps()
         {
@@ -75,7 +90,10 @@ namespace ActionTree
                         {
                             var key = item.BaseType.GetGenericArguments()[0];
                             if (!cmp2pdr.ContainsKey(key))
+                            {
                                 cmp2pdr.Add(key, item);
+                              
+                            }
                         }
                     }
                 }
@@ -99,26 +117,60 @@ namespace ActionTree
         }
 #endif
         protected virtual bool isRename { get => true; }
-        public void DestroySelf()
+        public virtual void DestroySelf()
         {
 #if !UNITY_EDITOR || RELEASE
             Mgr.releases.Enqueue(this);
 #endif
         }
     }
-    [ExecuteInEditMode]
+    public interface IFieldOverride
+    {
+        string fieldName { get; }
+        Type OverrideType { get; }
+    }
+    //[ExecuteInEditMode]
     public abstract class TreeProvider<T> : TreeProvider where T : Tree, new()
     {
         protected T value = new T();
         internal override Type TreeType() => typeof(T);
         public override ITree tree => value;
+        Dictionary<string,Type> overrides;
         public override ITree GetTree()
         {
             //TakeAllCmps();
             value.entity = tempEntity;
             value.Name = gameObject.name;
+            TrySetCallBack();
             DestroySelf();
             return value;
+        }
+        protected void TrySetCallBack()
+        {
+            if (value is ATree tree)
+            {
+                var ovds = GetComponents<IFieldOverride>();
+                if (ovds.Length > 0)
+                {
+                    tree.onCmpFinding = (n, t) =>
+                    {
+                        if (overrides == null)
+                        {
+                            overrides = new Dictionary<string, Type>();
+                            foreach (var item in ovds)
+                            {
+                                if (!string.IsNullOrEmpty(item.fieldName) && item.OverrideType != null)
+                                {
+                                    overrides.Add(item.fieldName, item.OverrideType);
+                                }
+                            }
+                        }
+                        if (overrides.TryGetValue(n, out var type))
+                            return type;
+                        return t;
+                    };
+                }
+            }
         }
         internal override ITree Clone()
         {
@@ -196,6 +248,8 @@ namespace ActionTree
             return clone;
         }
     }
+    //[AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    //public class MenualImpl : Attribute { }
 #if UNITY_EDITOR
     [UnityEditor.CustomEditor(typeof(TreeProvider), true)]
     class TreeProviderEditor : UnityEditor.Editor
@@ -205,21 +259,28 @@ namespace ActionTree
         {
             base.OnInspectorGUI();
             var tar = target as TreeProvider;
+            LoadFields(tar, fields);
+            for (int i = 0; i < fields.Count; i++)
+            {
+                var f = fields[i];
+                UnityEditor.EditorGUILayout.LabelField($"{f.Name}:{f.FieldType}");
+            }
+        }
+
+        public static void LoadFields(TreeProvider tar,List<FieldInfo> infos)
+        {
             var type = tar.TreeType();
             if (type != null)
             {
-                if (fields.Count == 0)
+                if (infos.Count == 0)
                 {
-                    foreach (var item in tar.TreeType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
+                    foreach (var item in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
                     {
                         if (typeof(IComponent).IsAssignableFrom(item.FieldType))
-                            fields.Add(item);
+                        {
+                            infos.Add(item);
+                        }
                     }
-                }
-                for (int i = 0; i < fields.Count; i++)
-                {
-                    var f = fields[i];
-                    UnityEditor.EditorGUILayout.LabelField($"{f.Name}:{f.FieldType}");
                 }
             }
         }

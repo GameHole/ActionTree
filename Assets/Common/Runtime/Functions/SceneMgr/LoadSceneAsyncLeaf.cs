@@ -17,13 +17,13 @@ namespace ActionTree
             Mgr.postMains.Enqueue(() =>
             {
                 Mgr.RemoveEntities();
-                Mgr.singleInstance.StartCoroutine(LoadScene(identity.id));
+                Mgr.singleInstance.StartCoroutine(LoadScene(identity.value));
             });
         }
 
         System.Collections.IEnumerator LoadScene(int id)
         {
-            var aop = SceneManager.LoadSceneAsync(identity.id);
+            var aop = SceneManager.LoadSceneAsync(identity.value);
             aop.allowSceneActivation = false;
             loadAsyncParam.operation = aop;
             var waitFrame = new WaitForEndOfFrame();

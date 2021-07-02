@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace ActionTree
@@ -6,6 +7,7 @@ namespace ActionTree
     public abstract class CmpProvider : MonoBehaviour
     {
         public abstract IComponent GetValue();
+        public abstract Type CmpType();
         //public abstract IComponent Value { get; }
 #if UNITY_EDITOR
         [ContextMenu("MoveToParent")]
@@ -24,6 +26,7 @@ namespace ActionTree
     public abstract class CmpProvider<T> : CmpProvider where T : IComponent,new()
     {
         public T value = new T();
+        public override Type CmpType() => typeof(T);
         //public override IComponent Value => value;
         public override IComponent GetValue()
         {

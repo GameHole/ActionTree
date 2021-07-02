@@ -16,7 +16,7 @@ namespace ActionTree
             {
                 SceneManager.sceneLoaded += onLoaded;
                 Mgr.RemoveEntities();
-                SceneManager.LoadScene(identity.id);
+                SceneManager.LoadScene(identity.value);
             });
         }
         private void onLoaded(Scene arg0, LoadSceneMode arg1)

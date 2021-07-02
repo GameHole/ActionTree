@@ -156,7 +156,7 @@ namespace ActionTree
             }
             return null;
         }
-        internal Entity FindEntityWith(params Type[] type)
+        public Entity FindEntityWith(params Type[] type)
         {
             var ls = cntr.Find(type);
             if (ls.Count > 0)
@@ -236,7 +236,7 @@ namespace ActionTree
                     }
                     else
                     {
-                        throw new ArgumentException($"Findedable type {tree.GetType()} must be a child node,you need to add a 'ATreeCntr' node to parent");
+                        throw new ArgumentException($"Findedable tree {tree.Name} must be a child node,you need to add a 'ATreeCntr' node to parent");
                     }
                 }
             }

@@ -7,9 +7,26 @@ namespace ActionTree
     public class UnityEntity : MonoBehaviour,IComponent
     {
         public Entity entity;
+        Entity parentCatche;
         internal ITree tree;
+        public bool Condition
+        {
+            get
+            {
+                if (tree != null)
+                    return tree.Condition;
+                return true;
+            }
+            set
+            {
+                if (tree != null)
+                    tree.Condition = value;
+            }
+        }
         bool isInited;
         public bool notDestroyOnLoad;
+        public virtual bool alwaysRun { get => false; }
+        UnityEntity[] childs;
         //Action onDestroyAct;
         private void Awake()
         {
@@ -25,10 +42,12 @@ namespace ActionTree
                 if (es[i] != this)
                 {
                     es[i].enabled = false;
+                    if (es[i].notDestroyOnLoad) continue;
                     es[i].notDestroyOnLoad = notDestroyOnLoad;
-                    //Debug.Log($"disable entity child {es[i]}");
+                    //Debug.Log($"disable entity child {es[i]} this,{this}");
                 }
             }
+            childs = es;
             //if (notDestroyOnLoad)
             //    DontDestroyOnLoad(gameObject);
         }
@@ -36,25 +55,53 @@ namespace ActionTree
         void Start()
         {
             InitOnce();
+            var es = childs;
+            if (es != null)
+            {
+                for (int i = 0; i < es.Length; i++)
+                {
+                    if (es[i] != this)
+                    {
+                        es[i].enabled = es[i].alwaysRun;
+                    }
+                    //Debug.Log($"enable entity child {es[i]} this,{this}");
+                }
+                childs = null;
+            }
+        }
+        public Entity TryGetEntity()
+        {
+            Entity entity = null;
+            var cmp = GetComponent<CmpProvider>();
+            if (!cmp)
+            {
+                entity = new Entity();
+                entity.AddImpl<UnityEntity>(this);
+            }
+            return entity;
         }
         public void InitOnce(Entity parnet=null)
         {
-            //Debug.Log("add");
+            //Debug.Log($"init {this}");
             if (isInited) return;
             isInited = true;
-         
+            if (parnet == null)
+            {
+                parnet = TryGetEntity();
+            }
             //entity = new Entity();
             var pdr = GetComponent<TreeProvider>();
             if (pdr)
             {
                 //Debug.Log($"init pdr {this}");
+                this.parentCatche = parnet;
                 entity = pdr.MakeEntity(parnet);
                 //Debug.Log($"{this} {entity}" );
                 pdr.CollectComponent();
                 //if (entity != null)
                 //    entity.parent = parnet;
                 tree = pdr.GetTree();
-                //Debug.Log($"{this} {tree.Entity}");
+                //Debug.Log($"{this} {tree}");
                 if (tree != null)
                 {
                     tree.Apply();
@@ -98,7 +145,12 @@ namespace ActionTree
                 {
                     entity.Add(cmps[i].GetValue());
                 }
+                entity.Add(this);
                 entity.parent = e;
+                //if (e != null)
+                //{
+                //    e.childs.Add(entity);
+                //}
             }
             else
             {
@@ -108,7 +160,7 @@ namespace ActionTree
         private void OnDestroy()
         {
 
-            if (entity != null)
+            if (entity != null && entity != parentCatche)
             {
                 Mgr.driver.RemoveEntity(entity);
                 //string a = "";
@@ -118,6 +170,10 @@ namespace ActionTree
                 //}
                 //Debug.Log($"OnDestroy {this} {entity.id} {entity.GetCmpHash()} {a}");
             }
+            //if (tree != null)
+            //{
+            //    tree.Condition = true;
+            //}
         }
 
         //        internal void _Update()

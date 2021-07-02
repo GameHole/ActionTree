@@ -33,6 +33,7 @@ namespace ActionTree
         }
         private void Awake()
         {
+            //Debug.Log($"awake {this}");
             if (logic == null)
             {
                 logic = Instantiate(prefab, transform);

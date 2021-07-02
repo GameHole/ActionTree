@@ -8,7 +8,7 @@ namespace ActionTree
         StringValue value;
         public override void Do()
         {
-            if (format.param != null)
+            if (format.param.Length>0)
             {
                 value.value = string.Format(format.value, format.param);
                 Condition = true;

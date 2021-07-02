@@ -9,7 +9,8 @@ namespace ActionTree
         AnimCurve curve;
 		public override void Do()
         {
-            rotation.value = Quaternion.Lerp(rotate.start, rotate.end, curve.output);
+            rotation.value = Quaternion.Euler((1 - curve.output) * rotate.startEuler + rotate.endEuler * curve.output);//Quaternion.Slerp(rotate.start, rotate.end, curve.output);
+            //this.Log($"{rotate.start} {rotate.end}");
         }
 	}
 	public class RotateToLeaf: TreeProvider<RotateTo> { }

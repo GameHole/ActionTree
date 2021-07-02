@@ -13,5 +13,7 @@ namespace ActionTree
             Condition = inverse.Value(false) ^ process.value >= value.value;
         }
 	}
-	public class WaitProcessLeaf: TreeProvider<WaitProcess> { }
+	public class WaitProcessLeaf: TreeProvider<WaitProcess>
+    {
+    }
 }

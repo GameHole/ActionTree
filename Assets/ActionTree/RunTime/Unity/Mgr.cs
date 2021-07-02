@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,7 +19,8 @@ namespace ActionTree
         internal static Queue<TreeProvider> releases = new Queue<TreeProvider>();
         internal readonly static Driver driver = new Driver();
         internal static UnityWorker[] workers;
-        public static Queue<Action> postMains = new Queue<Action>();
+        public static ConcurrentQueue<Action> postMains = new ConcurrentQueue<Action>();
+        public static ConcurrentQueue<Action> lateUpdate = new ConcurrentQueue<Action>();
         static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
         public static void AddTree(UnityEntity unity)
@@ -91,9 +93,9 @@ namespace ActionTree
         }
         static void PostMain()
         {
-            while (postMains.Count > 0)
+            while (postMains.TryDequeue(out var v))
             {
-                postMains.Dequeue()?.Invoke();
+                v?.Invoke();
             }
         }
         static void RunMainDo()
@@ -164,6 +166,10 @@ namespace ActionTree
         }
         private void LateUpdate()
         {
+            while (lateUpdate.TryDequeue(out var v))
+            {
+                v?.Invoke();
+            }
             for (int i = 0; i < 100; i++)
             {
                 if (releases.Count <= 0)

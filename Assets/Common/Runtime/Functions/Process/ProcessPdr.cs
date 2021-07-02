@@ -4,9 +4,6 @@ using UnityEngine;
 namespace ActionTree
 {
 	[System.Serializable]
-	public sealed class Process : IComponent
-	{
-        public float value;
-	}
+	public sealed class Process : FloatValue { }
 	public class ProcessPdr: CmpProvider<Process> { }
 }

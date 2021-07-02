@@ -9,6 +9,7 @@ namespace ActionTree
         bool isInited;
 		public override void Do()
         {
+            Condition = coliders.collisions.Count > 0;
             if (isInited) return;
             isInited = true;
             proxy.trigger.onCollisionEnter += OnTriggerEnter;
@@ -16,7 +17,7 @@ namespace ActionTree
 
         private void OnTriggerEnter(Collision obj)
         {
-            Condition = true;
+            //this.Log(obj);
             //proxy.trigger.onCollisionEnter -= OnTriggerEnter;
             coliders.collisions.Add(obj);
         }

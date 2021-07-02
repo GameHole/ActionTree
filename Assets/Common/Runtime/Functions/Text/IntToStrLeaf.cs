@@ -5,10 +5,12 @@ namespace ActionTree
 	public sealed class IntToStr:ATree
 	{
         IntValue value;
+        [AllowNull]IntValue offset;
         Format format;
         public override void Do()
         {
-            format[0] = value.value;
+            int off = offset == null || value == offset ? 0 : offset.value;
+            format[0] = value.value + off;
             Condition = true;
         }
 	}
