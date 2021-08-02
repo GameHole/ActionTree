@@ -1,7 +1,0 @@
-using ActionTree;
-using UnityEngine;
-namespace #NAMESPACE#
-{
-	public sealed class Clear#NAME# : ClearBoolen<#NAME#> { }
-	public class Clear#NAME#Leaf: TreeProvider<Clear#NAME#> { }
-}

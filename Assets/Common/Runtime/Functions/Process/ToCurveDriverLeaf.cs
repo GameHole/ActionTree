@@ -8,7 +8,7 @@ namespace CrashSimulator
         Process process;
 		public override void Do()
         {
-            if (curve.increase < process.value)
+            //if (curve.increase < process.value)
                 curve.increase = process.value;
             Condition = true;
         }

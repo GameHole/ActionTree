@@ -92,7 +92,7 @@ namespace ActionTree
                 }
             }
         }
-        bool isWorking()
+        public bool isWorking()
         {
             for (int i = 0; i < workers.Length; i++)
             {

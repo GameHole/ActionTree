@@ -132,6 +132,7 @@ namespace ActionTree
     //[ExecuteInEditMode]
     public abstract class TreeProvider<T> : TreeProvider where T : Tree, new()
     {
+        public bool isTargetPriority;
         protected T value = new T();
         internal override Type TreeType() => typeof(T);
         public override ITree tree => value;
@@ -142,8 +143,16 @@ namespace ActionTree
             value.entity = tempEntity;
             value.Name = gameObject.name;
             TrySetCallBack();
+            SetFromTarget();
             DestroySelf();
             return value;
+        }
+        protected void SetFromTarget()
+        {
+            if (value is ATree tree)
+            {
+                tree.isTargetPriority = isTargetPriority;
+            }
         }
         protected void TrySetCallBack()
         {
@@ -183,7 +192,7 @@ namespace ActionTree
     
     public abstract class TreeCntrProvider<T> : TreeProvider<T> where T : ATreeCntr, new()
     {
-        protected override bool isRename => false;
+        //protected override bool isRename => false;
         public override Entity MakeEntity(Entity parent)
         {
             var r = base.MakeEntity(parent);

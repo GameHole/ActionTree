@@ -20,7 +20,7 @@ namespace ActionTree
         internal readonly static Driver driver = new Driver();
         internal static UnityWorker[] workers;
         public static ConcurrentQueue<Action> postMains = new ConcurrentQueue<Action>();
-        public static ConcurrentQueue<Action> lateUpdate = new ConcurrentQueue<Action>();
+        internal static ConcurrentQueue<Action> lateUpdate = new ConcurrentQueue<Action>();
         static Queue<int> removed = new Queue<int>();
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
         public static void AddTree(UnityEntity unity)
@@ -79,7 +79,7 @@ namespace ActionTree
                 if (main != null)
                 {
                     var predo = t.GetCustomAttribute<NotPreDoAttribute>();
-                    var proxy = new ProxyTree() { tree = tree, worker = workers[id], usePredo = predo == null };
+                    var proxy = new ProxyTree() { tree = tree, worker = workers[id], usePredo = predo == null, updateType = main.update };
                     tree = proxy;
                 }
             }

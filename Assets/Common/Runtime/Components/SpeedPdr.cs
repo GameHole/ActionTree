@@ -3,9 +3,9 @@ using UnityEngine;
 namespace ActionTree
 {
     [System.Serializable]
-    public sealed class Speed : IComponent
+    public sealed class Speed : FloatValue
     {
-        public float value;
+        //public float value;
     }
 	public class SpeedPdr: CmpProvider<Speed> { }
     public static class SpeedEx

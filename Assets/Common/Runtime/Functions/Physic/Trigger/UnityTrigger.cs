@@ -47,6 +47,7 @@ namespace ActionTree
         }
         public void OnTriggerEnter(Collider other)
         {
+            //Debug.Log($"Trigger Enter{other}");
             onTriggerEnter?.Invoke(other);
         }
         public void OnTriggerExit(Collider other)

@@ -19,6 +19,7 @@ namespace ActionTree
         public ITree parent { get => tree.parent; set => throw new NotImplementedException(); }
 
         public UnityWorker worker;
+        public UpdateType updateType;
         public bool usePredo = true;
         public void Clear()
         {
@@ -27,9 +28,15 @@ namespace ActionTree
         }
         public void Do()
         {
-            //UnityEngine.Debug.Log($"do {this} dele {tree}");
-            //if (!Condition)
-            worker.dos.Enqueue(tree);
+            switch (updateType)
+            {
+                case UpdateType.Update:
+                    worker.dos.Enqueue(tree);
+                    break;
+                case UpdateType.LateUpdate:
+                    Mgr.lateUpdate.Enqueue(tree.Do);
+                    break;
+            }
         }
 
         public bool PreDo()
@@ -42,7 +49,7 @@ namespace ActionTree
 
         public void Apply()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException($"May your parent entity has 'TreeProvider' component \nRoute:{tree.stack()}");
         }
     }
 }

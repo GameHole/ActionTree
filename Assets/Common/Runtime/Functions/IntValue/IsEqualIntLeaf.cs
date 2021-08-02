@@ -6,9 +6,10 @@ namespace CrashSimulator
 	{
         IntValue selected;
         IntValue compared;
+        [AllowNull] Boolen isInverse;
         public override void Do()
         {
-            Condition = selected.value == compared.value;
+            Condition = isInverse.Value(false) ^ selected.value == compared.value;
         }
 	}
     //[RequireComponent(typeof(OverrideField))]

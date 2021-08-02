@@ -6,12 +6,18 @@ namespace ActionTree
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class AllowNull : Attribute { }
+    public class CmpFindingInfo
+    {
+        public Type type;
+        public bool containThis = true;
+    }
     public abstract class ATree : Tree
     {
         public static float deltaTime { get; internal set; }
         public Driver driver;
         internal List<FieldInfo> needFindInfo;
         internal Func<string,Type, Type> onCmpFinding;
+        internal bool isTargetPriority;
         //public Func<FieldInfo,Entity, IComponent> onNotFoundComponent; 
         public override void Clear()
         {
@@ -57,7 +63,9 @@ namespace ActionTree
                 if (typeof(IComponent).IsAssignableFrom(type))
                 {
                     if (onCmpFinding != null)
-                        type = onCmpFinding(item.Name,type);
+                    {
+                        type = onCmpFinding(item.Name, type);
+                    }
                     var list = entity.FindAll(type);
                     var array = Array.CreateInstance(type, list.Count);
                     for (int i = 0; i < list.Count; i++)
@@ -72,14 +80,25 @@ namespace ActionTree
                 if (typeof(IComponent).IsAssignableFrom(ft))
                 {
                     var tarAttr = item.GetCustomAttribute<NotThis>();
+                    bool containThis = tarAttr == null;
                     if (onCmpFinding != null)
                     {
                         ft = onCmpFinding(item.Name, ft);
                     }
-                    var cmp = entity.FindComponent(ft, tarAttr == null);
-                    if (cmp == null)
+                    IComponent cmp = null;
+                    if (isTargetPriority)
                     {
                         cmp = FindFromTarget(ft);
+                        if (cmp == null)
+                            cmp = entity.FindComponent(ft, containThis);
+                    }
+                    else
+                    {
+                        cmp = entity.FindComponent(ft, containThis);
+                        if (cmp == null)
+                        {
+                            cmp = FindFromTarget(ft);
+                        }
                     }
                     if (cmp == null)
                     {

@@ -6,7 +6,7 @@ namespace ActionTree
     //[MainThread]
 	public sealed class LoadScene:ATree
 	{
-        Identity identity;
+        IntValue identity;
         bool isRuned;
 		public override void Do()
         {

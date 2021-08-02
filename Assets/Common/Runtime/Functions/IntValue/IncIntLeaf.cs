@@ -7,6 +7,7 @@ namespace ActionTree
         IntValue value;
 		public override void Do()
         {
+            //this.Log("inc");
             value.value++;
             Condition = true;
         }

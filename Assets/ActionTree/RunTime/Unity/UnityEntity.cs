@@ -60,7 +60,7 @@ namespace ActionTree
             {
                 for (int i = 0; i < es.Length; i++)
                 {
-                    if (es[i] != this)
+                    if (es[i] != this && es[i] != null)
                     {
                         es[i].enabled = es[i].alwaysRun;
                     }
