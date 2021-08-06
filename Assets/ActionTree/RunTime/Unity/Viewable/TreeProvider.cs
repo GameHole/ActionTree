@@ -192,7 +192,15 @@ namespace ActionTree
     
     public abstract class TreeCntrProvider<T> : TreeProvider<T> where T : ATreeCntr, new()
     {
-        //protected override bool isRename => false;
+        protected override bool isRename
+        {
+            get
+            {
+                if (gameObject.name != typeof(T).Name)
+                    return false;
+                return true;
+            }
+        }
         public override Entity MakeEntity(Entity parent)
         {
             var r = base.MakeEntity(parent);
@@ -215,8 +223,8 @@ namespace ActionTree
             for (int i = 0; i < transform.childCount; i++)
             {
                 var child = transform.GetChild(i);
-
-                if (child.gameObject.activeInHierarchy)
+                //Debug.Log($"c::{child.gameObject} cc::{child.gameObject.activeSelf}");
+                if (child.gameObject.activeSelf)
                 {
                     var item = child.GetComponent<TreeProvider>();
                     if (item)

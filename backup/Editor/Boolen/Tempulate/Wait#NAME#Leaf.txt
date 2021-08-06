@@ -1,0 +1,7 @@
+using ActionTree;
+using UnityEngine;
+namespace #NAMESPACE#
+{
+	public sealed class Wait#NAME# : WaitBoolen<#NAME#> { }
+	public class Wait#NAME#Leaf: TreeProvider<Wait#NAME#> { }
+}

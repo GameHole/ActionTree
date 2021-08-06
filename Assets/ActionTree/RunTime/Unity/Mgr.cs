@@ -25,7 +25,7 @@ namespace ActionTree
         static List<UnityEntity> unityEntities = new List<UnityEntity>();
         public static void AddTree(UnityEntity unity)
         {
-            //Debug.Log($"add {unity}");
+            //Debug.Log($"add {unity} c::{unity.Condition}");
             driver.AddTree(unity.tree);
             if (removed.Count > 0)
             {
@@ -136,7 +136,7 @@ namespace ActionTree
         {
             for (int i = 0; i < unityEntities.Count; i++)
             {
-                //Debug.Log(unityEntities[i].isDestroyed);
+                //Debug.Log($"remove menu ::{unityEntities[i]}");
                 var e = unityEntities[i];
                 if (e != null)
                 {
@@ -148,14 +148,15 @@ namespace ActionTree
         {
             for (int i = 0; i < unityEntities.Count; i++)
             {
-                //Debug.Log(unityEntities[i].isDestroyed);
+               
                 if (unityEntities[i] != null)
                 {
+                    //Debug.Log($" {unityEntities[i]} c ::{unityEntities[i].tree.Condition}");
                     if (unityEntities[i].tree.Condition)
                     {
-//#if UNITY_EDITOR && !RELEASE
-//                        Debug.Log($"destroy {unityEntities[i]}");
-//#endif
+                        //#if UNITY_EDITOR && !RELEASE
+                        //Debug.Log($"destroy {unityEntities[i]}");
+                        //#endif
                         Destroy(unityEntities[i].gameObject);
                         removed.Enqueue(i);
                         //Debug.Log($"enqueue  {i}");

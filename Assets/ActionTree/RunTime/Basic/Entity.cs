@@ -45,6 +45,22 @@ namespace ActionTree
         {
             components.Add(typeof(T), v);
         }
+        public bool Set(IComponent value)
+        {
+            var type = value.GetType();
+            if (!components.ContainsKey(type))
+                return false;
+            components[type] = value;
+            return true;
+        }
+        public bool Set<T>(IComponent value) where T:IComponent
+        {
+            var type = typeof(T);
+            if (!components.ContainsKey(type))
+                return false;
+            components[type] = value;
+            return true;
+        }
         public T Get<T>() where T : class, IComponent
         {
             return Get(typeof(T)) as T;

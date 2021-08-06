@@ -23,7 +23,18 @@ namespace ActionTree
         {
             Condition = false;
         }
-
+        protected void ReApply()
+        {
+            var p = parent;
+            var root = p;
+            //while (p != null)
+            //{
+            //    root = p;
+            //    p = p.parent;
+            //}
+            if (root != null)
+                root.Apply();
+        }
         public override void Apply()
         {
             reflect();

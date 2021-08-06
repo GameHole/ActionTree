@@ -6,6 +6,7 @@ namespace ActionTree
 	public class Boolen : IComponent
 	{
         public bool value;
+        public static implicit operator bool (Boolen boolen)=>boolen.value;
 	}
     public static class BoolenEx
     {

@@ -33,6 +33,7 @@ namespace ActionTree
         }
         public override bool PreDo()
         {
+            //this.Log($"pd c ::{Count}");
             if (index < Count)
             {
                 //this.Log($"pre do {trees[index].Name} {trees[index].Condition} ");

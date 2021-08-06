@@ -96,6 +96,8 @@ namespace ActionTree
         }
         public override void Apply()
         {
+            if (Count == 0)
+                throw new ArgumentException($"Cntr Must Contain Child\n{this.stack()}");
             for (int i = 0; i < Count; i++)
             {
                 trees[i].Apply();

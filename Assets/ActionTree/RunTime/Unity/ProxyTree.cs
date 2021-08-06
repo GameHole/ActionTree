@@ -49,7 +49,8 @@ namespace ActionTree
 
         public void Apply()
         {
-            throw new NotImplementedException($"May your parent entity has 'TreeProvider' component \nRoute:{tree.stack()}");
+            tree.Apply();
+            //throw new NotImplementedException($"May entity`s  parent entity has 'TreeProvider' component \nRoute:{tree.stack()}");
         }
     }
 }

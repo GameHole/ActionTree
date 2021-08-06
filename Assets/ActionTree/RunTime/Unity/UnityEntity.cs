@@ -80,6 +80,10 @@ namespace ActionTree
             }
             return entity;
         }
+        /// <summary>
+        /// 如果本物体在 隐藏 时调用初始化会出现找不到组件问题
+        /// </summary>
+        /// <param name="parnet"></param>
         public void InitOnce(Entity parnet=null)
         {
             //Debug.Log($"init {this}");
@@ -93,7 +97,7 @@ namespace ActionTree
             var pdr = GetComponent<TreeProvider>();
             if (pdr)
             {
-                //Debug.Log($"init pdr {this}");
+                //Debug.Log($"init pdr this::{this} parent::{parnet}");
                 this.parentCatche = parnet;
                 entity = pdr.MakeEntity(parnet);
                 //Debug.Log($"{this} {entity}" );
@@ -101,7 +105,7 @@ namespace ActionTree
                 //if (entity != null)
                 //    entity.parent = parnet;
                 tree = pdr.GetTree();
-                //Debug.Log($"{this} {tree}");
+                //Debug.Log($"{this} {tree} c::{tree.Condition}");
                 if (tree != null)
                 {
                     tree.Apply();
