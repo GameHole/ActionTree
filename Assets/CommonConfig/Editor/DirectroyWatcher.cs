@@ -133,6 +133,10 @@ namespace ActionTree
                     }
                 }
             }
+            else
+            {
+                Debug.LogWarning("excel not found");
+            }
         }
         static string FindResFloader()
         {
