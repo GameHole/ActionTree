@@ -123,7 +123,6 @@ namespace ActionTree
         static void RepleaseConfig(string path)
         {
             if (path.Contains(".meta")) return;
-            Debug.Log(path);
             var dataset = ExcelHelper.OpenExcel(path);
             if (dataset != null)
             {
