@@ -78,7 +78,7 @@ namespace ActionTree
         {
             components.Remove(type);
         }
-        public IComponent FindComponent(Type type, bool containThis = true)
+        internal IComponent FindComponent(Type type, bool containThis = true)
         {
             IComponent cmp = containThis ? Get(type) : null;
             var p = parent;
@@ -88,6 +88,10 @@ namespace ActionTree
                 p = p.parent;
             }
             return cmp;
+        }
+        public T FindComponent<T>()where T :class, IComponent
+        {
+            return FindComponent(typeof(T)) as T;
         }
         IComponent _FindImplementCmp(Type baseicType)
         {

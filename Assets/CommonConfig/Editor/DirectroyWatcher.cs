@@ -110,7 +110,7 @@ namespace ActionTree
                 if(isMapping(item) && isFileChange(item,out var md5))
                 {
                     buffer[item] = md5;
-                    Debug.Log("change");
+                    Debug.Log($"{Path.GetFileNameWithoutExtension(item)} change");
                     RepleaseConfig(item);
                 }
             }
@@ -122,6 +122,8 @@ namespace ActionTree
         }
         static void RepleaseConfig(string path)
         {
+            if (path.Contains(".meta")) return;
+            Debug.Log(path);
             var dataset = ExcelHelper.OpenExcel(path);
             if (dataset != null)
             {
@@ -135,7 +137,7 @@ namespace ActionTree
             }
             else
             {
-                Debug.LogWarning("excel not found");
+                Debug.LogWarning($"{Path.GetFileNameWithoutExtension(path)} excel not found");
             }
         }
         static string FindResFloader()
