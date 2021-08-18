@@ -9,11 +9,7 @@ namespace ActionTree
         Identity id;
         public override void Do()
         {
-            if (Input.GetMouseButtonUp(id.value))
-            {
-                Debug.Log("up");
-                Condition = true;
-            }
+            Condition = Input.GetMouseButtonUp(id.value);
         }
     }
 	public class WaitMouseUpLeaf: TreeProvider<WaitMouseUp> { }
