@@ -61,8 +61,7 @@ namespace ActionTree
             Undo.AddComponent(game, type);
             if (select != null)
             {
-                
-                game.transform.SetParent(select);
+                Undo.SetTransformParent(game.transform, select, $"setparebt::{game}");
                 game.transform.localPosition = Vector3.zero;
                 //Undo.RegisterFullObjectHierarchyUndo(select, "set child" + select.name);
                 //Undo.RegisterFullObjectHierarchyUndo(game, "set parent" + game.name);

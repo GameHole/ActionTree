@@ -63,17 +63,39 @@ namespace ActionTree
             for (int i = 0; i < addingEs.Count; i++)
             {
                 var e = addingEs[i];
-                cntr.Add(e);
-                onAddEntity?.Invoke(e);
+                //UnityEngine.Debug.Log($"parent::{e}");
+                _AddEntity(e);
+                //cntr.Add(e);
+                //onAddEntity?.Invoke(e);
             }
             for (int i = 0; i < removingEs.Count; i++)
             {
                 var e = removingEs[i];
-                cntr.Remove(e);
-                onRemoveEntity?.Invoke(e);
+                _RemoveEntity(e);
+                //cntr.Remove(e);
+                //onRemoveEntity?.Invoke(e);
             }
             addingEs.Clear();
             removingEs.Clear();
+        }
+        void _AddEntity(Entity entity)
+        {
+            cntr.Add(entity);
+            onAddEntity?.Invoke(entity);
+            foreach (var item in entity.childs)
+            {
+                //UnityEngine.Debug.Log($"child::{entity}");
+                _AddEntity(item);
+            }
+        }
+        void _RemoveEntity(Entity entity)
+        {
+            cntr.Remove(entity);
+            onRemoveEntity?.Invoke(entity);
+            foreach (var item in entity.childs)
+            {
+                _RemoveEntity(item);
+            }
         }
         void Do()
         {
@@ -232,6 +254,7 @@ namespace ActionTree
                         findTree.index = index;
                         findTree.cntr = cntr;
                         cntr.trees[index] = new NoneAction();
+                        //UnityEngine.Debug.Log($"at::{at.Name},rp::{tree.Name},idx::{index},cntr::{cntr.Name}");
                         workers[workerId].added.Add(findTree);
                     }
                     else

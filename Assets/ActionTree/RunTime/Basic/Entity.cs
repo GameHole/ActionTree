@@ -10,6 +10,7 @@ namespace ActionTree
         public Entity()
         {
             id = ++seed;
+            //UnityEngine.Debug.Log($"make ::{id}");
         }
         public uint id;
         Entity _parent;

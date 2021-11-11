@@ -1,6 +1,6 @@
 ﻿using ActionTree;
 using UnityEngine;
-namespace CrashSimulator
+namespace ActionTree
 {
     [MainThread]
 	public sealed class ScreenPointToRay:ATree

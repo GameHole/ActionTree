@@ -1,6 +1,6 @@
 ﻿using ActionTree;
 using UnityEngine;
-namespace CrashSimulator
+namespace ActionTree
 {
 	public sealed class IsEqualInt:ATree
 	{

@@ -9,6 +9,7 @@ namespace ActionTree
     {
         public Action<PointerEventData> onDown;
         public Action<PointerEventData> onUp;
+        public bool isUpWhenPointOut = true;
         public void OnPointerDown(PointerEventData eventData)
         {
             onDown?.Invoke(eventData);
@@ -21,7 +22,8 @@ namespace ActionTree
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            onUp?.Invoke(eventData);
+            if (isUpWhenPointOut)
+                onUp?.Invoke(eventData);
         }
 
         public void OnPointerUp(PointerEventData eventData)

@@ -1,0 +1,16 @@
+{
+    "name": "Common.Vib",
+    "references": [
+        "GUID:61bd9fa1ed85cc1489b30d40ba4bd982",
+        "GUID:6c67e5b7cdc3ad34f9c0cc0cb619d59b",
+        "GUID:6070aa2cd2b60244c90d725891014349"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

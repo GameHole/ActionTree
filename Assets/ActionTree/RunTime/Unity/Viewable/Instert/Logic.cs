@@ -52,6 +52,18 @@ namespace ActionTree
                 Mark(child);
             }
         }
+        [ContextMenu("RemoveId")]
+        public void RemoveId()
+        {
+            UnityEditor.Undo.RegisterCompleteObjectUndo(this, "remove id");
+            foreach (var item in ids)
+            {
+                UnityEditor.Undo.DestroyObjectImmediate(item);
+            }
+            ids.Clear();
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        
 #endif
     }
 }

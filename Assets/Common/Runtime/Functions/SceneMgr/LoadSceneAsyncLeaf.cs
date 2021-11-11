@@ -5,8 +5,8 @@ namespace ActionTree
 {
 	public sealed class LoadSceneAsync:ATree
 	{
-        Identity identity;
-        Process process; 
+        IntValue identity;
+        FloatValue process; 
         LoadAsyncParam loadAsyncParam;
         [AllowNull] Boolen allowAutoActive;
         bool isLoaded;
@@ -34,9 +34,9 @@ namespace ActionTree
                 if (process.value >= 1) break;
                 yield return waitFrame;
             }
-            bool allow = allowAutoActive.Value();
+            bool allow = allowAutoActive.Value(false);
             aop.allowSceneActivation = allow;
-            Condition = !allow;
+            Condition = true;
         }
         public override void Clear()
         {

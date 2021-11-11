@@ -24,7 +24,7 @@ namespace ActionTree
             if (name2Type == null)
             {
                 name2Type = new Dictionary<string, Type>();
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (var assembly in TreeDomain.workAssemblies)
                 {
                     foreach (var item in assembly.GetTypes())
                     {
@@ -41,6 +41,7 @@ namespace ActionTree
         [HideInInspector] public string ovdType;
     }
 #if UNITY_EDITOR
+    [UnityEditor.CanEditMultipleObjects]
     [UnityEditor.CustomEditor(typeof(OverrideField))]
     class OveridderEditor : UnityEditor.Editor
     {

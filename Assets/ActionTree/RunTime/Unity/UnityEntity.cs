@@ -7,7 +7,7 @@ namespace ActionTree
     public class UnityEntity : MonoBehaviour,IComponent
     {
         public Entity entity;
-        Entity parentCatche;
+        //Entity parentCatche;
         internal ITree tree;
         public bool Condition
         {
@@ -69,37 +69,41 @@ namespace ActionTree
                 childs = null;
             }
         }
-        public Entity TryGetEntity()
-        {
-            Entity entity = null;
-            var cmp = GetComponent<CmpProvider>();
-            if (!cmp)
-            {
-                entity = new Entity();
-                entity.AddImpl<UnityEntity>(this);
-            }
-            return entity;
-        }
+        //public Entity TryGetEntity()
+        //{
+        //    Entity entity = null;
+        //    var cmp = GetComponent<CmpProvider>();
+        //    if (!cmp)
+        //    {
+        //        entity = new Entity();
+        //        entity.AddImpl<UnityEntity>(this);
+        //    }
+        //    return entity;
+        //}
         /// <summary>
         /// 如果本物体在 隐藏 时调用初始化会出现找不到组件问题
         /// </summary>
         /// <param name="parnet"></param>
         public void InitOnce(Entity parnet=null)
         {
+            //Debug.Log($"init pdr this::{this} parent::{parnet}");
             //Debug.Log($"init {this}");
             if (isInited) return;
             isInited = true;
-            if (parnet == null)
-            {
-                parnet = TryGetEntity();
-            }
-            //entity = new Entity();
+            //if (parnet == null)
+            //{
+            //    parnet = TryGetEntity();
+            //}
+            entity = new Entity();
+            entity.parent = parnet;
+            entity.AddImpl<UnityEntity>(this);
+            MakeEntity(entity);
             var pdr = GetComponent<TreeProvider>();
             if (pdr)
             {
                 //Debug.Log($"init pdr this::{this} parent::{parnet}");
-                this.parentCatche = parnet;
-                entity = pdr.MakeEntity(parnet);
+                //this.parentCatche = parnet;
+                pdr.MakeEntity(entity);
                 //Debug.Log($"{this} {entity}" );
                 pdr.CollectComponent();
                 //if (entity != null)
@@ -112,15 +116,17 @@ namespace ActionTree
                 }
                 Join();
             }
-            else
-            {
-                //Debug.Log($"init e {this}");
-                MakeEntity(parnet);
-            }
-            if (entity != parnet)
-            {
-                Mgr.driver.AddEntity(entity);
-            }
+            //else
+            //{
+            //    //Debug.Log($"init e {this}");
+            //    MakeEntity(entity);
+            //}
+            //Debug.Log($"e::{entity} parent::{parnet}");
+            //if (entity != parnet)
+            //{
+            //    Mgr.driver.AddEntity(entity);
+            //}
+            Mgr.driver.AddEntity(entity);
             InitChild();
            
         }
@@ -144,27 +150,27 @@ namespace ActionTree
             var cmps = GetComponents<CmpProvider>();
             if (cmps.Length > 0)
             {
-                entity = new Entity();
+                //entity = new Entity();
                 for (int i = 0; i < cmps.Length; i++)
                 {
                     entity.Add(cmps[i].GetValue());
                 }
-                entity.Add(this);
-                entity.parent = e;
+                //entity.Add(this);
+                //entity.parent = e;
                 //if (e != null)
                 //{
                 //    e.childs.Add(entity);
                 //}
             }
-            else
-            {
-                entity = e;
-            }
+            //else
+            //{
+            //    entity = e;
+            //}
         }
         private void OnDestroy()
         {
 
-            if (entity != null && entity != parentCatche)
+            if (entity != null)
             {
                 Mgr.driver.RemoveEntity(entity);
                 //string a = "";
@@ -174,10 +180,10 @@ namespace ActionTree
                 //}
                 //Debug.Log($"OnDestroy {this} {entity.id} {entity.GetCmpHash()} {a}");
             }
-            //if (tree != null)
-            //{
-            //    tree.Condition = true;
-            //}
+            if (tree != null)
+            {
+                tree.Condition = !notDestroyOnLoad;
+            }
         }
 
         //        internal void _Update()

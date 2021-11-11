@@ -3,6 +3,7 @@ using ActionTree;
 using UnityEngine;
 namespace #NAMESPACE#
 {
+	[FileName()]
 	public sealed class #NAME# : IConfigValue
 	{
 		

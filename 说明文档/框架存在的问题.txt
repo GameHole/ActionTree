@@ -2,3 +2,4 @@
 2.拥有相同操作的不同类型数据的使用（已解决 方法1：使用OverrideField 组件手动指定字段类型， /*方法2：重载 Apply()，使用FindImplement查找组件*/）
 3.不同实体上数据的使用（目前使用finded）
 3.实体的执行顺序
+   (1)相机移动后执行的代码-预计解决方案：添加特定after lateUpdateQueue 和[MainThread(AfterLateUpdate)]

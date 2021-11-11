@@ -8,8 +8,8 @@ namespace ActionTree
     {
         public abstract IComponent GetValue();
         public abstract Type CmpType();
-        //public abstract IComponent Value { get; }
 #if UNITY_EDITOR
+        public abstract IComponent Value { get; }
         [ContextMenu("MoveToParent")]
         public void MoveToParent()
         {
@@ -18,7 +18,10 @@ namespace ActionTree
             {
                 UnityEditorInternal.ComponentUtility.CopyComponent(this);
                 UnityEditorInternal.ComponentUtility.PasteComponentAsNew(parnet.gameObject);
-                UnityEditor.Undo.DestroyObjectImmediate(this);
+                UnityEditor.EditorApplication.delayCall += () =>
+                {
+                    UnityEditor.Undo.DestroyObjectImmediate(this);
+                };
             }
         }
 #endif
@@ -27,11 +30,15 @@ namespace ActionTree
     {
         public T value = new T();
         public override Type CmpType() => typeof(T);
-        //public override IComponent Value => value;
+        protected virtual bool DestroySelfWhenInReleaseMode => true;
+#if UNITY_EDITOR
+        public override IComponent Value => value;
+#endif
         public override IComponent GetValue()
         {
-#if !UNITY_EDITOR|| RELEASE
-            Destroy(this);
+#if !UNITY_EDITOR || RELEASE
+            if (DestroySelfWhenInReleaseMode)
+                Destroy(this);
 #endif
             return value;
         }

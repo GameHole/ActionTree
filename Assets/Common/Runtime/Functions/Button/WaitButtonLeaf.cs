@@ -26,5 +26,8 @@ namespace ActionTree
             isInited = false;
         }
     }
-	public class WaitButtonLeaf: TreeProvider<WaitButton> { }
+	public class WaitButtonLeaf: TreeProvider<WaitButton>
+    {
+
+    }
 }

@@ -7,6 +7,7 @@ namespace ActionTree
     public sealed class Parallel : ATreeCntr
     {
         public bool isLooped;
+        public bool usePreDo = true;
         public override void Do()
         {
             for (int i = 0; i < Count; i++)
@@ -24,6 +25,12 @@ namespace ActionTree
             {
                 trees[i].Clear();
             }
+        }
+        public override bool PreDo()
+        {
+            if (usePreDo)
+                return base.PreDo();
+            return false;
         }
     }
 }

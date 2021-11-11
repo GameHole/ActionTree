@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ActionTree;
 using UnityEngine;
-namespace CrashSimulator
+namespace ActionTree
 {
     [System.Serializable]
     public sealed class LastTime : FloatValue

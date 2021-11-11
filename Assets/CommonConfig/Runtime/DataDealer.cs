@@ -171,7 +171,7 @@ namespace ActionTree
 
         public override object GetValue(string str, Type fieldType)
         {
-            var values = str.Split(',');
+            var values = str.Split(',','，');
             var eleType = fieldType.GetElementType();
             var array = Array.CreateInstance(eleType, values.Length);
             for (int i = 0; i < values.Length; i++)

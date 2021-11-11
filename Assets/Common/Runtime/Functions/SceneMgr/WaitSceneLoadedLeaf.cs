@@ -7,7 +7,13 @@ namespace ActionTree
 	public sealed class WaitSceneLoaded:ATree
 	{
         //Identity identity;
-		public override void Do() { }
+        bool isInited;
+		public override void Do()
+        {
+            if (isInited) return;
+            isInited = true;
+            SceneManager.sceneLoaded += onLoaded;
+        }
         public void onLoaded(Scene arg0, LoadSceneMode arg1)
         {
             SceneManager.sceneLoaded -= onLoaded;
@@ -16,15 +22,16 @@ namespace ActionTree
         public override void Clear()
         {
             base.Clear();
-            SceneManager.sceneLoaded += onLoaded;
+            isInited = false;
+            //SceneManager.sceneLoaded += onLoaded;
         }
     }
 	public class WaitSceneLoadedLeaf: TreeProvider<WaitSceneLoaded>
     {
-        public override ITree GetTree()
-        {
-            SceneManager.sceneLoaded += value.onLoaded;
-            return base.GetTree();
-        }
+        //public override ITree GetTree()
+        //{
+            
+        //    return base.GetTree();
+        //}
     }
 }

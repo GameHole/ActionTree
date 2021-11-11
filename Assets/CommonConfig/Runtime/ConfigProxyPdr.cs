@@ -19,7 +19,7 @@ namespace ActionTree
         internal string configTxt;
         internal Type classType;
         internal abstract void Set(int idx, IConfigValue value);
-
+        public abstract IConfigValue Get(int idx);
         public bool isInitialized() => Length > 0;
 
         public abstract int Length
@@ -50,6 +50,8 @@ namespace ActionTree
             get => values == null ? 0 : values.Length;
             internal set => values = new T[value];
         }
+
+        public override IConfigValue Get(int idx) => this[idx];
 
         public IEnumerator<T> GetEnumerator()
         {

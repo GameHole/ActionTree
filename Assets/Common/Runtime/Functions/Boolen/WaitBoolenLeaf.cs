@@ -9,11 +9,11 @@ namespace ActionTree
         {
             Condition = target.value;
         }
-        public override void Clear()
-        {
-            base.Clear();
-            target.value = false;
-        }
+        //public override void Clear()
+        //{
+        //    base.Clear();
+        //    target.value = false;
+        //}
     }
     public class WaitBoolen : WaitBoolen<Boolen> { }
     public class WaitBoolenLeaf : TreeProvider<WaitBoolen> { }

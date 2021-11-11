@@ -3,9 +3,9 @@ using UnityEngine;
 namespace ActionTree
 {
     [System.Serializable]
-    public sealed class Position : IComponent
+    public sealed class Position : Vector3Value
 	{
-        public Vector3 value;
+        //public Vector3 value;
 	}
 	public class PositionPdr: CmpProvider<Position>
     {

@@ -15,7 +15,7 @@ namespace ActionTree
                 int id = 1;
                 if (snake.Tail == null)
                     id = 0;
-                var clone = Object.Instantiate(prefabs.prefabs[id]);
+                var clone = Object.Instantiate(prefabs[id]);
                 var e = clone.GetComponent<UnityEntity>();
                 e.InitOnce();
                 if (snake.Tail != null)

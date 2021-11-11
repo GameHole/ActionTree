@@ -20,12 +20,10 @@ namespace ActionTree
         public virtual Entity MakeEntity(Entity parent)
         {
             var cmps = GetComponents<CmpProvider>();
-            if (cmps.Length > 0)
+            if (cmps.Length > 0&&!GetComponent<UnityEntity>())
             {
                 tempEntity = new Entity();
                 tempEntity.parent = parent;
-                //if (parent != null)
-                //    parent.childs.Add(tempEntity);
                 isNewE = true;
                 return tempEntity;
             }
@@ -50,6 +48,7 @@ namespace ActionTree
                             tempEntity.AddImpl<UnityEntity>(cmp);
                     }
                 }
+                //Mgr.driver.AddEntity(tempEntity);
             }
         }
         protected string _Stack()
@@ -204,6 +203,8 @@ namespace ActionTree
         public override Entity MakeEntity(Entity parent)
         {
             var r = base.MakeEntity(parent);
+            //if(parent == r)
+            //Debug.Log($"this::{this} e::{r} p::{parent}");
             Foreach((item) =>
             {
                 item.MakeEntity(r);
@@ -268,6 +269,7 @@ namespace ActionTree
     //[AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     //public class MenualImpl : Attribute { }
 #if UNITY_EDITOR
+    [UnityEditor.CanEditMultipleObjects]
     [UnityEditor.CustomEditor(typeof(TreeProvider), true)]
     class TreeProviderEditor : UnityEditor.Editor
     {
@@ -293,7 +295,8 @@ namespace ActionTree
                 {
                     foreach (var item in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
                     {
-                        if (typeof(IComponent).IsAssignableFrom(item.FieldType))
+                        var f = item.GetCustomAttribute<Finded>();
+                        if (f == null && typeof(IComponent).IsAssignableFrom(item.FieldType))
                         {
                             infos.Add(item);
                         }

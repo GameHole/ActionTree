@@ -40,19 +40,29 @@ namespace ActionTree
             }
         }
         public bool useMulThread = true;
+        static int idx = 0;
+        int _idx;
         private void Awake()
         {
-            singleInstance = this;
-            DontDestroyOnLoad(gameObject);
-            driver.Init();
-            driver.onBeforeRun += RunMainDo;
-            driver.onBeforeRun += PostMain;
-            InitWorkers();
-            driver.onTreeAdded.Insert(0, RepleaseProxyTree);
-            driver.useMulThread = useMulThread;
-            foreach (var item in GetComponentsInChildren<UnityEntity>())
+            idx = ++idx;
+            if (idx == 1)
             {
-                item.notDestroyOnLoad = true;
+                singleInstance = this;
+                DontDestroyOnLoad(gameObject);
+                driver.Init();
+                driver.onBeforeRun += RunMainDo;
+                driver.onBeforeRun += PostMain;
+                InitWorkers();
+                driver.onTreeAdded.Insert(0, RepleaseProxyTree);
+                driver.useMulThread = useMulThread;
+                foreach (var item in GetComponentsInChildren<UnityEntity>())
+                {
+                    item.notDestroyOnLoad = true;
+                }
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
         void InitWorkers()
@@ -75,11 +85,12 @@ namespace ActionTree
             else
             {
                 var t = tree.GetType();
-                var main = t.GetCustomAttribute<MainThreadAttribute>();
-                if (main != null)
+                //var main = t.GetCustomAttribute<MainThreadAttribute>();
+                //if (main != null)
+                if(MainThreadAnalize.IsInMain(t,out var update))
                 {
-                    var predo = t.GetCustomAttribute<NotPreDoAttribute>();
-                    var proxy = new ProxyTree() { tree = tree, worker = workers[id], usePredo = predo == null, updateType = main.update };
+                    //var predo = t.GetCustomAttribute<NotPreDoAttribute>();
+                    var proxy = new ProxyTree() { tree = tree, worker = workers[id], usePredo = true/*predo == null*/, updateType = update /*main.update*/ };
                     tree = proxy;
                 }
             }
@@ -202,7 +213,8 @@ namespace ActionTree
         }
         private void OnDestroy()
         {
-            driver.Destroy();
+            if (idx == 1)
+                driver.Destroy();
         }
     }
 }

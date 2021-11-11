@@ -9,7 +9,7 @@ namespace ActionTree
         FloatValue speed;
 		public override void Do()
         {
-            position.value += direction.value * speed;
+            position.value += direction.value * speed * deltaTime;
             Condition = true;
         }
 	}

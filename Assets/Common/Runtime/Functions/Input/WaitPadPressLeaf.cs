@@ -7,6 +7,7 @@ namespace ActionTree
         PadProxy proxy;
 		public override void Do()
         {
+            proxy.Init();
             Condition = proxy.isDown;
         }
 	}

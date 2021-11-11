@@ -10,6 +10,7 @@ namespace ActionTree
 		public override void Do()
         {
             proxy.button.interactable = value.value;
+            Condition = true;
         }
 	}
 	public class SetButtonEnableLeaf: TreeProvider<SetButtonEnable> { }

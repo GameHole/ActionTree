@@ -1,4 +1,4 @@
-﻿using ActionTree;
+﻿ using ActionTree;
 using UnityEngine;
 namespace ActionTree
 {
@@ -6,11 +6,11 @@ namespace ActionTree
 	public sealed class SyncToLocalPosition:ATree
 	{
         Position position;
-        UnityEntity ue;
+        GameObjectProxy target;
 		public override void Do()
         {
-            if (ue)
-                ue.transform.localPosition = position.value;
+            if (target.target)
+                target.target.transform.localPosition = position.value;
             //this.Log($"p ");
             Condition = true;
         }

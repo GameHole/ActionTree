@@ -11,19 +11,34 @@ namespace ActionTree
         //[HideInInspector]public PointerEventData data;
         //public bool isIn;
         public Pad pad;
+        bool isInited;
+        public void Init()
+        {
+            if (pad == null || isInited) return;
+            isInited = true;
+            pad.onDown += (v) =>
+            {
+                isDown = true;
+            };
+            pad.onUp += (v) =>
+            {
+                isDown = false;
+            };
+        }
 	}
 	public class PadProxyPdr: CmpProvider<PadProxy>
     {
         public override IComponent GetValue()
         {
-            value.pad.onDown += (v) =>
-            {
-                value.isDown = true;
-            };
-            value.pad.onUp += (v) =>
-            {
-                value.isDown = false;
-            };
+            value.Init();
+            //value.pad.onDown += (v) =>
+            //{
+            //    value.isDown = true;
+            //};
+            //value.pad.onUp += (v) =>
+            //{
+            //    value.isDown = false;
+            //};
             //value.pad.onEnter += (v) =>
             //{
             //    value.isIn = true;

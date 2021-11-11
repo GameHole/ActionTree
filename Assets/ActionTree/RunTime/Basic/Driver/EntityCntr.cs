@@ -14,6 +14,7 @@ namespace ActionTree
         Dictionary<int, ES> entities = new Dictionary<int, ES>();
         public void Add(Entity entity)
         {
+           
             int cmpHash = entity.GetCmpHash();
             
             if (!entities.TryGetValue(cmpHash, out var es))
@@ -25,7 +26,6 @@ namespace ActionTree
                 }
                 entities.Add(cmpHash, es);
             }
-            es.values.Add(entity.id, entity);
 
             //Debug.Log($"e {entity},hash:{cmpHash} c::{ es.values.Count}");
             //string a = "";
@@ -34,6 +34,10 @@ namespace ActionTree
             //    a += item.ToString() + ",";
             //}
             //Debug.Log($"Add e {cmpHash} {entity.id} {a}");
+            if (es.values.ContainsKey(entity.id)) return;
+            es.values.Add(entity.id, entity);
+            //UnityEngine.Debug.Log(entity);
+
 
         }
         public void Remove(Entity entity)
@@ -52,7 +56,6 @@ namespace ActionTree
             {
                 if (Contain(item.Value.eTypes, types))
                 {
-                  
                     re.AddRange(item.Value.values.Values);
                     //Debug.Log($"finded hash::{item.Key} cou:: {item.Value.values.Count}");
                 }

@@ -1,12 +1,13 @@
 ﻿using ActionTree;
 using UnityEngine;
-namespace CrashSimulator
+namespace ActionTree
 {
 	public sealed class WaitPadUp:ATree
 	{
         PadProxy pad;
-		public override void Do()
+        public override void Do()
         {
+            pad.Init();
             Condition = !pad.isDown;
         }
 	}

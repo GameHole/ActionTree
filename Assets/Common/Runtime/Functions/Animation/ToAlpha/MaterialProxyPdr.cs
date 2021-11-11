@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 namespace ActionTree
 {
-	//[System.Serializable]
-	public sealed class MaterialProxy : IComponent
+    [System.Serializable]
+    public sealed class MaterialProxy : IComponent
 	{
         public Material material;
 	}
@@ -15,7 +15,8 @@ namespace ActionTree
         public Renderer _renderer;
         public override IComponent GetValue()
         {
-            value.material = _renderer.material;
+            if (_renderer != null)
+                value.material = _renderer.material;
             return base.GetValue();
         }
     }
