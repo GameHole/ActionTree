@@ -16,7 +16,7 @@ namespace ActionTree
         internal abstract ITree Clone();
 
         internal Entity tempEntity;
-        bool isNewE;
+        internal bool isNewE;
         public virtual Entity MakeEntity(Entity parent)
         {
             var cmps = GetComponents<CmpProvider>();

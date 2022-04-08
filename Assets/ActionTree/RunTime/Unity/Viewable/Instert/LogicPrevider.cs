@@ -25,10 +25,13 @@ namespace ActionTree
         {
             var pdr = logic.pdr;
             pdr.CollectComponent();
-            var cmps = GetComponents<CmpProvider>();
-            for (int i = 0; i < cmps.Length; i++)
+            if (pdr.isNewE)
             {
-                pdr.tempEntity.Add(cmps[i].GetValue());
+                var cmps = GetComponents<CmpProvider>();
+                for (int i = 0; i < cmps.Length; i++)
+                {
+                    pdr.tempEntity.Add(cmps[i].GetValue());
+                }
             }
         }
         private void Awake()
