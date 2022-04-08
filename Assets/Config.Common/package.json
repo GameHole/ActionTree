@@ -5,5 +5,8 @@
   "version": "1.0.0",
   "unity": "2018.3",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "com.actiontree.config": "1.1.0",
+    "com.actiontree.common": "1.1.0"
+  }
 }
