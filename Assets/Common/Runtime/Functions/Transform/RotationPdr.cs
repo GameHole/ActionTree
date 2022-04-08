@@ -4,9 +4,9 @@ using UnityEngine;
 namespace ActionTree
 {
 	//[System.Serializable]
-	public sealed class Rotation : IComponent
+	public sealed class Rotation : QuaternionValue
 	{
-        public Quaternion value;
+        //public Quaternion value;
 	}
 	public class RotationPdr: CmpProvider<Rotation>
     {

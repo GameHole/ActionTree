@@ -87,7 +87,7 @@ namespace ActionTree
                 var t = tree.GetType();
                 //var main = t.GetCustomAttribute<MainThreadAttribute>();
                 //if (main != null)
-                if(MainThreadAnalize.IsInMain(t,out var update))
+                if (MainThreadAnalize.IsInMain(t,out var update))
                 {
                     //var predo = t.GetCustomAttribute<NotPreDoAttribute>();
                     var proxy = new ProxyTree() { tree = tree, worker = workers[id], usePredo = true/*predo == null*/, updateType = update /*main.update*/ };

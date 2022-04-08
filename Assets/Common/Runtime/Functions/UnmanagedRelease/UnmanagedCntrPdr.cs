@@ -19,6 +19,7 @@ namespace ActionTree
             foreach (var item in value.disposables)
             {
                 item?.Dispose();
+                //Debug.Log(item);
             }
             value.disposables.Clear();
         }

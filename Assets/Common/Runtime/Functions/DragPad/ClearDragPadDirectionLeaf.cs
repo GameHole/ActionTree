@@ -2,7 +2,8 @@
 using UnityEngine;
 namespace ActionTree
 {
-	public sealed class ClearDragPadDirection:ATree
+    [MainThread]
+    public sealed class ClearDragPadDirection:ATree
 	{
         DragPadProxy proxy;
 		public override void Do()

@@ -10,7 +10,6 @@ namespace ActionTree
         Vector2Value size;
 		public override void Do()
         {
-            
             proxy.texture = new RenderTexture((int)size.value.x, (int)size.value.y, 0);
             proxy.texture.Create();
             //this.Log($"o::{proxy.GetType()} p::{ proxy.texture}");

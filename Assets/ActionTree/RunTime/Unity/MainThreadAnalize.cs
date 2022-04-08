@@ -9,12 +9,13 @@ namespace ActionTree
         static Dictionary<Type,UpdateType> _isInMain = new Dictionary<Type, UpdateType>();
         static MainThreadAnalize()
         {
-            foreach (var kv in TreeInfo.GetItems())
+            foreach (var type in TreeInfo.GetTypes())
             {
-                var main = kv.Key.GetCustomAttribute<MainThreadAttribute>();
+                var main = type.GetCustomAttribute<MainThreadAttribute>();
                 if (main != null)
                 {
-                    _isInMain.Add(kv.Key, main.update);
+                    //UnityEngine.Debug.Log(type);
+                    _isInMain.Add(type, main.update);
                 }
                 //else
                 //{

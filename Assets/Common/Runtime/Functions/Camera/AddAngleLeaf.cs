@@ -7,9 +7,10 @@ namespace ActionTree
         FloatValue angle;
         Dir dir;
         Speed speed;
+        FloatValue sencity;
 		public override void Do()
         {
-            angle.value += speed.value * deltaTime * dir.value;
+            angle.value += speed.value * deltaTime * dir.value / sencity.value;
             Condition = true;
         }
 	}

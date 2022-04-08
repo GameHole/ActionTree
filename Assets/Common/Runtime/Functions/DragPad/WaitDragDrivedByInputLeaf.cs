@@ -23,6 +23,7 @@ namespace ActionTree
             if (Input.GetMouseButtonUp(0))
             {
                 isDown = false;
+                proxy.direction = Vector3.zero;
             }
             if (isDown)
             {

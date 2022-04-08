@@ -7,9 +7,10 @@ namespace ActionTree
         Dir dir;
         Axis axis;
         DragPadProxy proxy;
+        FloatValue sencity;
         public override void Do()
         {
-            dir.value = proxy.direction[axis.value] / 100;
+            dir.value = proxy.direction[axis.value] * sencity;
             //this.Log(dir.value);
             Condition = true;
         }
